@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traka Lite — Client Tracker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%230E3B2E' stroke-width='14' stroke-dasharray='180 60' stroke-linecap='round'/><circle cx='50' cy='50' r='12' fill='%23EFA51C'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+--bg:#ECF0E6; --paper:#FBFCF8; --ink:#132A21; --mut:#5C6E63;
+--pine:#0E3B2E; --pine2:#0A2A21; --pine3:#15543F;
+--line:rgba(19,42,33,.15); --line2:rgba(19,42,33,.08);
+--gold:#EFA51C; --gold2:#D98E0F; --gold-ink:#7A4E00; --amber-bg:#FBF1DA;
+--ok:#1F8A5B; --ok-bg:#E2F1E7; --red:#BF4229; --red-bg:#F7E5E0;
+--teal:#0F766E; --teal-bg:#DFF0EE; --slate:#5B6B62; --slate-bg:#ECEFEA;
+--ring-track:rgba(19,42,33,.1); --ring-tick:rgba(19,42,33,.22);
+--disp:'Bricolage Grotesque',system-ui,sans-serif;
+--body:'Instrument Sans',system-ui,sans-serif;
+--mono:'IBM Plex Mono',ui-monospace,monospace;
+--r-lg:16px; --r-md:12px; --r-sm:9px;
+--sh:0 1px 2px rgba(13,37,29,.05),0 10px 28px -18px rgba(13,37,29,.22);
+--sh2:0 2px 6px rgba(13,37,29,.08),0 26px 52px -26px rgba(13,37,29,.35);
+--ease:cubic-bezier(.2,.7,.2,1);
+}
+[data-theme="dark"]{
+--bg:#0E1A15; --paper:#14231D; --ink:#EAF2EC; --mut:#9FB8A9;
+--pine:#1F5C46; --pine2:#0F2E23; --pine3:#2A7A5C;
+--line:rgba(234,242,236,.15); --line2:rgba(234,242,236,.08);
+--gold:#F7C766; --gold2:#EFA51C; --gold-ink:#F7C766; --amber-bg:rgba(239,165,28,.12);
+--ok:#3FBF82; --ok-bg:rgba(31,138,91,.2); --red:#E57A5F; --red-bg:rgba(191,66,41,.18);
+--teal:#2AA39A; --teal-bg:rgba(15,118,110,.2); --slate:#8BA097; --slate-bg:rgba(91,107,98,.2);
+--ring-track:rgba(234,242,236,.12); --ring-tick:rgba(234,242,236,.22);
+}
+
+/* ============ BASE ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+font-family:var(--body);color:var(--ink);font-size:15px;line-height:1.5;
+background:
+radial-gradient(1100px 480px at 88% -120px, rgba(239,165,28,.10), transparent 60%),
+linear-gradient(rgba(14,59,46,.045) 1px, transparent 1px),
+linear-gradient(90deg, rgba(14,59,46,.045) 1px, transparent 1px),
+var(--bg);
+background-size:auto,34px 34px,34px 34px,auto;
+min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+[data-theme="dark"] body{
+background:
+radial-gradient(1100px 480px at 88% -120px, rgba(247,199,102,.07), transparent 60%),
+linear-gradient(rgba(234,242,236,.035) 1px, transparent 1px),
+linear-gradient(90deg, rgba(234,242,236,.035) 1px, transparent 1px),
+var(--bg);
+background-size:auto,34px 34px,34px 34px,auto;
+}
+::selection{background:var(--gold);color:#221703}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+.disp{font-family:var(--disp);letter-spacing:-.02em}
+.mono{font-family:var(--mono)}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input,select,textarea{font-family:inherit;font-size:14px;color:var(--ink)}
+svg{display:inline-block;vertical-align:middle}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ============ LOADER ============ */
+#loader{
+position:fixed;inset:0;z-index:9999;
+background:radial-gradient(800px 400px at 50% 20%, rgba(239,165,28,.16), transparent 60%),
+linear-gradient(135deg,#0A2A21 0%,#0E3B2E 62%,#155844 100%);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+color:#F2F6EF;transition:opacity .6s ease,visibility .6s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-rings{position:relative;width:140px;height:140px;margin-bottom:30px}
+.loader-rings svg{width:100%;height:100%;animation:spinSlow 14s linear infinite}
+.loader-rings .pulse{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.loader-rings .pulse::before{content:"";width:26px;height:26px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(239,165,28,.6);animation:loaderPulse 1.8s infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@keyframes loaderPulse{0%{box-shadow:0 0 0 0 rgba(239,165,28,.6)}70%{box-shadow:0 0 0 22px rgba(239,165,28,0)}100%{box-shadow:0 0 0 0 rgba(239,165,28,0)}}
+.loader-brand{font-family:var(--disp);font-weight:800;font-size:32px;letter-spacing:-.03em}
+.loader-sub{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#BFD4C6;margin:6px 0 28px}
+.loader-status{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:#C9D8CC}
+.loader-status .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:loaderPulse 1.6s infinite}
+.loader-bar{width:220px;height:3px;background:rgba(245,248,241,.14);border-radius:99px;overflow:hidden;margin-top:18px}
+.loader-bar i{display:block;height:100%;width:30%;background:var(--gold);border-radius:99px;animation:loaderSlide 1.6s ease-in-out infinite}
+@keyframes loaderSlide{0%{transform:translateX(-100%)}50%{transform:translateX(200%)}100%{transform:translateX(400%)}}
+
+/* ============ TOPBAR ============ */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(251,252,248,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+[data-theme="dark"] .topbar{background:rgba(20,35,29,.88)}
+.topbar .wrap{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.brand[aria-disabled="true"]{cursor:default}
+.brand b{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em}
+.brand small{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;display:block;margin-top:-3px}
+.tbRight{margin-left:auto;display:flex;align-items:center;gap:10px}
+.syncBadge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);padding:7px 12px;border-radius:999px;background:var(--paper)}
+.syncBadge .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.syncBadge .dot.online{background:var(--ok);animation:pulse 1.6s infinite}
+.syncBadge .dot.connecting{background:var(--gold);animation:pulse 1.2s infinite}
+.syncBadge .dot.offline{background:var(--red)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,138,91,.5)}70%{box-shadow:0 0 0 8px rgba(31,138,91,0)}100%{box-shadow:0 0 0 0 rgba(31,138,91,0)}}
+.iconBtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;color:var(--pine);transition:.18s;position:relative}
+.iconBtn:hover{background:var(--pine);color:#EAF2EC;transform:translateY(-1px)}
+.iconBtn svg{width:17px;height:17px}
+.iconBtn.xs{width:34px;height:34px;border-radius:8px}
+.iconBtn.xs svg{width:13px;height:13px}
+.chatBadge{position:absolute;top:-5px;right:-5px;background:var(--gold);color:#221703;font:700 9px var(--mono);min-width:17px;height:17px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* ============ TABS ============ */
+.tabs{max-width:1180px;margin:0 auto;padding:22px 24px 0;overflow-x:auto}
+.tabbar{display:inline-flex;align-items:center;gap:4px;border-radius:12px;border:1px solid var(--line);padding:5px;background:var(--paper);box-shadow:var(--sh)}
+.tab-btn{border-radius:8px;padding:9px 18px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:none;background:transparent;color:var(--mut);transition:.18s;white-space:nowrap}
+.tab-btn:hover{color:var(--pine)}
+.tab-btn.active{background:var(--pine);color:#F3F7EF;box-shadow:0 4px 12px -5px rgba(14,59,46,.5)}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 13px var(--body);padding:10px 16px;border-radius:var(--r-sm);border:1px solid transparent;transition:.18s;letter-spacing:.01em;text-decoration:none;white-space:nowrap;cursor:pointer}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn svg{width:15px;height:15px;flex:none}
+.btn-pine{background:var(--pine);color:#F3F7EF}
+.btn-pine:hover{background:var(--pine3);box-shadow:0 10px 22px -10px rgba(14,59,46,.55)}
+.btn-gold{background:var(--gold);color:#221703}
+.btn-gold:hover{background:var(--gold2);box-shadow:0 10px 22px -10px rgba(239,165,28,.6)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{background:rgba(14,59,46,.07);border-color:var(--pine)}
+[data-theme="dark"] .btn-ghost:hover{background:rgba(234,242,236,.06)}
+.btn-danger{background:transparent;border-color:rgba(191,66,41,.4);color:var(--red)}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-danger-solid{background:var(--red);color:#fff}
+.btn-danger-solid:hover{filter:brightness(.92);box-shadow:0 10px 22px -10px rgba(191,66,41,.5)}
+.btn-sm{padding:8px 13px;font-size:12px;border-radius:8px}
+.btn-xs{padding:6px 11px;font-size:11px;border-radius:7px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ============ LAYOUT ============ */
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+main{padding:22px 0 60px}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.secIdx{font:600 12px var(--mono);color:var(--gold2);letter-spacing:.12em}
+[data-theme="dark"] .secIdx{color:var(--gold)}
+.section-head h2{font-family:var(--disp);font-weight:800;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.02em}
+.secCount{font-family:var(--mono);font-size:12px;color:var(--mut);background:var(--paper);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+.spacer{flex:1}
+
+/* ============ CARDS ============ */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);overflow:hidden;transition:transform .22s var(--ease),box-shadow .22s,border-color .22s}
+.card-hover:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:rgba(14,59,46,.32)}
+[data-theme="dark"] .card-hover:hover{border-color:rgba(234,242,236,.25)}
+.card-body{padding:18px}
+.card-section{padding:22px}
+.card-section + .card-section{border-top:1px solid var(--line2)}
+
+/* ============ INPUTS ============ */
+.input{width:100%;border-radius:var(--r-sm);border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 13px;font-size:14px;outline:none;transition:.16s}
+[data-theme="dark"] .input{background:var(--paper)}
+.input:focus{border-color:var(--pine);box-shadow:0 0 0 3px rgba(14,59,46,.12)}
+[data-theme="dark"] .input:focus{box-shadow:0 0 0 3px rgba(234,242,236,.1)}
+.input::placeholder{color:var(--mut);opacity:.7}
+.select{width:100%;border-radius:var(--r-sm);border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 13px;font-size:13px;outline:none;cursor:pointer}
+[data-theme="dark"] .select{background:var(--paper)}
+.select:focus{border-color:var(--pine)}
+.searchBox{display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 13px;transition:.18s;position:relative}
+.searchBox:focus-within{border-color:var(--pine);box-shadow:0 0 0 3px rgba(14,59,46,.1)}
+[data-theme="dark"] .searchBox:focus-within{box-shadow:0 0 0 3px rgba(234,242,236,.08)}
+.searchBox svg{width:15px;height:15px;opacity:.55}
+.searchBox input{border:none;outline:none;background:none;width:100%;padding-left:6px;padding-right:30px}
+.clearBtn{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:24px;height:24px;border:none;background:transparent;color:var(--mut);display:flex;align-items:center;justify-content:center;border-radius:6px}
+.clearBtn:hover{color:var(--red)}
+.clearBtn svg{width:12px;height:12px}
+.seg{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:4px}
+.seg-btn{flex:1;border:none;background:transparent;border-radius:7px;padding:8px 10px;font:600 12px var(--body);color:var(--mut);transition:.15s}
+.seg-btn:hover{color:var(--pine)}
+.seg-btn.active{background:var(--pine);color:#F3F7EF}
+
+/* ============ TAGS ============ */
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--mut)}
+.tag-solid{background:var(--pine);color:#F3F7EF;border-color:var(--pine)}
+.tag-gold{background:var(--gold);color:#221703;border-color:var(--gold)}
+.tag-success{background:var(--ok);color:#fff;border-color:var(--ok)}
+.tag-done{background:var(--ok-bg);color:var(--ok);border-color:transparent}
+.tag-next{background:var(--gold);color:#221703;border-color:var(--gold)}
+.tag-upcoming{background:var(--paper);color:var(--mut);border-color:var(--line)}
+.tag-danger{background:var(--red-bg);color:var(--red);border-color:transparent}
+.tag-btn{cursor:pointer;font-family:inherit;transition:.15s}
+.tag-btn:hover{border-color:var(--pine);color:var(--pine)}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+
+/* ============ PROGRESS / RING ============ */
+.progress-track{width:100%;height:8px;border-radius:99px;background:var(--ring-track);overflow:hidden}
+.progress-fill{height:100%;border-radius:99px;background:var(--pine);transition:width .8s var(--ease)}
+.ring-wrap{position:relative;display:flex;flex-direction:column;align-items:center;flex:none}
+.ring-wrap svg{display:block}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.ring-pct{font:600 22px var(--mono);letter-spacing:-.04em;color:var(--pine)}
+[data-theme="dark"] .ring-pct{color:var(--ink)}
+.ring-sub{margin-top:2px;font:500 10.5px var(--mono);color:var(--mut)}
+
+/* ============ TIMELINE ============ */
+.timeline{position:relative}
+.tl-line{position:absolute;left:16px;top:16px;bottom:16px;width:2px;background:var(--line2);z-index:1}
+.timeline-item{display:flex;gap:14px;padding:7px 0;position:relative}
+.timeline-dot{flex:none;width:34px;height:34px;border-radius:50%;background:var(--paper);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;z-index:2;color:var(--mut);font:600 11px var(--mono);transition:.2s}
+.timeline-dot.done{background:var(--pine);border-color:var(--pine);color:#EAF2EC}
+.timeline-dot.next{background:var(--gold);border-color:var(--gold);color:#221703;box-shadow:0 0 0 5px var(--amber-bg)}
+.timeline-dot svg{width:14px;height:14px;stroke-width:3;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.timeline-card{flex:1;min-width:0;border-radius:11px;border:1px solid var(--line);background:var(--paper);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:.18s}
+.timeline-card.next{border-color:var(--gold);background:var(--amber-bg)}
+.timeline-card.done{background:#F4F7F0}
+[data-theme="dark"] .timeline-card.done{background:rgba(234,242,236,.04)}
+.tl-title{font-family:var(--disp);font-size:14px;font-weight:700}
+.tl-sub{font-size:12px;color:var(--mut);margin-top:2px}
+.tsTxt{font:500 11px var(--mono);color:var(--mut)}
+.tlHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+
+/* ============ CHAT ============ */
+.chat-wrap{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper)}
+.chat-head{padding:12px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chat-body{max-height:320px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.chat-body.tall{max-height:380px}
+.chat-msg{max-width:78%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.45}
+.chat-msg.client{align-self:flex-start;background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat-msg.instructor{align-self:flex-end;background:var(--pine);color:#F2F6EF;border-bottom-right-radius:4px}
+.chat-msg.system{align-self:center;background:var(--amber-bg);border:1px dashed rgba(217,142,15,.4);color:var(--gold-ink);font-size:12px;border-radius:10px}
+.chat-meta{font-size:10px;opacity:.65;margin-top:4px;font-family:var(--mono)}
+.chat-input{padding:11px;border-top:1px solid var(--line);display:flex;gap:8px;background:var(--paper)}
+.chat-request{padding:11px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px;background:var(--paper)}
+.chat-request .chips{margin-top:0}
+.chatEmpty{text-align:center;padding:24px;color:var(--mut);font-size:12.5px}
+.status-badge{font-size:11px;padding:4px 9px;border-radius:99px;border:1px solid var(--line);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.status-active{background:var(--ok-bg);color:var(--ok);border-color:rgba(31,138,91,.25)}
+.status-paused{background:var(--amber-bg);color:var(--gold-ink);border-color:rgba(217,142,15,.35)}
+.status-cancelled{background:var(--red-bg);color:var(--red);border-color:rgba(191,66,41,.2)}
+.status-archived{background:var(--slate-bg);color:var(--slate)}
+
+/* ============ MODAL ============ */
+.overlay{position:fixed;inset:0;background:rgba(8,26,20,.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:6vh 18px;overflow-y:auto}
+.modal{background:var(--paper);border-radius:18px;box-shadow:var(--sh2);width:100%;max-width:520px;animation:pop .3s var(--ease);overflow:hidden;border:1px solid var(--line)}
+.modal.wide{max-width:680px}
+.modal.sm{max-width:430px}
+.modal.sm .mSub{margin-bottom:14px}
+.modal header{display:flex;align-items:center;gap:12px;padding:20px 24px 0}
+.modal header h3{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;flex:1}
+.mIco{width:38px;height:38px;border-radius:11px;background:var(--pine);color:#EAF2EC;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.mIco svg{width:17px;height:17px}
+.mIco.gold{background:var(--gold);color:#221703}
+.mIco.red{background:var(--red);color:#fff}
+.mClose{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--mut);display:inline-flex;align-items:center;justify-content:center;transition:.15s;flex:none}
+.mClose:hover{color:var(--red);border-color:var(--red)}
+.mClose svg{width:14px;height:14px}
+.modal .mSub{padding:6px 24px 0;font-size:13px;color:var(--mut);line-height:1.45}
+.modal .mBody{padding:18px 24px;display:flex;flex-direction:column;gap:14px}
+.modal footer{display:flex;gap:10px;justify-content:flex-end;padding:8px 24px 22px}
+.modal footer.between{justify-content:space-between}
+.modal label{display:flex;flex-direction:column;gap:6px;font:600 12px var(--body);color:var(--mut);letter-spacing:.02em}
+@keyframes pop{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}
+.mRow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)}
+.mLbl{font:600 12px var(--body);color:var(--mut)}
+.mVal{font:500 11px var(--mono);color:var(--ink);opacity:.75;max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.schedRows{display:flex;flex-direction:column;gap:8px}
+.schedRow{display:grid;grid-template-columns:1fr 1fr 34px;gap:8px;align-items:center}
+.reqNote{background:var(--amber-bg);border:1px solid rgba(217,142,15,.35);border-radius:9px;padding:10px 12px;font-size:12.5px;color:var(--gold-ink)}
+/* chat embedded in a modal */
+.modal .chat-wrap{border-radius:12px}
+.modal .chat-body{max-height:300px}
+
+/* ============ TOASTS ============ */
+#toasts{position:fixed;bottom:22px;right:22px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:380px}
+.toast{background:var(--pine2);color:#F2F6EF;border-radius:12px;padding:12px 14px;font-size:13.5px;box-shadow:var(--sh2);display:flex;gap:11px;align-items:flex-start;animation:toastIn .35s var(--ease);border-left:4px solid var(--gold);transition:opacity .35s,transform .35s}
+.toast.ok{border-left-color:#3FBF82}
+.toast.warn{border-left-color:var(--gold)}
+.tIco{width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.tIco svg{width:13px;height:13px}
+.tMsg{flex:1;padding-top:2px}
+.tX{background:none;border:none;color:inherit;opacity:.5;padding:2px}
+.tX:hover{opacity:1}
+.tX svg{width:12px;height:12px}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+
+/* ============ MISC ============ */
+.grid-2{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+.grid-3{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:640px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+.grid-stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+.stat-box{border-radius:11px;border:1px solid var(--line);background:var(--paper);padding:13px}
+.stat-box .lbl{font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.stat-box .num{font:700 22px var(--disp);letter-spacing:-.02em;color:var(--pine);margin-top:3px}
+[data-theme="dark"] .stat-box .num{color:var(--ink)}
+.unit{font-size:11px;color:var(--mut);margin-left:3px}
+.ava{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;color:#F4E9CE;font:700 13px var(--disp);flex:none}
+.ava.sm{width:40px;height:40px}
+.ava.lg{width:56px;height:56px;border-radius:16px;font-size:18px}
+.ava.a0{background:var(--pine)}
+.ava.a1{background:var(--teal)}
+.ava.a2{background:#7A5410}
+.ava.a3{background:var(--pine3)}
+.linkBox{display:flex;gap:8px;align-items:stretch}
+.linkBox .lk{flex:1;font:500 12px var(--mono);background:#F2F5EE;border:1px dashed rgba(14,59,46,.35);border-radius:9px;padding:11px 13px;color:var(--pine);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+[data-theme="dark"] .linkBox .lk{background:rgba(14,59,46,.3);color:var(--gold)}
+.shareHead{display:flex;gap:14px;align-items:center}
+.notifyPreview{background:var(--pine);color:#EAF2EC;border-radius:11px;padding:13px 15px;font-size:13px;position:relative}
+.notifyPreview::before{content:"→ notification to client";display:block;font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#F7C766;margin-bottom:6px}
+.footer{text-align:center;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);padding:30px 16px;opacity:.7}
+.hidden{display:none!important}
+.clientBanner{background:var(--ok-bg);border:1px solid rgba(31,138,91,.3);color:var(--ok);border-radius:11px;padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.clientBanner .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite;flex:none}
+
+/* client cards / grids */
+.cardGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.trackGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.client-card{padding:18px;position:relative}
+.acc{position:absolute;left:0;top:0;bottom:0;width:4px}
+.rowTop{display:flex;gap:14px;align-items:flex-start}
+.cinfo{flex:1;min-width:0}
+.crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctitle{font-size:16px;font-weight:700;min-width:0;overflow-wrap:break-word}
+.cmeta{font-size:12px;color:var(--mut);margin-top:3px}
+.rowBtns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.histNote{margin-left:auto;font:500 11px var(--mono);color:var(--mut);align-self:center}
+
+/* hero (tracker detail + client view) */
+.heroGrid{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.heroInfo{flex:1;min-width:250px}
+.kicker{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gold2)}
+[data-theme="dark"] .kicker{color:var(--gold)}
+.heroName{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.03em;line-height:1.05;margin:4px 0 6px;overflow-wrap:break-word}
+.noteBox{border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:10px 12px;background:var(--paper);margin-top:12px}
+.nLbl{font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+[data-theme="dark"] .nLbl{color:var(--gold)}
+.renewBanner{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--amber-bg);border:1px solid rgba(217,142,15,.35);border-radius:12px;padding:16px}
+.histBtn{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:var(--ink);text-align:left;padding:0}
+.chev{color:var(--mut);display:inline-flex}
+.chev svg{width:14px;height:14px;transition:transform .2s var(--ease)}
+.chev.open svg{transform:rotate(180deg)}
+.histRow{border:1px solid var(--line);border-radius:11px;padding:13px 15px;background:var(--paper);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* messages inbox */
+.threadList{display:flex;flex-direction:column;gap:10px}
+.threadRow{font-family:var(--body);display:flex;align-items:center;gap:14px;padding:13px 16px;width:100%;text-align:left}
+.tinfo{flex:1;min-width:0}
+.tname{display:block;font-size:15px}
+.tprev{display:block;font-size:12px;color:var(--mut);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* console */
+.mgmtRow{display:flex;align-items:center;gap:14px;padding:14px 16px;flex-wrap:wrap}
+.mg{flex:1;min-width:180px}
+
+/* empty states */
+.empty{padding:48px 24px;text-align:center}
+.emptyMark{width:54px;height:54px;margin:0 auto 14px;display:block;opacity:.4}
+.eTitle{font-size:19px;font-weight:700}
+.empty .cmeta{margin-top:6px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:640px){
+.topbar .wrap{padding:0 16px;height:60px}
+.tabs{padding:16px 16px 0}
+.wrap{padding:0 16px}
+.card-section{padding:18px}
+.grid-2{grid-template-columns:1fr}
+.grid-stats{grid-template-columns:repeat(3,1fr)}
+.heroGrid{gap:18px}
+.syncBadge.desktop{display:none}
+.schedRow{grid-template-columns:1fr 1fr 34px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADING SCREEN ============ -->
+<div id="loader">
+  <div class="loader-rings">
+    <svg viewBox="0 0 140 140" fill="none">
+      <circle cx="70" cy="70" r="62" stroke="rgba(245,248,241,.14)" stroke-width="1.5" stroke-dasharray="4 10"/>
+      <circle cx="70" cy="70" r="50" stroke="rgba(245,248,241,.18)" stroke-width="1.5"/>
+      <circle cx="70" cy="70" r="38" stroke="rgba(239,165,28,.5)" stroke-width="2.5" stroke-dasharray="30 200" stroke-linecap="round"/>
+      <circle cx="70" cy="70" r="26" stroke="rgba(245,248,241,.12)" stroke-width="1.5" stroke-dasharray="2 6"/>
+    </svg>
+    <div class="pulse"></div>
+  </div>
+  <div class="loader-brand">Traka Lite</div>
+  <div class="loader-sub">Client Tracker</div>
+  <div class="loader-status"><span class="dot"></span><span id="loaderText">Connecting to Firebase…</span></div>
+  <div class="loader-bar"><i></i></div>
+</div>
+
+<div id="app"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+// ============================
+// CONFIG
+// ============================
+const DB_URL = 'https://straka-ef451-default-rtdb.europe-west1.firebasedatabase.app';
+const DB_ENDPOINT = DB_URL + '/straka_clients.json';
+const POLL_INTERVAL = 4000;
+
+// ============================
+// STATE
+// ============================
+const state = {
+  theme: 'light',
+  activeTab: 'CLIENTS',
+  clients: [],
+  searchQuery: '',
+  selectedClientId: null,        // tracker detail (instructor)
+  selectedMessageClientId: null, // messages thread (instructor)
+  showClientChat: false,         // client-side chat MODAL open
+  syncStatus: 'offline',
+  syncError: null,
+  showSettings: false,
+  showAddEditModal: false,
+  editingClient: null,
+  draft: null,
+  showShareModal: false,
+  sharingClient: null,
+  showRenewModal: false,
+  renewingClient: null,
+  renewDraft: null,
+  showDeleteConfirm: null,
+  showResetConfirm: false,
+  showHistory: false,
+  clientViewId: null,            // set ONLY from the ?c= share link at boot
+  isLoading: true,
+  pollTimer: null
+};
+let dirty = false;          // local edits awaiting a successful push
+let pushInFlight = false;   // a PUT is currently running
+
+const programs = ['Personal Training', 'Yoga', 'Boxing', 'Strength', 'Pilates'];
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+// ============================
+// ICONS
+// ============================
+const svgIcon = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const I = {
+  sun: svgIcon('<circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.8 4.8l1.4 1.4M17.8 17.8l1.4 1.4M2.5 12h2M19.5 12h2M4.8 19.2l1.4-1.4M17.8 6.2l1.4-1.4"/>'),
+  moon: svgIcon('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'),
+  gear: svgIcon('<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>'),
+  search: svgIcon('<circle cx="11" cy="11" r="7"/><path d="m21 21-4.2-4.2"/>'),
+  eye: svgIcon('<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'),
+  link: svgIcon('<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>'),
+  plus: svgIcon('<path d="M12 5v14M5 12h14"/>'),
+  back: svgIcon('<path d="M19 12H5M12 19l-7-7 7-7"/>'),
+  check: svgIcon('<path d="M20 6 9 17l-5-5"/>'),
+  chat: svgIcon('<path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/>'),
+  x: svgIcon('<path d="M18 6 6 18M6 6l12 12"/>'),
+  copy: svgIcon('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>'),
+  send: svgIcon('<path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/>'),
+  trash: svgIcon('<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>'),
+  download: svgIcon('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>'),
+  refresh: svgIcon('<path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/>'),
+  alert: svgIcon('<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>'),
+  chev: svgIcon('<path d="m6 9 6 6 6-6"/>')
+};
+
+// ============================
+// UTILITIES
+// ============================
+function escapeHtml(text) {
+  if (text == null) return '';
+  return String(text)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+function generateId() {
+  return Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+}
+function initials(name) {
+  return (name || '??').split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+}
+function avaClass(name) {
+  let h = 0;
+  for (const ch of (name || '')) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return ['a0', 'a1', 'a2', 'a3'][h % 4];
+}
+function clientAccent(c) {
+  if (c.status === 'cancelled') return 'var(--red)';
+  if (c.status === 'paused') return 'var(--gold)';
+  if (c.status === 'archived') return 'var(--slate)';
+  if (c.completed >= c.total) return 'var(--ok)';
+  return 'var(--pine)';
+}
+function fmtTime(ts) { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+function fmtDate(ts) { return new Date(ts).toLocaleDateString(); }
+function lastMsgTs(c) { const m = c.messages || []; return m.length ? m[m.length - 1].ts : (c.createdAt || 0); }
+
+function normalizeClient(c) {
+  if (!c || typeof c !== 'object') return null;
+  const total = Math.max(1, parseInt(c.total, 10) || 1);
+  const completed = Math.max(0, Math.min(parseInt(c.completed, 10) || 0, total));
+  return {
+    id: String(c.id || generateId()),
+    name: String(c.name || 'Unnamed Client'),
+    gender: ['Male', 'Female', 'Other'].includes(c.gender) ? c.gender : 'Other',
+    program: String(c.program || 'General'),
+    total: total,
+    completed: completed,
+    schedule: Array.isArray(c.schedule)
+      ? c.schedule.filter(s => s && s.day && s.time).map(s => ({ day: String(s.day), time: String(s.time) }))
+      : [],
+    logs: Array.isArray(c.logs) ? c.logs : [],
+    createdAt: typeof c.createdAt === 'number' ? c.createdAt : Date.now(),
+    history: Array.isArray(c.history) ? c.history : [],
+    fee: c.fee != null ? String(c.fee) : '',
+    paymentStatus: c.paymentStatus || 'Unpaid',
+    note: String(c.note || ''),
+    clientMessage: String(c.clientMessage || ''),
+    programRequest: String(c.programRequest || ''),
+    status: ['active', 'paused', 'cancelled', 'archived'].includes(c.status) ? c.status : 'active',
+    messages: Array.isArray(c.messages)
+      ? c.messages.map(m => ({
+          id: String(m.id || ''),
+          from: m.from === 'instructor' ? 'instructor' : 'client',
+          text: String(m.text || ''),
+          ts: typeof m.ts === 'number' ? m.ts : Date.now(),
+          type: String(m.type || 'message')
+        })).filter(m => m.text)
+      : (c.clientMessage ? [{ id: 'legacy_' + (c.id || 'c'), from: 'client', text: String(c.clientMessage), ts: Date.now(), type: 'message' }] : []),
+    pausedAt: c.pausedAt || null,
+    cancelledAt: c.cancelledAt || null
+  };
+}
+function getClients() { return Array.isArray(state.clients) ? state.clients : []; }
+function getClientById(id) { return getClients().find(c => c.id === id) || null; }
+function getShareLink(clientId) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('c', clientId);
+  return url.toString();
+}
+function copyText(t) {
+  const fallback = () => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy'); ta.remove(); return ok;
+    } catch (e) { return false; }
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(t).then(() => true).catch(() => fallback());
+  }
+  return Promise.resolve(fallback());
+}
+function showToast(message, type = 'ok') {
+  const container = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icon = type === 'warn' ? I.alert : type === 'info' ? I.chat : I.check;
+  el.innerHTML = `<span class="tIco">${icon}</span><span class="tMsg">${escapeHtml(message)}</span><button class="tX" aria-label="Dismiss">${I.x}</button>`;
+  el.querySelector('.tX').onclick = () => el.remove();
+  container.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(16px)'; }, 2800);
+  setTimeout(() => el.remove(), 3200);
+}
+function fetchWithTimeout(url, opts = {}, ms = 7000) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  return fetch(url, Object.assign({}, opts, { signal: ctl.signal })).finally(() => clearTimeout(t));
+}
+
+// ============================
+// STORAGE & SYNC
+// ============================
+function saveLocal() {
+  try { localStorage.setItem('straka_clients', JSON.stringify(getClients())); } catch (e) {}
+}
+function loadLocal() {
+  try {
+    const raw = localStorage.getItem('straka_clients');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed.map(normalizeClient).filter(Boolean);
+    if (parsed && typeof parsed === 'object') return Object.values(parsed).map(normalizeClient).filter(Boolean);
+  } catch (e) {}
+  return null;
+}
+async function pushToFirebase() {
+  pushInFlight = true;
+  state.syncStatus = 'connecting';
+  renderSyncBadge();
+  try {
+    await fetchWithTimeout(DB_ENDPOINT, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(getClients())
+    });
+    state.syncStatus = 'online';
+    state.syncError = null;
+    dirty = false;
+  } catch (err) {
+    state.syncStatus = 'offline';
+    state.syncError = err.message;
+  }
+  pushInFlight = false;
+  renderSyncBadge();
+}
+async function pullFromFirebase() {
+  if (pushInFlight) return;
+  if (dirty) { pushToFirebase(); return; } // retry pending local edits instead of clobbering
+  try {
+    state.syncStatus = 'connecting';
+    renderSyncBadge();
+    const res = await fetchWithTimeout(DB_ENDPOINT + '?_t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    let incoming = [];
+    if (Array.isArray(data)) incoming = data.map(normalizeClient).filter(Boolean);
+    else if (data && typeof data === 'object') incoming = Object.values(data).map(normalizeClient).filter(Boolean);
+    if (incoming.length > 0) {
+      const localJson = JSON.stringify(getClients());
+      const remoteJson = JSON.stringify(incoming);
+      if (localJson !== remoteJson) {
+        state.clients = incoming;
+        saveLocal();
+        rerender();
+      }
+    }
+    state.syncStatus = 'online';
+    state.syncError = null;
+  } catch (err) {
+    state.syncStatus = 'offline';
+    state.syncError = err.message;
+  }
+  renderSyncBadge();
+}
+function startPolling() {
+  if (state.pollTimer) clearInterval(state.pollTimer);
+  state.pollTimer = setInterval(() => {
+    if (navigator.onLine !== false) pullFromFirebase();
+  }, POLL_INTERVAL);
+}
+function commit() {
+  saveLocal();
+  dirty = true;
+  pushToFirebase();
+  rerender();
+}
+async function initData() {
+  state.isLoading = true;
+  let loaded = false;
+  const loaderText = document.getElementById('loaderText');
+  try {
+    const res = await fetchWithTimeout(DB_ENDPOINT + '?_t=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (data) {
+        let incoming = [];
+        if (Array.isArray(data)) incoming = data.map(normalizeClient).filter(Boolean);
+        else if (typeof data === 'object') incoming = Object.values(data).map(normalizeClient).filter(Boolean);
+        if (incoming.length > 0) { state.clients = incoming; saveLocal(); loaded = true; }
+      }
+      state.syncStatus = 'online';
+      if (loaderText) loaderText.textContent = 'Synced · loading workspace…';
+    }
+  } catch (e) {
+    state.syncStatus = 'offline';
+    if (loaderText) loaderText.textContent = 'Offline · loading local cache…';
+  }
+  if (!loaded) {
+    const local = loadLocal();
+    if (local && local.length > 0) {
+      state.clients = local;
+    } else {
+      state.clients = getDefaultClients();
+      saveLocal();
+      pushToFirebase().catch(() => {});
+    }
+  }
+  // The ONLY entry into the locked client view: the ?c= share link
+  try {
+    const p = new URLSearchParams(location.search).get('c');
+    if (p) state.clientViewId = p; // validity checked in render()
+  } catch (e) {}
+  state.isLoading = false;
+  startPolling();
+  rerender();
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 700);
+    }
+  }, 500);
+}
+function getDefaultClients() {
+  const now = Date.now();
+  return [
+    {
+      id: 'c1_' + generateId(),
+      name: 'Amara Okafor',
+      gender: 'Female',
+      program: 'Personal Training',
+      total: 12, completed: 8,
+      schedule: [{ day: 'Mon', time: '07:00' }, { day: 'Wed', time: '07:00' }, { day: 'Fri', time: '07:00' }],
+      logs: Array.from({ length: 8 }).map((_, i) => ({
+        idx: i + 1, ts: now - (8 - i) * 86400000 * 2,
+        dateStr: new Date(now - (8 - i) * 86400000 * 2).toLocaleDateString()
+      })),
+      createdAt: now - 1e7,
+      history: [{
+        id: 'h0_' + generateId(),
+        programName: 'Personal Training', totalSessions: 10, completedSessions: 10,
+        startDate: now - 1e7 - 2592000000, endDate: now - 1e7,
+        completedAt: new Date(now - 1e7).toISOString(),
+        schedule: [{ day: 'Mon', time: '07:00' }]
+      }],
+      fee: '120 / month', paymentStatus: 'Paid',
+      note: 'Bring your own mat on Fridays.',
+      messages: [
+        { id: 'm1', from: 'client', text: 'Morning! Any chance we could move Friday to 6:30?', ts: now - 3600000 * 30, type: 'message' },
+        { id: 'm2', from: 'instructor', text: 'Done — see you Friday at 6:30.', ts: now - 3600000 * 29, type: 'message' }
+      ]
+    },
+    {
+      id: 'c2_' + generateId(),
+      name: 'James Carter',
+      gender: 'Male',
+      program: 'Boxing',
+      total: 10, completed: 3,
+      schedule: [{ day: 'Tue', time: '18:00' }, { day: 'Thu', time: '18:00' }],
+      logs: Array.from({ length: 3 }).map((_, i) => ({
+        idx: i + 1, ts: now - (3 - i) * 86400000 * 3,
+        dateStr: new Date(now - (3 - i) * 86400000 * 3).toLocaleDateString()
+      })),
+      createdAt: now - 8000000,
+      history: [],
+      fee: '90 / month', paymentStatus: 'Unpaid',
+      programRequest: 'Strength',
+      messages: [{ id: 'm3', from: 'client', text: 'I would like to switch my program to Strength', ts: now - 3600000 * 5, type: 'program_request' }]
+    },
+    {
+      id: 'c3_' + generateId(),
+      name: 'Sofia Reyes',
+      gender: 'Female',
+      program: 'Yoga',
+      total: 8, completed: 8,
+      schedule: [{ day: 'Mon', time: '08:30' }, { day: 'Fri', time: '08:30' }],
+      logs: Array.from({ length: 8 }).map((_, i) => ({
+        idx: i + 1, ts: now - (8 - i) * 86400000,
+        dateStr: new Date(now - (8 - i) * 86400000).toLocaleDateString()
+      })),
+      createdAt: now - 6000000,
+      history: [],
+      fee: '80 / month', paymentStatus: 'Paid'
+    }
+  ];
+}
+
+// ============================
+// RENDER CORE
+// ============================
+function render() {
+  const app = document.getElementById('app');
+  const isClient = !!state.clientViewId;
+  const client = isClient ? getClientById(state.clientViewId) : null;
+  let html = renderHeader();
+  if (!isClient) html += renderTabs();
+  html += `<main>${isClient ? (client ? renderClientView(client) : clientNotFoundHtml()) : renderTabContent()}</main>`;
+  html += `<div class="footer">${isClient ? 'Traka Lite · live view' : 'Traka Lite · synced via Firebase RTDB · every ' + (POLL_INTERVAL / 1000) + 's'}</div>`;
+  html += renderModals();
+  app.innerHTML = html;
+  renderSyncBadge();
+}
+function renderTabContent() {
+  switch (state.activeTab) {
+    case 'CLIENTS': return renderClientsTab();
+    case 'TRACKER': return renderTrackerTab();
+    case 'MESSAGES': return renderMessagesTab();
+    case 'CONSOLE': return renderConsoleTab();
+  }
+  return '';
+}
+// Re-render while preserving input focus & caret (search, chat, forms)
+function rerender() {
+  const ae = document.activeElement;
+  const fid = ae && ae.id ? ae.id : null;
+  const pos = (ae && ae.selectionStart != null) ? ae.selectionStart : null;
+  render();
+  if (fid) {
+    const el = document.getElementById(fid);
+    if (el) {
+      el.focus();
+      if (pos != null && el.setSelectionRange) { try { el.setSelectionRange(pos, pos); } catch (e) {} }
+    }
+  }
+  document.querySelectorAll('[data-autoscroll]').forEach(el => { el.scrollTop = el.scrollHeight; });
+}
+function renderSyncBadge() {
+  const els = document.querySelectorAll('[data-sync-badge]');
+  const color = state.syncStatus === 'online' ? 'online' : state.syncStatus === 'connecting' ? 'connecting' : 'offline';
+  const text = state.syncStatus === 'online' ? 'synced' : state.syncStatus === 'connecting' ? 'syncing' : 'offline';
+  els.forEach(el => { el.innerHTML = `<span class="dot ${color}"></span>${escapeHtml(text)}`; });
+}
+
+// ============================
+// COMPONENTS
+// ============================
+function renderProgressRing(completed, total, size = 68, stroke = 6, showLabel = true) {
+  const pct = total === 0 ? 0 : Math.min(100, Math.round((completed / total) * 100));
+  const R = (size - stroke) / 2, C = 2 * Math.PI * R, off = (pct / 100) * C;
+  const cx = size / 2, cy = size / 2;
+  let ticks = '';
+  const n = Math.min(total, 24);
+  const r1 = R - stroke / 2 - 4.5, r2 = R - stroke / 2 - 1.5;
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * 2 * Math.PI - Math.PI / 2;
+    ticks += `<line x1="${(cx + Math.cos(a) * r1).toFixed(1)}" y1="${(cy + Math.sin(a) * r1).toFixed(1)}" x2="${(cx + Math.cos(a) * r2).toFixed(1)}" y2="${(cy + Math.sin(a) * r2).toFixed(1)}" stroke-width="2" stroke-linecap="round" style="stroke:${i < completed ? 'var(--pine)' : 'var(--ring-tick)'}"/>`;
+  }
+  const big = size >= 90;
+  return `<span class="ring-wrap" style="width:${size}px;height:${size}px">
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke-width="${stroke}" style="stroke:var(--ring-track)"/>
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${off.toFixed(1)} ${(C - off).toFixed(1)}" transform="rotate(-90 ${cx} ${cy})" style="stroke:var(--pine);transition:stroke-dasharray .8s var(--ease)"/>
+      ${ticks}
+    </svg>
+    ${showLabel ? `<span class="ring-label">
+      <span class="ring-pct" style="font-size:${big ? 22 : 13}px">${pct}%</span>
+      ${big ? `<span class="ring-sub">${completed}/${total}</span>` : ''}
+    </span>` : ''}
+  </span>`;
+}
+
+function renderHeader() {
+  const isCV = !!state.clientViewId;
+  const client = isCV ? getClientById(state.clientViewId) : null;
+  const msgCount = client && client.messages ? client.messages.length : 0;
+  const brandInner = `<svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--gold)"/></svg><span><b>Traka</b><small>Client Tracker</small></span>`;
+  return `
+  <div class="topbar"><div class="wrap">
+    ${isCV
+      ? `<span class="brand" aria-disabled="true">${brandInner}</span>`
+      : `<a class="brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">${brandInner}</a>`}
+    <div class="tbRight">
+      ${isCV
+        ? (client ? `<button class="iconBtn" onclick="toggleClientChat()" aria-label="Messages" title="Messages">${I.chat}${msgCount ? `<span class="chatBadge">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}</button>` : '')
+        : `<span class="syncBadge desktop" data-sync-badge></span><button class="iconBtn" onclick="toggleSettings()" aria-label="Settings">${I.gear}</button>`}
+      <button class="iconBtn" onclick="toggleTheme()" aria-label="Toggle theme">${state.theme === 'light' ? I.moon : I.sun}</button>
+    </div>
+  </div></div>`;
+}
+
+function renderTabs() {
+  const tabs = ['CLIENTS', 'TRACKER', 'MESSAGES', 'CONSOLE'];
+  return `<div class="tabs"><div class="tabbar">
+    ${tabs.map(t => `<button class="tab-btn ${state.activeTab === t ? 'active' : ''}" onclick="switchTab('${t}')">${t}</button>`).join('')}
+  </div></div>`;
+}
+
+function emptyState(title, sub, action = '') {
+  return `<div class="card empty">
+    <svg class="emptyMark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="10" stroke-dasharray="180 60" stroke-linecap="round"/><circle cx="50" cy="50" r="12" fill="currentColor" opacity=".4"/></svg>
+    <div class="disp eTitle">${escapeHtml(title)}</div>
+    <div class="cmeta">${escapeHtml(sub)}</div>
+    ${action}
+  </div>`;
+}
+function clientNotFoundHtml() {
+  return `<div class="wrap">
+    ${emptyState('This link is no longer active', 'The tracker it points to was removed by your coach — reach out to them for an updated link.')}
+  </div>`;
+}
+
+// ---------- CLIENTS TAB (instructor) ----------
+function renderClientsTab() {
+  const clients = getClients();
+  const q = state.searchQuery.toLowerCase();
+  const filtered = clients.filter(c => !q || ((c.name || '') + ' ' + (c.program || '')).toLowerCase().includes(q));
+  return `<div class="wrap">
+    <div class="section-head">
+      <span class="secIdx">01 /</span><h2>Clients</h2>
+      <span class="secCount">${filtered.length} total</span>
+      <span class="spacer"></span><span class="tag">read-only view</span>
+    </div>
+    <div class="searchBox" style="margin-bottom:18px;max-width:420px">
+      ${I.search}
+      <input id="searchInput" type="text" value="${escapeHtml(state.searchQuery)}" oninput="updateSearch(this.value)" placeholder="Search clients or programs…">
+      ${state.searchQuery ? `<button class="clearBtn" onclick="clearSearch()" aria-label="Clear search">${I.x}</button>` : ''}
+    </div>
+    ${filtered.length ? `<div class="cardGrid">
+      ${filtered.map(c => {
+        const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
+        const isDone = c.completed >= c.total;
+        const stag = isDone
+          ? '<span class="tag tag-success">completed</span>'
+          : c.status !== 'active'
+            ? `<span class="tag ${c.status === 'cancelled' ? 'tag-danger' : c.status === 'paused' ? 'tag-next' : 'tag-upcoming'}">${escapeHtml(c.status)}</span>`
+            : `<span class="tag tag-solid">${escapeHtml(c.program)}</span>`;
+        return `<article class="card card-hover client-card">
+          <span class="acc" style="background:${clientAccent(c)}"></span>
+          <div class="rowTop">
+            <span class="ava lg ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+            <div class="cinfo">
+              <div class="crow"><h3 class="disp ctitle">${escapeHtml(c.name)}</h3>${stag}</div>
+              <div class="cmeta">${escapeHtml(c.gender)} · ${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span></div>
+              <div class="chips">${c.schedule.map(s => `<span class="tag">${escapeHtml(s.day)} ${escapeHtml(s.time)}</span>`).join('') || '<span class="tag">No schedule</span>'}</div>
+            </div>
+            ${renderProgressRing(c.completed, c.total, 64, 5)}
+          </div>
+          <div class="progress-track" style="margin-top:14px"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="rowBtns">
+            <button onclick="viewClient('${c.id}')" class="btn btn-ghost btn-sm" title="Opens the client view in a new tab">${I.eye} View</button>
+            <button onclick="showShareModal('${c.id}')" class="btn btn-pine btn-sm">${I.link} Share</button>
+            ${c.history.length ? `<span class="histNote">${c.history.length} past cycle${c.history.length > 1 ? 's' : ''}</span>` : ''}
+          </div>
+        </article>`;
+      }).join('')}
+    </div>` : emptyState('No clients found',
+        state.searchQuery ? 'Try a different search.' : 'Add clients from the Console tab.',
+        state.searchQuery ? '' : `<button class="btn btn-pine btn-sm" style="margin-top:16px" onclick="switchTab('CONSOLE')">Go to Console</button>`)}
+  </div>`;
+}
+
+// ---------- TRACKER TAB (instructor) ----------
+function renderTrackerTab() {
+  if (state.selectedClientId) {
+    const c = getClientById(state.selectedClientId);
+    if (c) return renderTrackerDetail(c);
+    state.selectedClientId = null;
+  }
+  return renderTrackerList();
+}
+function renderTrackerList() {
+  const clients = getClients();
+  return `<div class="wrap">
+    <div class="section-head">
+      <span class="secIdx">02 /</span><h2>Tracker</h2>
+      <span class="secCount">${clients.length} clients</span>
+      <span class="spacer"></span><span class="tag">mark done = instructor</span>
+    </div>
+    ${clients.length ? `<div class="trackGrid">
+      ${clients.map(c => {
+        const isDone = c.completed >= c.total;
+        return `<div class="card card-hover" style="padding:18px;position:relative;overflow:hidden">
+          <span class="acc" style="background:${clientAccent(c)}"></span>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-left:4px">
+            <span class="ava sm ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+            ${renderProgressRing(c.completed, c.total, 56, 4, false)}
+          </div>
+          <div class="disp" style="font-size:16px;font-weight:700;margin-top:12px">${escapeHtml(c.name)}</div>
+          <div class="cmeta">${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span></div>
+          <div class="rowBtns">
+            <button onclick="selectClient('${c.id}')" class="btn btn-ghost btn-sm" style="flex:1">View</button>
+            <button onclick="markSessionDone('${c.id}')" ${isDone ? 'disabled' : ''} class="btn btn-gold btn-sm" style="flex:1">Done +1</button>
+            ${c.completed > 0 ? `<button onclick="undoLastSession('${c.id}')" class="btn btn-ghost btn-sm" style="flex:1">Undo</button>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>` : emptyState('Nothing to track yet', 'Clients you add in the Console appear here.')}
+  </div>`;
+}
+function renderTrackerDetail(c) {
+  const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
+  const isDone = c.completed >= c.total;
+  return `<div class="wrap">
+    <button onclick="deselectClient()" class="btn btn-ghost btn-sm" style="margin-bottom:16px">${I.back} All clients</button>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-section heroGrid">
+        ${renderProgressRing(c.completed, c.total, 140, 8)}
+        <div class="heroInfo">
+          <div class="kicker mono">${escapeHtml(c.program)}</div>
+          <h2 class="heroName disp">${escapeHtml(c.name)}</h2>
+          <div class="cmeta">${escapeHtml(c.gender)} · ${c.schedule.map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(' · ') || 'No schedule set'}</div>
+          ${(c.fee || c.paymentStatus) ? `<div class="chips" style="margin-top:10px">
+            ${c.fee ? `<span class="tag tag-solid">Fee · ${escapeHtml(c.fee)}</span>` : ''}
+            ${c.paymentStatus ? `<span class="tag ${c.paymentStatus === 'Paid' ? 'tag-success' : ''}">${escapeHtml(c.paymentStatus)}</span>` : ''}
+          </div>` : ''}
+          ${c.note ? `<div class="noteBox"><div class="mono nLbl">Instructor note</div><div style="font-size:13px;margin-top:3px">${escapeHtml(c.note)}</div></div>` : ''}
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:14px">
+            <span class="status-badge status-${c.status}">${escapeHtml(c.status)}</span>
+            <button onclick="setClientStatus('${c.id}','active')" class="btn btn-ghost btn-xs" ${c.status === 'active' ? 'disabled' : ''}>Restart</button>
+            <button onclick="setClientStatus('${c.id}','paused')" class="btn btn-ghost btn-xs" ${c.status === 'paused' ? 'disabled' : ''}>Pause</button>
+            <button onclick="setClientStatus('${c.id}','cancelled')" class="btn btn-danger btn-xs" ${c.status === 'cancelled' ? 'disabled' : ''}>Cancel</button>
+            <button onclick="archiveClient('${c.id}')" class="btn btn-ghost btn-xs" ${c.status === 'archived' ? 'disabled' : ''}>Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="grid-stats" style="margin-top:14px">
+          <div class="stat-box"><div class="lbl">Completed</div><div class="num">${c.completed}</div></div>
+          <div class="stat-box"><div class="lbl">Remaining</div><div class="num">${Math.max(0, c.total - c.completed)}</div></div>
+          <div class="stat-box"><div class="lbl">Frequency</div><div class="num">${c.schedule.length || 1}<span class="unit">/ wk</span></div></div>
+        </div>
+        <div class="chat-wrap" style="margin-top:16px">
+          <div class="chat-head"><span class="disp" style="font-weight:700;font-size:15px">Chat thread</span><span class="tag">${(c.messages || []).length} msgs</span></div>
+          <div class="chat-body" data-autoscroll>
+            ${(c.messages || []).length ? c.messages.map(chatMsgHtml).join('') : '<div class="chatEmpty">No messages yet — say hi from the reply box below.</div>'}
+          </div>
+          <div class="chat-input">
+            <input id="chatIn_${c.id}" type="text" class="input" style="flex:1" placeholder="Reply to ${escapeHtml(c.name)}…" onkeydown="if(event.key==='Enter')sendInstructorMessage('${c.id}')">
+            <button onclick="sendInstructorMessage('${c.id}')" class="btn btn-pine btn-sm">${I.send} Reply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-section">
+        <div class="tlHead">
+          <div><span class="secIdx">SESSIONS /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Timeline</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="tag">${c.completed}/${c.total} done</span>
+            <button onclick="showShareModal('${c.id}')" class="btn btn-ghost btn-xs">${I.link} Share</button>
+          </div>
+        </div>
+        ${renderTimeline(c, true)}
+      </div>
+      ${isDone ? `<div class="card-section"><div class="renewBanner">
+        <div>
+          <div class="disp" style="font-size:17px;font-weight:700;color:var(--gold-ink)">Subscription completed</div>
+          <div style="font-size:13px;color:var(--gold-ink);opacity:.85;margin-top:3px">Renew to continue — the finished cycle archives to history.</div>
+        </div>
+        <button onclick="showRenewModal('${c.id}')" class="btn btn-gold">${I.refresh} Renew subscription</button>
+      </div></div>` : ''}
+    </div>
+
+    ${c.history.length ? `<div class="card" style="margin-top:16px"><div class="card-section">
+      <button onclick="toggleHistory()" class="histBtn">
+        <span class="disp" style="font-size:17px;font-weight:700">History</span>
+        <span style="display:flex;gap:10px;align-items:center;margin-left:auto">
+          <span class="tag">${c.history.length} past cycle${c.history.length > 1 ? 's' : ''}</span>
+          <span class="chev ${state.showHistory ? 'open' : ''}">${I.chev}</span>
+        </span>
+      </button>
+      ${state.showHistory ? `<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+        ${c.history.slice().reverse().map(h => `
+        <div class="histRow">
+          <div>
+            <div style="font-weight:600">${escapeHtml(h.programName)} · ${h.completedSessions}/${h.totalSessions} · ${Math.round(h.completedSessions / h.totalSessions * 100)}%</div>
+            <div class="cmeta" style="margin-top:2px">completed ${fmtDate(h.completedAt)} · ${h.schedule.map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(', ')}</div>
+          </div>
+          <span class="tsTxt">${fmtDate(h.startDate)} → ${fmtDate(h.endDate)}</span>
+        </div>`).join('')}
+      </div>` : ''}
+    </div></div>` : ''}
+  </div>`;
+}
+function renderTimeline(c, interactive) {
+  return `<div class="timeline"><div class="tl-line"></div>
+  ${Array.from({ length: c.total }).map((_, i) => {
+    const n = i + 1, done = n <= c.completed, next = n === c.completed + 1;
+    const log = (c.logs || []).find(l => l.idx === n);
+    return `<div class="timeline-item">
+      <div class="timeline-dot ${done ? 'done' : next ? 'next' : ''}">${done ? I.check : n}</div>
+      <div class="timeline-card ${done ? 'done' : next ? 'next' : ''}">
+        <div style="min-width:0;flex:1">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="tl-title">Session ${n}</span>
+            <span class="tag ${done ? 'tag-done' : next ? 'tag-next' : 'tag-upcoming'}">${done ? 'done' : next ? 'next' : 'upcoming'}</span>
+          </div>
+          <div class="tl-sub">${log ? `${escapeHtml(log.dateStr)} · checked in` : next ? 'Ready to check in' : 'Scheduled'}</div>
+        </div>
+        ${interactive && next ? `<button onclick="markSessionDone('${c.id}')" class="btn btn-gold btn-sm">Mark done</button>` :
+          interactive && done && n === c.completed ? `<div style="display:flex;gap:8px;align-items:center"><span class="tsTxt">${log ? fmtTime(log.ts) : ''}</span><button onclick="undoLastSession('${c.id}')" class="btn btn-ghost btn-xs">Undo</button></div>` :
+          done ? `<span class="tsTxt">${log ? fmtTime(log.ts) : '✓'}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+function chatMsgHtml(m) {
+  const sys = m.type === 'program_request';
+  return `<div class="chat-msg ${sys ? 'system' : m.from}">
+    ${sys ? `<b>Program request:</b> ${escapeHtml(m.text)}` : escapeHtml(m.text)}
+    <div class="chat-meta">${m.from === 'instructor' ? 'coach' : escapeHtml(m.from)} · ${fmtTime(m.ts)} · ${fmtDate(m.ts)}</div>
+  </div>`;
+}
+
+// ---------- MESSAGES TAB (instructor) ----------
+function renderMessagesTab() {
+  const clients = getClients();
+  const q = state.searchQuery.toLowerCase();
+  const filtered = clients.filter(c => !q || ((c.name || '') + ' ' + (c.program || '')).toLowerCase().includes(q));
+  const sel = state.selectedMessageClientId ? getClientById(state.selectedMessageClientId) : null;
+  if (!sel && state.selectedMessageClientId) state.selectedMessageClientId = null;
+  if (sel) return renderMessageThread(sel);
+  const sorted = filtered.slice().sort((a, b) => lastMsgTs(b) - lastMsgTs(a));
+  const fromClients = clients.reduce((n, c) => n + (c.messages || []).filter(m => m.from === 'client').length, 0);
+  return `<div class="wrap">
+    <div class="section-head">
+      <span class="secIdx">03 /</span><h2>Messages</h2>
+      <span class="secCount">${fromClients} from clients</span>
+    </div>
+    <div class="searchBox" style="margin-bottom:18px;max-width:420px">
+      ${I.search}
+      <input id="searchInput" type="text" value="${escapeHtml(state.searchQuery)}" oninput="updateSearch(this.value)" placeholder="Search clients…">
+      ${state.searchQuery ? `<button class="clearBtn" onclick="clearSearch()" aria-label="Clear search">${I.x}</button>` : ''}
+    </div>
+    ${sorted.length ? `<div class="threadList">
+      ${sorted.map(c => {
+        const msgs = c.messages || [];
+        const last = msgs[msgs.length - 1];
+        const count = msgs.filter(m => m.from === 'client').length;
+        return `<button class="card card-hover threadRow" onclick="selectMessageClient('${c.id}')">
+          <span class="ava sm ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+          <span class="tinfo"><b class="disp tname">${escapeHtml(c.name)}</b>
+            <span class="tprev">${last ? escapeHtml(last.text.slice(0, 64)) : 'No messages yet'}</span></span>
+          ${count ? `<span class="tag tag-gold">${count}</span>` : ''}
+          <span class="tsTxt">${last ? fmtDate(last.ts) : ''}</span>
+        </button>`;
+      }).join('')}
+    </div>` : emptyState('No conversations', 'Clients appear here once they message you from their shared link.')}
+  </div>`;
+}
+function renderMessageThread(c) {
+  const msgs = c.messages || [];
+  return `<div class="wrap">
+    <button onclick="deselectMessageClient()" class="btn btn-ghost btn-sm" style="margin-bottom:16px">${I.back} Inbox</button>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-section" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <span class="ava lg ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+        <div style="flex:1;min-width:200px">
+          <div class="disp" style="font-size:19px;font-weight:700">${escapeHtml(c.name)}</div>
+          <div class="cmeta" style="margin-top:2px">${escapeHtml(c.program)} · <span class="status-badge status-${c.status}">${escapeHtml(c.status)}</span>${c.programRequest ? ` · requested <b>${escapeHtml(c.programRequest)}</b>` : ''}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="showRenewModal('${c.id}')" class="btn btn-ghost btn-xs">${I.refresh} Renew</button>
+          <button onclick="setClientStatus('${c.id}','active')" class="btn btn-ghost btn-xs" ${c.status === 'active' ? 'disabled' : ''}>Restart</button>
+          <button onclick="setClientStatus('${c.id}','paused')" class="btn btn-ghost btn-xs" ${c.status === 'paused' ? 'disabled' : ''}>Pause</button>
+          <button onclick="setClientStatus('${c.id}','cancelled')" class="btn btn-danger btn-xs" ${c.status === 'cancelled' ? 'disabled' : ''}>Cancel</button>
+          <button onclick="archiveClient('${c.id}')" class="btn btn-ghost btn-xs" ${c.status === 'archived' ? 'disabled' : ''}>Archive</button>
+        </div>
+      </div>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-head"><span class="disp" style="font-weight:700;font-size:15px">Conversation</span><span class="tag">${msgs.length} messages</span></div>
+      <div class="chat-body tall" data-autoscroll>
+        ${msgs.length ? msgs.map(chatMsgHtml).join('') : '<div class="chatEmpty">No messages yet.</div>'}
+      </div>
+      <div class="chat-input">
+        <input id="chatIn_${c.id}" type="text" class="input" style="flex:1" placeholder="Reply to ${escapeHtml(c.name)}…" onkeydown="if(event.key==='Enter')sendInstructorMessage('${c.id}')">
+        <button onclick="sendInstructorMessage('${c.id}')" class="btn btn-pine btn-sm">${I.send} Reply</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ---------- CONSOLE TAB (instructor) ----------
+function renderConsoleTab() {
+  const clients = getClients();
+  const totalDone = clients.reduce((n, c) => n + c.completed, 0);
+  const active = clients.filter(c => c.status === 'active').length;
+  const msgTotal = clients.reduce((n, c) => n + (c.messages || []).length, 0);
+  return `<div class="wrap">
+    <div class="section-head">
+      <span class="secIdx">04 /</span><h2>Console</h2>
+      <span class="secCount">${clients.length} managed</span>
+      <span class="spacer"></span>
+      <button class="btn btn-pine" onclick="openAddModal()">${I.plus} Add client</button>
+    </div>
+    <div class="grid-stats" style="margin-bottom:16px">
+      <div class="stat-box"><div class="lbl">Clients</div><div class="num">${clients.length}</div></div>
+      <div class="stat-box"><div class="lbl">Active now</div><div class="num">${active}</div></div>
+      <div class="stat-box"><div class="lbl">Sessions done</div><div class="num">${totalDone}</div></div>
+    </div>
+    ${clients.length ? `<div style="display:flex;flex-direction:column;gap:10px">
+      ${clients.map(c => `
+      <div class="card mgmtRow">
+        <span class="ava sm ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+        <div class="mg">
+          <b class="disp" style="font-size:15px">${escapeHtml(c.name)}</b>
+          <div class="cmeta" style="margin-top:2px">${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span> · ${escapeHtml(c.paymentStatus || 'Unpaid')}</div>
+        </div>
+        <span class="status-badge status-${c.status}">${escapeHtml(c.status)}</span>
+        <div style="display:flex;gap:6px">
+          <button onclick="openEditModal('${c.id}')" class="btn btn-ghost btn-xs">Edit</button>
+          <button onclick="showDeleteConfirm('${c.id}')" class="btn btn-danger btn-xs">${I.trash} Delete</button>
+        </div>
+      </div>`).join('')}
+    </div>` : emptyState('No clients yet', 'Add your first client to start tracking sessions.')}
+    <div class="card" style="margin-top:16px"><div class="card-section">
+      <div class="tlHead"><div><span class="secIdx">DATA /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Workspace</div></div></div>
+      <div class="mRow"><span class="mLbl">Storage</span><span class="mVal">Firebase RTDB · ${escapeHtml(state.syncStatus)}</span></div>
+      <div class="mRow"><span class="mLbl">Endpoint</span><span class="mVal">${escapeHtml(DB_ENDPOINT)}</span></div>
+      <div class="mRow"><span class="mLbl">Messages</span><span class="mVal">${msgTotal} total</span></div>
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export JSON</button>
+        <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Reset to demo data</button>
+      </div>
+    </div></div>
+  </div>`;
+}
+
+// ---------- CLIENT-FACING VIEW (locked — entered only via ?c= link) ----------
+function renderClientView(c) {
+  const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
+  const isDone = c.completed >= c.total;
+  const msgs = c.messages || [];
+  return `<div class="wrap">
+    <div class="clientBanner"><span class="dot"></span><span><b>Live:</b> your progress updates in real-time, synced with your coach.</span></div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-section heroGrid">
+        ${renderProgressRing(c.completed, c.total, 150, 9)}
+        <div class="heroInfo">
+          <div class="kicker mono">${escapeHtml(c.program)}${c.status !== 'active' ? ` · ${escapeHtml(c.status)}` : ''}</div>
+          <h1 class="heroName disp">${escapeHtml(c.name)}</h1>
+          <div class="cmeta">${c.schedule.map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(' · ') || 'No schedule set'}</div>
+          ${(c.fee || c.paymentStatus) ? `<div class="chips" style="margin-top:10px">
+            ${c.fee ? `<span class="tag tag-solid">Fee · ${escapeHtml(c.fee)}</span>` : ''}
+            ${c.paymentStatus ? `<span class="tag ${c.paymentStatus === 'Paid' ? 'tag-success' : ''}">${escapeHtml(c.paymentStatus)}</span>` : ''}
+          </div>` : ''}
+          ${c.note ? `<div class="noteBox"><div class="mono nLbl">Note from your coach</div><div style="font-size:13px;margin-top:3px">${escapeHtml(c.note)}</div></div>` : ''}
+          <div class="progress-track" style="margin-top:14px"><div class="progress-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="grid-stats">
+          <div class="stat-box"><div class="lbl">Completed</div><div class="num">${c.completed}</div></div>
+          <div class="stat-box"><div class="lbl">Remaining</div><div class="num">${Math.max(0, c.total - c.completed)}</div></div>
+          <div class="stat-box"><div class="lbl">Frequency</div><div class="num">${c.schedule.length || 1}<span class="unit">/ wk</span></div></div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button onclick="toggleClientChat()" class="btn btn-gold">${I.chat} Message your coach</button>
+          ${msgs.length ? `<span class="tag">${msgs.length} message${msgs.length > 1 ? 's' : ''}</span>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px"><div class="card-section">
+      <div class="tlHead">
+        <div><span class="secIdx">SESSIONS /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Your sessions</div></div>
+        <span class="tag">${c.completed}/${c.total} done</span>
+      </div>
+      ${renderTimeline(c, false)}
+    </div></div>
+
+    ${isDone ? `<div class="card" style="margin-bottom:16px"><div class="card-section"><div class="renewBanner">
+      <div>
+        <div class="disp" style="font-size:17px;font-weight:700;color:var(--gold-ink)">Program complete</div>
+        <div style="font-size:13px;color:var(--gold-ink);opacity:.85;margin-top:3px">All sessions finished — your coach will be in touch about renewal.</div>
+      </div>
+    </div></div></div>` : ''}
+
+    ${c.history.length ? `<div class="card" style="margin-bottom:16px"><div class="card-section">
+      <div class="tlHead">
+        <div><span class="secIdx">HISTORY /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Past programs</div></div>
+        <span class="tag">${c.history.length} completed</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${c.history.slice().reverse().map(h => `
+        <div class="histRow">
+          <div>
+            <div style="font-weight:600">${escapeHtml(h.programName)} · ${h.completedSessions}/${h.totalSessions} · ${Math.round(h.completedSessions / h.totalSessions * 100)}%</div>
+            <div class="cmeta" style="margin-top:2px">${h.schedule.map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(', ')}</div>
+          </div>
+          <span class="tsTxt">${fmtDate(h.startDate)} → ${fmtDate(h.endDate)}</span>
+        </div>`).join('')}
+      </div>
+    </div></div>` : ''}
+  </div>`;
+}
+
+// ============================
+// MODALS
+// ============================
+function renderModals() {
+  let h = '';
+  if (state.showSettings) h += settingsModalHtml();
+  if (state.showAddEditModal) h += addEditModalHtml();
+  if (state.showShareModal) h += shareModalHtml();
+  if (state.showRenewModal) h += renewModalHtml();
+  if (state.showDeleteConfirm) h += deleteModalHtml();
+  if (state.showResetConfirm) h += resetModalHtml();
+  if (state.showClientChat && state.clientViewId) h += clientChatModalHtml();
+  return h;
+}
+function overlayClick(e) { if (e.target === e.currentTarget) closeAllModals(); }
+function closeAllModals() {
+  state.showSettings = false;
+  state.showAddEditModal = false;
+  state.showShareModal = false;
+  state.showRenewModal = false;
+  state.showDeleteConfirm = null;
+  state.showResetConfirm = false;
+  state.showClientChat = false;
+  state.draft = null;
+  state.editingClient = null;
+  state.sharingClient = null;
+  state.renewingClient = null;
+  state.renewDraft = null;
+  rerender();
+}
+
+// ---- client chat modal (opened from the header chat icon) ----
+function clientChatModalHtml() {
+  const c = getClientById(state.clientViewId);
+  if (!c) return '';
+  const msgs = c.messages || [];
+  return `<div class="overlay" onclick="if(event.target===this)closeClientChat()"><div class="modal">
+    <header><span class="mIco gold">${I.chat}</span><h3>Messages</h3><button class="mClose" onclick="closeClientChat()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Your conversation with your coach — messages you send appear in their inbox.</div>
+    <div class="mBody" style="padding-bottom:12px">
+      <div class="chat-wrap">
+        <div class="chat-head"><span class="disp" style="font-weight:700;font-size:15px">Chat history</span><span class="tag">${msgs.length} message${msgs.length === 1 ? '' : 's'}</span></div>
+        <div class="chat-body" data-autoscroll>
+          ${msgs.length ? msgs.map(chatMsgHtml).join('') : '<div class="chatEmpty">No messages yet — say hello below, or request a different program.</div>'}
+        </div>
+        <div class="chat-input">
+          <input id="clientChatInput" type="text" class="input" style="flex:1" placeholder="Message your coach…" onkeydown="if(event.key==='Enter')sendClientMessage()">
+          <button onclick="sendClientMessage()" class="btn btn-gold btn-sm">${I.send} Send</button>
+        </div>
+        <div class="chat-request">
+          <span class="mono" style="font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)">Request a different program</span>
+          <div class="chips">${programs.map(p => `<button class="tag tag-btn" onclick="sendProgramRequest('${p}')">${escapeHtml(p)}</button>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+function toggleClientChat() {
+  state.showClientChat = !state.showClientChat;
+  rerender();
+  if (state.showClientChat) {
+    const el = document.getElementById('clientChatInput');
+    if (el) el.focus();
+  }
+}
+function closeClientChat() { state.showClientChat = false; rerender(); }
+
+function settingsModalHtml() {
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco">${I.gear}</span><h3>Settings</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Workspace preferences &amp; data</div>
+    <div class="mBody">
+      <label>Theme<div class="seg">
+        <button type="button" class="seg-btn ${state.theme === 'light' ? 'active' : ''}" onclick="toggleTheme()">Light</button>
+        <button type="button" class="seg-btn ${state.theme === 'dark' ? 'active' : ''}" onclick="toggleTheme()">Dark</button>
+      </div></label>
+      <div>
+        <div class="mRow"><span class="mLbl">Sync status</span><span class="syncBadge" data-sync-badge></span></div>
+        <div class="mRow"><span class="mLbl">Endpoint</span><span class="mVal">${escapeHtml(DB_ENDPOINT)}</span></div>
+        <div class="mRow"><span class="mLbl">Poll interval</span><span class="mVal">${POLL_INTERVAL / 1000}s</span></div>
+      </div>
+    </div>
+    <footer class="between">
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export JSON</button>
+      <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Reset data</button>
+    </footer>
+  </div></div>`;
+}
+
+function addEditModalHtml() {
+  const d = state.draft || {};
+  const editing = !!state.editingClient;
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal wide">
+    <header><span class="mIco">${editing ? I.gear : I.plus}</span><h3>${editing ? 'Edit client' : 'New client'}</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">${editing ? 'Progress, history and messages are preserved.' : 'Set up the subscription and weekly schedule.'}</div>
+    <div class="mBody">
+      <label>Name<input id="d_name" class="input" value="${escapeHtml(d.name)}" oninput="setDraft('name',this.value)" placeholder="e.g. Amara Okafor"></label>
+      <div class="grid-2">
+        <label>Gender<select class="select" onchange="setDraft('gender',this.value)">
+          ${['Male', 'Female', 'Other'].map(g => `<option ${d.gender === g ? 'selected' : ''}>${g}</option>`).join('')}
+        </select></label>
+        <label>Program<select class="select" onchange="setDraft('program',this.value)">
+          ${programs.map(p => `<option ${d.program === p ? 'selected' : ''}>${p}</option>`).join('')}
+        </select></label>
+      </div>
+      <div class="grid-3">
+        <label>Total sessions<input class="input" type="number" min="1" value="${d.total}" oninput="setDraftNum('total',this.value)"></label>
+        <label>Completed<input class="input" type="number" min="0" value="${d.completed}" oninput="setDraftNum('completed',this.value)"></label>
+        <label>Fee<input class="input" value="${escapeHtml(d.fee)}" oninput="setDraft('fee',this.value)" placeholder="e.g. 120 / month"></label>
+      </div>
+      <label>Payment status<div class="seg">
+        ${['Unpaid', 'Partial', 'Paid'].map(s => `<button type="button" class="seg-btn ${d.paymentStatus === s ? 'active' : ''}" onclick="setDraft('paymentStatus','${s}')">${s}</button>`).join('')}
+      </div></label>
+      <label>Weekly schedule
+        <div class="schedRows">
+          ${(d.schedule || []).map((s, i) => `
+          <div class="schedRow">
+            <select class="select" onchange="setSched(${i},'day',this.value)">${days.map(dd => `<option ${s.day === dd ? 'selected' : ''}>${dd}</option>`).join('')}</select>
+            <input class="input" type="time" value="${escapeHtml(s.time)}" onchange="setSched(${i},'time',this.value)">
+            <button class="iconBtn xs" onclick="removeSchedRow(${i})" aria-label="Remove slot">${I.x}</button>
+          </div>`).join('')}
+        </div>
+        <button class="btn btn-ghost btn-xs" onclick="addSchedRow()">${I.plus} Add slot</button>
+      </label>
+      <label>Note to client<textarea class="input" rows="2" oninput="setDraft('note',this.value)" placeholder="Anything your client should see on their view…">${escapeHtml(d.note)}</textarea></label>
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-pine" onclick="saveClient()">${I.check} ${editing ? 'Save changes' : 'Add client'}</button>
+    </footer>
+  </div></div>`;
+}
+
+function shareModalHtml() {
+  const c = getClientById(state.sharingClient);
+  if (!c) return '';
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal">
+    <header><span class="mIco gold">${I.link}</span><h3>Share client view</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Send this link to ${escapeHtml(c.name)} — it opens their live tracker with a direct chat to you.</div>
+    <div class="mBody">
+      <div class="shareHead">
+        <span class="ava lg ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
+        <div><b class="disp" style="font-size:16px">${escapeHtml(c.name)}</b><div class="cmeta">${escapeHtml(c.program)} · ${c.completed}/${c.total} sessions</div></div>
+      </div>
+      <div class="linkBox">
+        <span class="lk">${escapeHtml(getShareLink(c.id))}</span>
+        <button class="btn btn-pine btn-sm" onclick="copyShareLink()">${I.copy} Copy</button>
+      </div>
+      <div class="notifyPreview"><b>Traka</b> · ${escapeHtml(c.name)} — session ${c.completed} of ${c.total} complete. ${c.completed >= c.total ? 'Subscription finished — renew to continue.' : 'Keep going!'}</div>
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="openClientLink('${c.id}')">${I.eye} Open preview</button>
+      <button class="btn btn-pine" onclick="closeAllModals()">Done</button>
+    </footer>
+  </div></div>`;
+}
+
+function renewModalHtml() {
+  const c = getClientById(state.renewingClient);
+  const d = state.renewDraft;
+  if (!c || !d) return '';
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal">
+    <header><span class="mIco gold">${I.refresh}</span><h3>Renew subscription</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub"><b>${escapeHtml(c.name)}</b> finished ${c.completed}/${c.total} — the completed cycle moves to history.</div>
+    <div class="mBody">
+      ${c.programRequest ? `<div class="reqNote">Client requested: <b>${escapeHtml(c.programRequest)}</b></div>` : ''}
+      <label>Program<select class="select" onchange="setRenewDraft('program',this.value)">
+        ${programs.map(p => `<option ${d.program === p ? 'selected' : ''}>${p}</option>`).join('')}
+      </select></label>
+      <div class="grid-2">
+        <label>New total sessions<input class="input" type="number" min="1" value="${d.total}" oninput="setRenewDraftNum('total',this.value)"></label>
+        <label>Fee (optional)<input class="input" value="${escapeHtml(d.fee)}" oninput="setRenewDraft('fee',this.value)" placeholder="e.g. 120 / month"></label>
+      </div>
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-gold" onclick="renewClient()">${I.refresh} Start new cycle</button>
+    </footer>
+  </div></div>`;
+}
+
+function deleteModalHtml() {
+  const c = getClientById(state.showDeleteConfirm);
+  if (!c) { state.showDeleteConfirm = null; return ''; }
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco red">${I.trash}</span><h3>Delete client?</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">This permanently removes <b>${escapeHtml(c.name)}</b> — ${c.completed}/${c.total} sessions, ${(c.messages || []).length} messages and ${c.history.length} archived cycle${c.history.length === 1 ? '' : 's'}.</div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Keep client</button>
+      <button class="btn btn-danger-solid" onclick="deleteClient()">${I.trash} Delete</button>
+    </footer>
+  </div></div>`;
+}
+
+function resetModalHtml() {
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco red">${I.alert}</span><h3>Reset workspace?</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Replaces all clients with the demo set and pushes to Firebase. This can't be undone.</div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-danger-solid" onclick="resetData()">${I.trash} Reset everything</button>
+    </footer>
+  </div></div>`;
+}
+
+// ============================
+// ACTIONS
+// ============================
+function switchTab(tab) { state.activeTab = tab; window.scrollTo({ top: 0 }); rerender(); }
+function updateSearch(v) { state.searchQuery = v; rerender(); }
+function clearSearch() { state.searchQuery = ''; rerender(); const el = document.getElementById('searchInput'); if (el) el.focus(); }
+
+// Instructor preview: opens the SAME locked client view, but in a new tab
+// so the instructor's workspace tab is never replaced.
+function viewClient(id) { window.open(getShareLink(id), '_blank'); }
+function openClientLink(id) { window.open(getShareLink(id), '_blank'); }
+
+// Instructor: tracker detail navigation
+function selectClient(id) { state.selectedClientId = id; state.showHistory = false; window.scrollTo({ top: 0 }); rerender(); }
+function deselectClient() { state.selectedClientId = null; rerender(); }
+
+// Client-side chat (modal)
+function sendClientMessage() {
+  const c = getClientById(state.clientViewId);
+  if (!c) return;
+  const el = document.getElementById('clientChatInput');
+  const txt = (el ? el.value : '').trim();
+  if (!txt) return;
+  c.messages = c.messages || [];
+  c.messages.push({ id: generateId(), from: 'client', text: txt, ts: Date.now(), type: 'message' });
+  commit(); // re-renders; modal stays open, focus + caret restored
+  const el2 = document.getElementById('clientChatInput');
+  if (el2) el2.focus();
+}
+function sendProgramRequest(program) {
+  const c = getClientById(state.clientViewId);
+  if (!c) return;
+  c.messages = c.messages || [];
+  c.messages.push({ id: generateId(), from: 'client', text: "I'd like to switch my program to " + program, ts: Date.now(), type: 'program_request' });
+  c.programRequest = program;
+  commit();
+  showToast('Request sent to your coach', 'ok');
+  const el = document.getElementById('clientChatInput');
+  if (el) el.focus();
+}
+
+function initTheme() {
+  let t = null;
+  try { t = localStorage.getItem('traka_theme'); } catch (e) {}
+  if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  state.theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+}
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.theme);
+  try { localStorage.setItem('traka_theme', state.theme); } catch (e) {}
+  rerender();
+}
+function toggleSettings() { state.showSettings = !state.showSettings; rerender(); }
+
+// ---- add / edit ----
+function openAddModal() {
+  state.editingClient = null;
+  state.draft = { name: '', gender: 'Female', program: programs[0], total: 12, completed: 0, fee: '', paymentStatus: 'Unpaid', note: '', schedule: [{ day: 'Mon', time: '08:00' }] };
+  state.showAddEditModal = true;
+  rerender();
+  const el = document.getElementById('d_name'); if (el) el.focus();
+}
+function openEditModal(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  state.editingClient = id;
+  state.draft = {
+    name: c.name, gender: c.gender, program: c.program, total: c.total, completed: c.completed,
+    fee: c.fee, paymentStatus: c.paymentStatus, note: c.note,
+    schedule: c.schedule.length ? c.schedule.map(s => ({ day: s.day, time: s.time })) : [{ day: 'Mon', time: '08:00' }]
+  };
+  state.showAddEditModal = true;
+  rerender();
+  const el = document.getElementById('d_name'); if (el) el.focus();
+}
+function setDraft(k, v) { if (state.draft) state.draft[k] = v; }
+function setDraftNum(k, v) { if (state.draft) state.draft[k] = Math.max(0, parseInt(v, 10) || 0); }
+function setSched(i, k, v) { if (state.draft && state.draft.schedule[i]) state.draft.schedule[i][k] = v; }
+function addSchedRow() { if (state.draft) { state.draft.schedule.push({ day: 'Mon', time: '08:00' }); rerender(); } }
+function removeSchedRow(i) { if (state.draft) { state.draft.schedule.splice(i, 1); rerender(); } }
+function saveClient() {
+  const d = state.draft;
+  if (!d) return;
+  const name = (d.name || '').trim();
+  if (!name) { showToast('Please enter a client name', 'warn'); const el = document.getElementById('d_name'); if (el) el.focus(); return; }
+  const total = Math.max(1, parseInt(d.total, 10) || 1);
+  const completed = Math.max(0, Math.min(parseInt(d.completed, 10) || 0, total));
+  const schedule = (d.schedule || []).filter(s => s.day && s.time).map(s => ({ day: s.day, time: s.time }));
+  if (state.editingClient) {
+    const c = getClientById(state.editingClient);
+    if (c) {
+      Object.assign(c, { name, gender: d.gender, program: d.program, total, completed, schedule, fee: d.fee || '', paymentStatus: d.paymentStatus, note: d.note || '' });
+      c.logs = (c.logs || []).filter(l => l.idx <= completed);
+      showToast('Client updated', 'ok');
+    }
+  } else {
+    state.clients.push(normalizeClient({
+      id: generateId(), name, gender: d.gender, program: d.program, total, completed,
+      schedule, createdAt: Date.now(), fee: d.fee, paymentStatus: d.paymentStatus, note: d.note
+    }));
+    showToast('Client added', 'ok');
+  }
+  state.showAddEditModal = false;
+  state.draft = null;
+  state.editingClient = null;
+  commit();
+}
+
+// ---- sessions ----
+function markSessionDone(id) {
+  const c = getClientById(id);
+  if (!c || c.completed >= c.total) return;
+  c.completed += 1;
+  const now = Date.now();
+  c.logs = c.logs || [];
+  c.logs.push({ idx: c.completed, ts: now, dateStr: new Date(now).toLocaleDateString() });
+  if (c.completed === c.total) showToast(`${c.name} completed the subscription — time to renew`, 'ok');
+  else showToast(`Session ${c.completed}/${c.total} done`, 'ok');
+  commit();
+}
+function undoLastSession(id) {
+  const c = getClientById(id);
+  if (!c || c.completed <= 0) return;
+  c.logs = (c.logs || []).filter(l => l.idx !== c.completed);
+  c.completed -= 1;
+  showToast('Last session undone', 'warn');
+  commit();
+}
+
+// ---- status ----
+function setClientStatus(id, status) {
+  const c = getClientById(id);
+  if (!c || c.status === status) return;
+  c.status = status;
+  if (status === 'paused') c.pausedAt = Date.now();
+  if (status === 'cancelled') c.cancelledAt = Date.now();
+  if (status === 'active') { c.pausedAt = null; c.cancelledAt = null; }
+  const verbs = { active: 'restarted', paused: 'paused', cancelled: 'cancelled', archived: 'archived' };
+  showToast(`${c.name} ${verbs[status] || status}`, status === 'cancelled' ? 'warn' : 'ok');
+  commit();
+}
+function archiveClient(id) { setClientStatus(id, 'archived'); }
+
+// ---- share ----
+function showShareModal(id) { state.sharingClient = id; state.showShareModal = true; rerender(); }
+function copyShareLink() {
+  const c = getClientById(state.sharingClient);
+  if (!c) return;
+  copyText(getShareLink(c.id)).then(ok =>
+    showToast(ok ? 'Link copied to clipboard' : 'Copy failed — select it manually', ok ? 'ok' : 'warn'));
+}
+
+// ---- renew ----
+function showRenewModal(id, prefillProgram) {
+  const c = getClientById(id);
+  if (!c) return;
+  state.renewingClient = id;
+  state.renewDraft = { program: prefillProgram || c.programRequest || c.program, total: 10, fee: c.fee || '' };
+  state.showRenewModal = true;
+  rerender();
+}
+function setRenewDraft(k, v) { if (state.renewDraft) state.renewDraft[k] = v; }
+function setRenewDraftNum(k, v) { if (state.renewDraft) state.renewDraft[k] = Math.max(1, parseInt(v, 10) || 1); }
+function renewClient() {
+  const c = getClientById(state.renewingClient);
+  const d = state.renewDraft;
+  if (!c || !d) return;
+  const total = Math.max(1, parseInt(d.total, 10) || 1);
+  c.history = c.history || [];
+  c.history.push({
+    id: 'h_' + generateId(),
+    programName: c.program, totalSessions: c.total, completedSessions: c.completed,
+    startDate: (c.logs && c.logs.length) ? c.logs[0].ts : c.createdAt,
+    endDate: Date.now(), completedAt: new Date().toISOString(),
+    schedule: c.schedule.map(s => ({ day: s.day, time: s.time }))
+  });
+  Object.assign(c, {
+    program: d.program, total, completed: 0, logs: [], fee: d.fee || '',
+    paymentStatus: 'Unpaid', status: 'active', programRequest: '', pausedAt: null, cancelledAt: null
+  });
+  state.showRenewModal = false;
+  state.renewingClient = null;
+  state.renewDraft = null;
+  state.activeTab = 'TRACKER';
+  state.selectedClientId = c.id;
+  commit();
+  showToast('Subscription renewed — new cycle started', 'ok');
+}
+
+// ---- delete / reset ----
+function showDeleteConfirm(id) { state.showDeleteConfirm = id; rerender(); }
+function deleteClient() {
+  const id = state.showDeleteConfirm;
+  state.clients = getClients().filter(c => c.id !== id);
+  if (state.selectedClientId === id) state.selectedClientId = null;
+  if (state.selectedMessageClientId === id) state.selectedMessageClientId = null;
+  state.showDeleteConfirm = null;
+  commit();
+  showToast('Client deleted', 'warn');
+}
+function showResetConfirm() { state.showSettings = false; state.showResetConfirm = true; rerender(); }
+function resetData() {
+  state.clients = getDefaultClients();
+  closeAllModals();
+  commit();
+  showToast('Workspace reset to demo data', 'warn');
+}
+function exportData() {
+  const blob = new Blob([JSON.stringify(getClients(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'traka-clients.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Client data exported', 'ok');
+}
+
+// ---- misc ----
+function selectMessageClient(id) { state.selectedMessageClientId = id; window.scrollTo({ top: 0 }); rerender(); }
+function deselectMessageClient() { state.selectedMessageClientId = null; rerender(); }
+function toggleHistory() { state.showHistory = !state.showHistory; rerender(); }
+function sendInstructorMessage(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  const el = document.getElementById('chatIn_' + id);
+  const txt = (el ? el.value : '').trim();
+  if (!txt) return;
+  c.messages = c.messages || [];
+  c.messages.push({ id: generateId(), from: 'instructor', text: txt, ts: Date.now(), type: 'message' });
+  commit();
+  const el2 = document.getElementById('chatIn_' + id);
+  if (el2) el2.focus();
+}
+
+// ============================
+// BOOT
+// ============================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const any = state.showSettings || state.showAddEditModal || state.showShareModal ||
+                state.showRenewModal || state.showDeleteConfirm || state.showResetConfirm ||
+                state.showClientChat;
+    if (any) closeAllModals();
+  }
+});
+window.addEventListener('online', () => { if (dirty) pushToFirebase(); else pullFromFirebase(); });
+window.addEventListener('offline', () => { state.syncStatus = 'offline'; renderSyncBadge(); });
+initTheme();
+initData();
+</script>
+</body>
+</html>
