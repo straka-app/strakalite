@@ -1,9 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="UTF-8">
+<title>Straka Lite — Client Tracker</title>
+<meta name="description" content="Track client subscriptions, sessions, and progress. Share a live client view with a secure link — synced and simple." />
+<link rel="canonical" href="https://straka.netlify.app/" />
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Straka Lite — Client Tracker" />
+<meta property="og:description" content="Track subscriptions, sessions & progress. Share a professional live client view with one link." />
+<meta property="og:url" content="https://straka.netlify.app/" />
+<meta property="og:site_name" content="Straka Lite" />
+
+<!-- Social preview image -->
+<meta property="og:image" content="https://straka.netlify.app/assets/social-preview.png" />
+<meta property="og:image:secure_url" content="https://straka.netlify.app/assets/social-preview.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="680" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:alt" content="Straka Lite — Client Tracker - Live Client View" />
+<meta property="og:locale" content="en_US" />
+
+<!-- X / Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Straka Lite — Client Tracker" />
+<meta name="twitter:description" content="Track subscriptions, sessions & progress. Share a professional live client view with one link." />
+<meta name="twitter:image" content="https://straka.netlify.app/assets/social-preview.png" />
+<meta name="twitter:image:alt" content="Straka Lite — Client Tracker" />
+
+<!-- Theme -->
+<meta name="theme-color" content="#0E3B2E" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Traka Lite — Client Tracker</title>
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' fill='none' stroke='%230E3B2E' stroke-width='14' stroke-dasharray='180 60' stroke-linecap='round'/><circle cx='50' cy='50' r='12' fill='%23EFA51C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -382,7 +433,7 @@ main{padding:22px 0 60px}
     </svg>
     <div class="pulse"></div>
   </div>
-  <div class="loader-brand">Traka Lite</div>
+  <div class="loader-brand">Straka Lite</div>
   <div class="loader-sub">Client Tracker</div>
   <div class="loader-status"><span class="dot"></span><span id="loaderText">Connecting to Firebase…</span></div>
   <div class="loader-bar"><i></i></div>
@@ -432,6 +483,7 @@ let dirty = false;          // local edits awaiting a successful push
 let pushInFlight = false;   // a PUT is currently running
 
 const programs = ['Personal Training', 'Yoga', 'Boxing', 'Strength', 'Pilates'];
+function ensureCustomProgram(name){ const n=(name||'').trim(); if(!n) return; if(!programs.includes(n)) programs.push(n); }
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 // ============================
@@ -439,6 +491,7 @@ const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 // ============================
 const svgIcon = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const I = {
+  upload: svgIcon('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>'),
   sun: svgIcon('<circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.8 4.8l1.4 1.4M17.8 17.8l1.4 1.4M2.5 12h2M19.5 12h2M4.8 19.2l1.4-1.4M17.8 6.2l1.4-1.4"/>'),
   moon: svgIcon('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'),
   gear: svgIcon('<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>'),
@@ -667,7 +720,7 @@ async function initData() {
     if (local && local.length > 0) {
       state.clients = local;
     } else {
-      state.clients = getDefaultClients();
+      state.clients = []; // factory reset - clean slate
       saveLocal();
       pushToFirebase().catch(() => {});
     }
@@ -689,67 +742,8 @@ async function initData() {
   }, 500);
 }
 function getDefaultClients() {
-  const now = Date.now();
-  return [
-    {
-      id: 'c1_' + generateId(),
-      name: 'Amara Okafor',
-      gender: 'Female',
-      program: 'Personal Training',
-      total: 12, completed: 8,
-      schedule: [{ day: 'Mon', time: '07:00' }, { day: 'Wed', time: '07:00' }, { day: 'Fri', time: '07:00' }],
-      logs: Array.from({ length: 8 }).map((_, i) => ({
-        idx: i + 1, ts: now - (8 - i) * 86400000 * 2,
-        dateStr: new Date(now - (8 - i) * 86400000 * 2).toLocaleDateString()
-      })),
-      createdAt: now - 1e7,
-      history: [{
-        id: 'h0_' + generateId(),
-        programName: 'Personal Training', totalSessions: 10, completedSessions: 10,
-        startDate: now - 1e7 - 2592000000, endDate: now - 1e7,
-        completedAt: new Date(now - 1e7).toISOString(),
-        schedule: [{ day: 'Mon', time: '07:00' }]
-      }],
-      fee: '120 / month', paymentStatus: 'Paid',
-      note: 'Bring your own mat on Fridays.',
-      messages: [
-        { id: 'm1', from: 'client', text: 'Morning! Any chance we could move Friday to 6:30?', ts: now - 3600000 * 30, type: 'message' },
-        { id: 'm2', from: 'instructor', text: 'Done — see you Friday at 6:30.', ts: now - 3600000 * 29, type: 'message' }
-      ]
-    },
-    {
-      id: 'c2_' + generateId(),
-      name: 'James Carter',
-      gender: 'Male',
-      program: 'Boxing',
-      total: 10, completed: 3,
-      schedule: [{ day: 'Tue', time: '18:00' }, { day: 'Thu', time: '18:00' }],
-      logs: Array.from({ length: 3 }).map((_, i) => ({
-        idx: i + 1, ts: now - (3 - i) * 86400000 * 3,
-        dateStr: new Date(now - (3 - i) * 86400000 * 3).toLocaleDateString()
-      })),
-      createdAt: now - 8000000,
-      history: [],
-      fee: '90 / month', paymentStatus: 'Unpaid',
-      programRequest: 'Strength',
-      messages: [{ id: 'm3', from: 'client', text: 'I would like to switch my program to Strength', ts: now - 3600000 * 5, type: 'program_request' }]
-    },
-    {
-      id: 'c3_' + generateId(),
-      name: 'Sofia Reyes',
-      gender: 'Female',
-      program: 'Yoga',
-      total: 8, completed: 8,
-      schedule: [{ day: 'Mon', time: '08:30' }, { day: 'Fri', time: '08:30' }],
-      logs: Array.from({ length: 8 }).map((_, i) => ({
-        idx: i + 1, ts: now - (8 - i) * 86400000,
-        dateStr: new Date(now - (8 - i) * 86400000).toLocaleDateString()
-      })),
-      createdAt: now - 6000000,
-      history: [],
-      fee: '80 / month', paymentStatus: 'Paid'
-    }
-  ];
+  // Clean slate - no mock/demo data
+  return [];
 }
 
 // ============================
@@ -762,7 +756,7 @@ function render() {
   let html = renderHeader();
   if (!isClient) html += renderTabs();
   html += `<main>${isClient ? (client ? renderClientView(client) : clientNotFoundHtml()) : renderTabContent()}</main>`;
-  html += `<div class="footer">${isClient ? 'Traka Lite · live view' : 'Traka Lite · synced via Firebase RTDB · every ' + (POLL_INTERVAL / 1000) + 's'}</div>`;
+  html += `<div class="footer">${isClient ? 'Straka Lite · live view' : 'Straka Lite · synced via Firebase RTDB · every ' + (POLL_INTERVAL / 1000) + 's'}</div>`;
   html += renderModals();
   app.innerHTML = html;
   renderSyncBadge();
@@ -830,7 +824,7 @@ function renderHeader() {
   const isCV = !!state.clientViewId;
   const client = isCV ? getClientById(state.clientViewId) : null;
   const msgCount = client && client.messages ? client.messages.length : 0;
-  const brandInner = `<svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--gold)"/></svg><span><b>Traka</b><small>Client Tracker</small></span>`;
+  const brandInner = `<svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--gold)"/></svg><span><b>Straka</b><small>Client Tracker</small></span>`;
   return `
   <div class="topbar"><div class="wrap">
     ${isCV
@@ -1180,8 +1174,10 @@ function renderConsoleTab() {
       <div class="mRow"><span class="mLbl">Endpoint</span><span class="mVal">${escapeHtml(DB_ENDPOINT)}</span></div>
       <div class="mRow"><span class="mLbl">Messages</span><span class="mVal">${msgTotal} total</span></div>
       <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export JSON</button>
-        <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Reset to demo data</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export backup</button>
+         <button class="btn btn-ghost btn-sm" onclick="triggerImport()">${I.upload} Import backup</button>
+         <input type="file" id="importFileInput" accept=".json,application/json" style="display:none" onchange="importData(event)">
+        <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Factory reset</button>
       </div>
     </div></div>
   </div>`;
@@ -1340,8 +1336,10 @@ function settingsModalHtml() {
       </div>
     </div>
     <footer class="between">
-      <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export JSON</button>
-      <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Reset data</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">${I.download} Export backup</button>
+         <button class="btn btn-ghost btn-sm" onclick="triggerImport()">${I.upload} Import backup</button>
+         <input type="file" id="importFileInput" accept=".json,application/json" style="display:none" onchange="importData(event)">
+      <button class="btn btn-danger btn-sm" onclick="showResetConfirm()">${I.trash} Factory reset</button>
     </footer>
   </div></div>`;
 }
@@ -1353,14 +1351,15 @@ function addEditModalHtml() {
     <header><span class="mIco">${editing ? I.gear : I.plus}</span><h3>${editing ? 'Edit client' : 'New client'}</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
     <div class="mSub">${editing ? 'Progress, history and messages are preserved.' : 'Set up the subscription and weekly schedule.'}</div>
     <div class="mBody">
-      <label>Name<input id="d_name" class="input" value="${escapeHtml(d.name)}" oninput="setDraft('name',this.value)" placeholder="e.g. Amara Okafor"></label>
+      <label>Name<input id="d_name" class="input" value="${escapeHtml(d.name)}" oninput="setDraft('name',this.value)" placeholder="e.g. John Doe"></label>
       <div class="grid-2">
         <label>Gender<select class="select" onchange="setDraft('gender',this.value)">
           ${['Male', 'Female', 'Other'].map(g => `<option ${d.gender === g ? 'selected' : ''}>${g}</option>`).join('')}
         </select></label>
-        <label>Program<select class="select" onchange="setDraft('program',this.value)">
-          ${programs.map(p => `<option ${d.program === p ? 'selected' : ''}>${p}</option>`).join('')}
-        </select></label>
+        <label>Program
+          <input class="input" list="programList" value="${escapeHtml(d.program)}" oninput="setDraft('program',this.value)" placeholder="Type or select program e.g. CrossFit">
+          <datalist id="programList">${programs.map(p => `<option value="${escapeHtml(p)}">`).join('')}</datalist>
+        </label>
       </div>
       <div class="grid-3">
         <label>Total sessions<input class="input" type="number" min="1" value="${d.total}" oninput="setDraftNum('total',this.value)"></label>
@@ -1405,7 +1404,7 @@ function shareModalHtml() {
         <span class="lk">${escapeHtml(getShareLink(c.id))}</span>
         <button class="btn btn-pine btn-sm" onclick="copyShareLink()">${I.copy} Copy</button>
       </div>
-      <div class="notifyPreview"><b>Traka</b> · ${escapeHtml(c.name)} — session ${c.completed} of ${c.total} complete. ${c.completed >= c.total ? 'Subscription finished — renew to continue.' : 'Keep going!'}</div>
+      <div class="notifyPreview"><b>Straka</b> · ${escapeHtml(c.name)} — session ${c.completed} of ${c.total} complete. ${c.completed >= c.total ? 'Subscription finished — renew to continue.' : 'Keep going!'}</div>
     </div>
     <footer>
       <button class="btn btn-ghost" onclick="openClientLink('${c.id}')">${I.eye} Open preview</button>
@@ -1423,9 +1422,10 @@ function renewModalHtml() {
     <div class="mSub"><b>${escapeHtml(c.name)}</b> finished ${c.completed}/${c.total} — the completed cycle moves to history.</div>
     <div class="mBody">
       ${c.programRequest ? `<div class="reqNote">Client requested: <b>${escapeHtml(c.programRequest)}</b></div>` : ''}
-      <label>Program<select class="select" onchange="setRenewDraft('program',this.value)">
-        ${programs.map(p => `<option ${d.program === p ? 'selected' : ''}>${p}</option>`).join('')}
-      </select></label>
+      <label>Program
+        <input class="input" list="programListRenew" value="${escapeHtml(d.program)}" oninput="setRenewDraft('program',this.value)" placeholder="Type or select program">
+        <datalist id="programListRenew">${programs.map(p => `<option value="${escapeHtml(p)}">`).join('')}</datalist>
+      </label>
       <div class="grid-2">
         <label>New total sessions<input class="input" type="number" min="1" value="${d.total}" oninput="setRenewDraftNum('total',this.value)"></label>
         <label>Fee (optional)<input class="input" value="${escapeHtml(d.fee)}" oninput="setRenewDraft('fee',this.value)" placeholder="e.g. 120 / month"></label>
@@ -1457,7 +1457,7 @@ function resetModalHtml() {
     <div class="mSub">Replaces all clients with the demo set and pushes to Firebase. This can't be undone.</div>
     <footer>
       <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
-      <button class="btn btn-danger-solid" onclick="resetData()">${I.trash} Reset everything</button>
+      <button class="btn btn-danger-solid" onclick="resetData()">${I.trash} Factory reset - clear all</button>
     </footer>
   </div></div>`;
 }
@@ -1545,6 +1545,7 @@ function setSched(i, k, v) { if (state.draft && state.draft.schedule[i]) state.d
 function addSchedRow() { if (state.draft) { state.draft.schedule.push({ day: 'Mon', time: '08:00' }); rerender(); } }
 function removeSchedRow(i) { if (state.draft) { state.draft.schedule.splice(i, 1); rerender(); } }
 function saveClient() {
+  if(state.draft && state.draft.program) ensureCustomProgram(state.draft.program);
   const d = state.draft;
   if (!d) return;
   const name = (d.name || '').trim();
@@ -1628,6 +1629,7 @@ function showRenewModal(id, prefillProgram) {
 function setRenewDraft(k, v) { if (state.renewDraft) state.renewDraft[k] = v; }
 function setRenewDraftNum(k, v) { if (state.renewDraft) state.renewDraft[k] = Math.max(1, parseInt(v, 10) || 1); }
 function renewClient() {
+  if(state.renewDraft && state.renewDraft.program) ensureCustomProgram(state.renewDraft.program);
   const c = getClientById(state.renewingClient);
   const d = state.renewDraft;
   if (!c || !d) return;
@@ -1666,19 +1668,51 @@ function deleteClient() {
 }
 function showResetConfirm() { state.showSettings = false; state.showResetConfirm = true; rerender(); }
 function resetData() {
-  state.clients = getDefaultClients();
+  state.clients = []; // factory reset - clean slate
   closeAllModals();
   commit();
-  showToast('Workspace reset to demo data', 'warn');
+  showToast('Workspace reset - all data cleared', 'warn');
 }
 function exportData() {
   const blob = new Blob([JSON.stringify(getClients(), null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'traka-clients.json';
+  a.download = 'traka-clients-' + new Date().toISOString().slice(0,10) + '.json';
   a.click();
   URL.revokeObjectURL(a.href);
-  showToast('Client data exported', 'ok');
+  showToast('Backup exported', 'ok');
+}
+function triggerImport() {
+  const inp = document.getElementById('importFileInput');
+  if (inp) inp.click();
+}
+function importData(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      let incoming = [];
+      if (Array.isArray(parsed)) incoming = parsed;
+      else if (parsed && typeof parsed === 'object') {
+        if (Array.isArray(parsed.clients)) incoming = parsed.clients;
+        else incoming = Object.values(parsed);
+      }
+      incoming = incoming.map(normalizeClient).filter(Boolean);
+      if (incoming.length === 0 && getClients().length > 0) {
+        if (!confirm('Backup appears empty or invalid. This would clear all clients. Continue?')) { event.target.value=''; return; }
+      }
+      state.clients = incoming;
+      commit();
+      showToast('Backup restored - ' + incoming.length + ' clients loaded', 'ok');
+    } catch (err) {
+      showToast('Import failed: ' + err.message, 'error');
+    } finally {
+      event.target.value = '';
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ---- misc ----
@@ -1714,5 +1748,5 @@ window.addEventListener('offline', () => { state.syncStatus = 'offline'; renderS
 initTheme();
 initData();
 </script>
-</body>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
