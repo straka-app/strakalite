@@ -406,6 +406,96 @@ main{padding:22px 0 60px}
 .eTitle{font-size:19px;font-weight:700}
 .empty .cmeta{margin-top:6px}
 
+/* ============ LIVE CHECK-IN ============ */
+@keyframes pulseGold{0%{box-shadow:0 0 0 0 rgba(239,165,28,.5)}70%{box-shadow:0 0 0 9px rgba(239,165,28,0)}100%{box-shadow:0 0 0 0 rgba(239,165,28,0)}}
+.tag.liveTag{background:var(--gold);color:#221703;border-color:var(--gold);animation:pulseGold 1.6s infinite}
+.pulseDot{width:11px;height:11px;border-radius:50%;background:var(--gold);flex:none;animation:pulseGold 1.6s infinite}
+.pulseDot.still{animation:none;box-shadow:0 0 0 4px var(--amber-bg)}
+.liveStrip{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(115deg,var(--amber-bg),var(--paper) 70%);border:1px solid rgba(217,142,15,.4);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.liveStrip.soon{border-style:dashed;background:var(--paper)}
+.liveInfo{flex:1;min-width:220px}
+.liveInfo b{font-size:15.5px;letter-spacing:-.01em}
+.liveSub{font-size:12.5px;color:var(--mut);margin-top:3px}
+.timeline-dot.live{box-shadow:0 0 0 5px var(--amber-bg),0 0 0 10px rgba(239,165,28,.22)}
+.tabDot{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;padding:0 5px;margin-left:7px;border-radius:99px;background:var(--gold);color:#221703;font:700 10px var(--mono)}
+
+/* ============ SUBSCRIPTION CARD ============ */
+.scardStage{background:radial-gradient(620px 260px at 50% -70px, rgba(239,165,28,.13), transparent 60%),var(--bg);border:1px solid var(--line);border-radius:14px;padding:26px 18px;display:flex;justify-content:center;overflow-x:auto}
+.scard{position:relative;width:470px;max-width:100%;aspect-ratio:1.586;border-radius:18px;color:#F2F6EF;overflow:hidden;box-shadow:0 26px 52px -22px rgba(13,37,29,.6);background:linear-gradient(135deg,#0A2A21 0%,#0E3B2E 55%,#155844 100%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.scard::before{content:"";position:absolute;inset:0;background:radial-gradient(340px 220px at 88% -50px, rgba(239,165,28,.2), transparent 62%),linear-gradient(rgba(234,242,236,.05) 1px, transparent 1px),linear-gradient(90deg, rgba(234,242,236,.05) 1px, transparent 1px);background-size:auto,27px 27px,27px 27px;pointer-events:none}
+.scard .ringDeco{position:absolute;top:-64px;right:-58px;width:190px;height:190px;opacity:.55;pointer-events:none}
+.scardIn{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:19px 22px 17px}
+.scTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.scBrand{display:flex;align-items:center;gap:9px}
+.scBrand b{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;color:#FBFCF8;display:block;line-height:1}
+.scBrand small{display:block;font:600 7.5px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:#BFD4C6;margin-top:3px}
+.scChip{font:700 8.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid rgba(247,199,102,.55);color:#F7C766;background:rgba(239,165,28,.12);white-space:nowrap}
+.scChip.gray{border-color:rgba(234,242,236,.32);color:#DCE7DD;background:rgba(234,242,236,.07)}
+.scChip.red{border-color:rgba(229,122,95,.55);color:#F1B0A0;background:rgba(191,66,41,.16)}
+.scMid{margin-top:auto}
+.scKicker{font:600 9px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#F7C766}
+.scName{font-family:var(--disp);font-weight:800;font-size:25px;letter-spacing:-.02em;margin-top:3px;color:#FBFCF8;overflow-wrap:anywhere;line-height:1.1}
+.scGrid{display:flex;gap:8px 24px;flex-wrap:wrap;margin-top:12px}
+.scCell{display:flex;flex-direction:column;min-width:0;max-width:100%}
+.scCell .l{font:600 7.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(234,242,236,.55)}
+.scCell .v{font:600 13px var(--body);color:#F2F6EC;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.scCell .v.mono{font-family:var(--mono)}
+.scBar{height:6px;border-radius:99px;background:rgba(234,242,236,.16);margin-top:13px;overflow:hidden}
+.scBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),#F7C766)}
+.scBot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px}
+.scId{font:600 10.5px var(--mono);letter-spacing:.1em;color:rgba(234,242,236,.8);white-space:nowrap}
+.scId b{color:#F7C766;margin-right:6px}
+.scFoot{font:500 7.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(234,242,236,.45);white-space:nowrap}
+
+/* ============ SUBSCRIPTION RECORD ============ */
+.recordStage{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:14px}
+.recordSheet{width:210mm;min-height:280mm;background:#fff;color:#1F2A24;border-radius:6px;box-shadow:0 16px 44px -18px rgba(13,37,29,.45);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rsIn{padding:13mm 14mm;display:flex;flex-direction:column;min-height:254mm}
+.rsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:2px solid #0E3B2E}
+.rsBrand{display:flex;align-items:center;gap:10px}
+.rsBrand b{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.02em;color:#0E3B2E;display:block;line-height:1}
+.rsBrand small{display:block;font:600 8px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:#6B7A70;margin-top:3px}
+.rsDoc{text-align:right}
+.rsDoc b{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.02em;text-transform:uppercase;color:#0E3B2E;display:block}
+.rsDoc small{display:block;font:600 8px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#6B7A70;margin-top:4px}
+.rsName{font-family:var(--disp);font-weight:800;font-size:27px;letter-spacing:-.02em;color:#1F2A24;margin-top:16px;line-height:1.05;overflow-wrap:anywhere}
+.rsSub{font-size:12px;color:#6B7A70;margin-top:5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.rsChip{font:700 8.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#0E3B2E;background:rgba(239,165,28,.25);border:1px solid rgba(217,142,15,.45);padding:3px 9px;border-radius:999px}
+.rsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 18px;margin-top:16px}
+.rsCell .l{display:block;font:600 7.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#6B7A70}
+.rsCell .v{display:block;font:600 13px var(--body);color:#1F2A24;margin-top:3px;overflow-wrap:anywhere}
+.rsCell .v.mono{font-family:var(--mono)}
+.rsBarRow{display:flex;align-items:center;gap:10px;margin-top:16px}
+.rsBar{flex:1;height:7px;border-radius:99px;background:#E7EEE8;overflow:hidden}
+.rsBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#EFA51C,#F7C766)}
+.rsPct{font:600 11px var(--mono);color:#0E3B2E;white-space:nowrap}
+.rsSecT{font:700 12px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:#0E3B2E;margin:22px 0 8px;display:flex;align-items:center;gap:10px}
+.rsSecT::after{content:"";flex:1;height:1px;background:#D6E2D9}
+.rsTable{width:100%;border-collapse:collapse;font-size:11px}
+.rsTable th{font:700 8px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#F2F6EF;background:#0E3B2E;text-align:left;padding:7px 8px;white-space:nowrap}
+.rsTable td{padding:7px 8px;border-bottom:1px solid #E2EAE3;vertical-align:top;overflow-wrap:anywhere}
+.rsTable tbody tr:nth-child(even) td{background:#F5F8F4}
+.rsTable td.mono,.rsTable .mono{font-family:var(--mono);font-size:10px}
+.rsTable .rsNote{color:#6B7A70;font-size:10.5px}
+.rsTable .rsEmpty{text-align:center;color:#6B7A70;padding:16px}
+.rsFoot{margin-top:auto;padding-top:18px;border-top:1px solid #D6E2D9;font:500 8px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#6B7A70;line-height:1.7}
+
+/* ============ PRINT ============ */
+#printArea{display:none}
+@media print{
+  @page{margin:12mm}
+  body.printing{background:#fff!important}
+  body.printing #app,body.printing #toasts,body.printing #loader{display:none!important}
+  body.printing #printArea{display:flex;align-items:center;justify-content:center;min-height:82vh}
+  #printArea .scard{box-shadow:none;border:1px solid rgba(19,42,33,.25)}
+  body.printing.print-record #printArea{display:block;min-height:0}
+  body.printing.print-record #printArea .recordSheet{width:auto;min-height:0;box-shadow:none;border-radius:0}
+  body.printing.print-record #printArea .recordSheet .rsIn{min-height:0;padding:0}
+  .recordSheet,.recordSheet *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .rsTable tr{page-break-inside:avoid}
+  .rsTable thead{display:table-header-group}
+}
+
 /* ============ RESPONSIVE ============ */
 @media(max-width:640px){
 .topbar .wrap{padding:0 16px;height:60px}
@@ -441,6 +531,7 @@ main{padding:22px 0 60px}
 
 <div id="app"></div>
 <div id="toasts" aria-live="polite"></div>
+<div id="printArea" aria-hidden="true"></div>
 
 <script>
 // ============================
@@ -475,6 +566,18 @@ const state = {
   showDeleteConfirm: null,
   showResetConfirm: false,
   showHistory: false,
+  showCardModal: false,          // subscription card modal
+  cardClientId: null,
+  showConfirmModal: false,       // confirm session (with editable details)
+  confirmClientId: null,
+  confirmDraft: null,
+  showEditLogModal: false,       // edit a past session's details
+  editLogClientId: null,
+  editLogIdx: null,
+  editLogDraft: null,
+  showRecordModal: false,        // subscription record (PDF / print)
+  recordClientId: null,
+  liveSeen: [],                  // auto check-in keys already surfaced
   clientViewId: null,            // set ONLY from the ?c= share link at boot
   isLoading: true,
   pollTimer: null
@@ -509,7 +612,12 @@ const I = {
   download: svgIcon('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>'),
   refresh: svgIcon('<path d="M21 12a9 9 0 1 1-2.6-6.4M21 3v6h-6"/>'),
   alert: svgIcon('<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>'),
-  chev: svgIcon('<path d="m6 9 6 6 6-6"/>')
+  chev: svgIcon('<path d="m6 9 6 6 6-6"/>'),
+  card: svgIcon('<rect x="2" y="5" width="20" height="14" rx="2.5"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/>'),
+  printer: svgIcon('<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>'),
+  doc: svgIcon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>'),
+  pencil: svgIcon('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
+  noShow: svgIcon('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="23" y2="14"/><line x1="23" y1="8" x2="17" y2="14"/>')
 };
 
 // ============================
@@ -557,7 +665,20 @@ function normalizeClient(c) {
     schedule: Array.isArray(c.schedule)
       ? c.schedule.filter(s => s && s.day && s.time).map(s => ({ day: String(s.day), time: String(s.time) }))
       : [],
-    logs: Array.isArray(c.logs) ? c.logs : [],
+    logs: Array.isArray(c.logs) ? c.logs.map(l => ({
+      idx: Math.max(0, parseInt(l && l.idx, 10) || 0),
+      ts: l && typeof l.ts === 'number' ? l.ts : Date.now(),
+      dateStr: String((l && l.dateStr) || ''),
+      dateKey: String((l && l.dateKey) || ''),
+      day: l && l.day ? String(l.day) : '',
+      time: l && l.time ? String(l.time) : '',
+      type: l && l.type === 'no_show' ? 'no_show' : undefined,
+      source: String((l && l.source) || ''),
+      occDateKey: l && l.occDateKey ? String(l.occDateKey) : '',
+      confirmedTs: l && typeof l.confirmedTs === 'number' ? l.confirmedTs : (l && typeof l.ts === 'number' ? l.ts : Date.now()),
+      note: String((l && l.note) || ''),
+      edited: !!(l && l.edited)
+    })) : [],
     createdAt: typeof c.createdAt === 'number' ? c.createdAt : Date.now(),
     history: Array.isArray(c.history) ? c.history : [],
     fee: c.fee != null ? String(c.fee) : '',
@@ -615,6 +736,94 @@ function fetchWithTimeout(url, opts = {}, ms = 7000) {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), ms);
   return fetch(url, Object.assign({}, opts, { signal: ctl.signal })).finally(() => clearTimeout(t));
+}
+
+// ============================
+// AUTO CHECK-IN ENGINE
+// ============================
+// A scheduled session auto checks-in when its start time arrives (weekly
+// schedule, same day). The live state is DERIVED from schedule + logs, so
+// every device computes it without extra writes. The instructor then confirms
+// it (logs the session) or marks a no-show (persisted so it stays dismissed
+// for the rest of the day).
+const CHECKIN_SOON_MIN = 60;      // "starts soon" hint window, minutes before start
+const MANUAL_STAMP_WINDOW_H = 3;  // manual "Done +1" stamps day/time within ±3h of a slot
+
+function dayIdxNow(d) { return (d.getDay() + 6) % 7; } // Mon=0 … Sun=6, matches days[]
+function dateKeyOf(tsOrDate) {
+  const d = tsOrDate instanceof Date ? tsOrDate : new Date(tsOrDate);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function parseHM(t) { const m = /^(\d{1,2}):(\d{2})/.exec(String(t || '').trim()); return m ? { h: +m[1], m: +m[2] } : null; }
+function occurrenceOn(date, day, time) {
+  const di = days.indexOf(day), hm = parseHM(time);
+  if (di < 0 || !hm || dayIdxNow(date) !== di) return null;
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hm.h, hm.m, 0, 0);
+}
+function logMatchesOccurrence(l, s, occTs) {
+  if (l.type === 'no_show') return false;
+  const slotMatch = !!(l.day && l.time && l.day === s.day && l.time === s.time);
+  // Anchored logs carry the date of the scheduled occurrence they fulfil, so a
+  // session held at a rescheduled time still closes its original slot.
+  if (l.occDateKey) return slotMatch && l.occDateKey === dateKeyOf(occTs);
+  if (dateKeyOf(l.ts) !== dateKeyOf(occTs)) return false;
+  if (l.day && l.time) return slotMatch;   // strong match (auto/stamped)
+  return Math.abs(l.ts - occTs) <= 6 * 3600e3;                         // weak match (legacy/manual logs)
+}
+function sessionDoneFor(c, s, occDate) { return (c.logs || []).some(l => logMatchesOccurrence(l, s, occDate.getTime())); }
+function sessionNoShowFor(c, s, occDate) {
+  return (c.logs || []).some(l => l.type === 'no_show' && l.day === s.day && l.time === s.time && dateKeyOf(l.ts) === dateKeyOf(occDate.getTime()));
+}
+function getLiveSession(c) {
+  if (!c || c.status !== 'active' || c.completed >= c.total) return null;
+  const now = new Date();
+  for (const s of (c.schedule || [])) {
+    const occ = occurrenceOn(now, s.day, s.time);
+    if (!occ) continue;
+    if (now.getTime() < occ.getTime()) {
+      const mins = Math.ceil((occ.getTime() - now.getTime()) / 60000);
+      if (mins <= CHECKIN_SOON_MIN && !sessionDoneFor(c, s, occ) && !sessionNoShowFor(c, s, occ)) return { s, occ, state: 'soon', mins };
+      continue;
+    }
+    if (sessionDoneFor(c, s, occ) || sessionNoShowFor(c, s, occ)) continue;
+    return { s, occ, state: 'checked_in', mins: 0 };
+  }
+  return null;
+}
+function getDoneTodayChip(c) {
+  if (!c || c.status !== 'active') return null;
+  const now = new Date();
+  for (const s of (c.schedule || [])) {
+    const occ = occurrenceOn(now, s.day, s.time);
+    if (occ && sessionDoneFor(c, s, occ)) return s;
+  }
+  return null;
+}
+function liveClients() {
+  return getClients().map(c => ({ c, live: getLiveSession(c) })).filter(x => x.live && x.live.state === 'checked_in');
+}
+function liveKey(x) { return x.c.id + '|' + x.live.s.day + '|' + x.live.s.time + '|' + dateKeyOf(Date.now()); }
+function autoCheckinTick() {
+  if (state.isLoading) return;
+  const current = liveClients();
+  const keys = current.map(liveKey);
+  const seen = state.liveSeen || [];
+  const changed = keys.join(',') !== seen.join(',');
+  const fresh = current.filter(x => !seen.includes(liveKey(x)));
+  state.liveSeen = keys;
+  if (changed) rerender();
+  if (fresh.length && !state.clientViewId) {
+    fresh.forEach(x => showToast(`${x.c.name} auto checked-in · ${x.live.s.day} ${x.live.s.time} — confirm when done`, 'info'));
+  }
+}
+setInterval(autoCheckinTick, 20000);
+function matchScheduleNow(c) {
+  const now = new Date();
+  for (const s of (c.schedule || [])) {
+    const occ = occurrenceOn(now, s.day, s.time);
+    if (occ && Math.abs(now.getTime() - occ.getTime()) <= MANUAL_STAMP_WINDOW_H * 3600e3) return s;
+  }
+  return null;
 }
 
 // ============================
@@ -733,6 +942,7 @@ async function initData() {
   state.isLoading = false;
   startPolling();
   rerender();
+  setTimeout(autoCheckinTick, 900); // surface any session that already auto checked-in
   setTimeout(() => {
     const loader = document.getElementById('loader');
     if (loader) {
@@ -841,8 +1051,9 @@ function renderHeader() {
 
 function renderTabs() {
   const tabs = ['CLIENTS', 'TRACKER', 'MESSAGES', 'CONSOLE'];
+  const liveCount = liveClients().length;
   return `<div class="tabs"><div class="tabbar">
-    ${tabs.map(t => `<button class="tab-btn ${state.activeTab === t ? 'active' : ''}" onclick="switchTab('${t}')">${t}</button>`).join('')}
+    ${tabs.map(t => `<button class="tab-btn ${state.activeTab === t ? 'active' : ''}" onclick="switchTab('${t}')">${t}${t === 'TRACKER' && liveCount ? `<span class="tabDot">${liveCount}</span>` : ''}</button>`).join('')}
   </div></div>`;
 }
 
@@ -880,6 +1091,12 @@ function renderClientsTab() {
       ${filtered.map(c => {
         const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
         const isDone = c.completed >= c.total;
+        const live = getLiveSession(c);
+        const liveTag = live && live.state === 'checked_in'
+          ? '<span class="tag liveTag">● checked-in</span>'
+          : live && live.state === 'soon'
+            ? `<span class="tag tag-next">starts in ~${live.mins}m</span>`
+            : '';
         const stag = isDone
           ? '<span class="tag tag-success">completed</span>'
           : c.status !== 'active'
@@ -890,7 +1107,7 @@ function renderClientsTab() {
           <div class="rowTop">
             <span class="ava lg ${avaClass(c.name)}">${escapeHtml(initials(c.name))}</span>
             <div class="cinfo">
-              <div class="crow"><h3 class="disp ctitle">${escapeHtml(c.name)}</h3>${stag}</div>
+              <div class="crow"><h3 class="disp ctitle">${escapeHtml(c.name)}</h3>${stag}${liveTag}</div>
               <div class="cmeta">${escapeHtml(c.gender)} · ${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span></div>
               <div class="chips">${c.schedule.map(s => `<span class="tag">${escapeHtml(s.day)} ${escapeHtml(s.time)}</span>`).join('') || '<span class="tag">No schedule</span>'}</div>
             </div>
@@ -898,8 +1115,11 @@ function renderClientsTab() {
           </div>
           <div class="progress-track" style="margin-top:14px"><div class="progress-fill" style="width:${pct}%"></div></div>
           <div class="rowBtns">
+            ${live && live.state === 'checked_in' ? `<button onclick="confirmLiveSession('${c.id}')" class="btn btn-gold btn-sm" title="Confirm today's auto checked-in session">${I.check} Confirm done</button>` : ''}
             <button onclick="viewClient('${c.id}')" class="btn btn-ghost btn-sm" title="Opens the client view in a new tab">${I.eye} View</button>
             <button onclick="showShareModal('${c.id}')" class="btn btn-pine btn-sm">${I.link} Share</button>
+            <button onclick="showCardModal('${c.id}')" class="btn btn-ghost btn-sm" title="Print or download subscription card">${I.card} Card</button>
+            <button onclick="showRecordModal('${c.id}')" class="btn btn-ghost btn-sm" title="Session record with auto check-ins &amp; confirmations (PDF)">${I.doc} Record</button>
             ${c.history.length ? `<span class="histNote">${c.history.length} past cycle${c.history.length > 1 ? 's' : ''}</span>` : ''}
           </div>
         </article>`;
@@ -925,11 +1145,13 @@ function renderTrackerList() {
     <div class="section-head">
       <span class="secIdx">02 /</span><h2>Tracker</h2>
       <span class="secCount">${clients.length} clients</span>
-      <span class="spacer"></span><span class="tag">mark done = instructor</span>
+      <span class="spacer"></span><span class="tag">auto check-in → confirm done</span>
     </div>
     ${clients.length ? `<div class="trackGrid">
       ${clients.map(c => {
         const isDone = c.completed >= c.total;
+        const live = getLiveSession(c);
+        const isLive = !!(live && live.state === 'checked_in');
         return `<div class="card card-hover" style="padding:18px;position:relative;overflow:hidden">
           <span class="acc" style="background:${clientAccent(c)}"></span>
           <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-left:4px">
@@ -937,10 +1159,10 @@ function renderTrackerList() {
             ${renderProgressRing(c.completed, c.total, 56, 4, false)}
           </div>
           <div class="disp" style="font-size:16px;font-weight:700;margin-top:12px">${escapeHtml(c.name)}</div>
-          <div class="cmeta">${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span></div>
+          <div class="crow" style="margin-top:2px"><span class="cmeta">${escapeHtml(c.program)} · <span class="mono">${c.completed}/${c.total}</span></span>${isLive ? '<span class="tag liveTag">● checked-in</span>' : ''}</div>
           <div class="rowBtns">
             <button onclick="selectClient('${c.id}')" class="btn btn-ghost btn-sm" style="flex:1">View</button>
-            <button onclick="markSessionDone('${c.id}')" ${isDone ? 'disabled' : ''} class="btn btn-gold btn-sm" style="flex:1">Done +1</button>
+            <button onclick="${isLive ? `confirmLiveSession('${c.id}')` : `markSessionDone('${c.id}')`}" ${isDone ? 'disabled' : ''} class="btn btn-gold btn-sm" style="flex:1">${isLive ? I.check + ' Confirm' : 'Done +1'}</button>
             ${c.completed > 0 ? `<button onclick="undoLastSession('${c.id}')" class="btn btn-ghost btn-sm" style="flex:1">Undo</button>` : ''}
           </div>
         </div>`;
@@ -951,8 +1173,28 @@ function renderTrackerList() {
 function renderTrackerDetail(c) {
   const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
   const isDone = c.completed >= c.total;
+  const live = getLiveSession(c);
   return `<div class="wrap">
     <button onclick="deselectClient()" class="btn btn-ghost btn-sm" style="margin-bottom:16px">${I.back} All clients</button>
+
+    ${live && live.state === 'checked_in' ? `<div class="liveStrip">
+      <span class="pulseDot"></span>
+      <div class="liveInfo">
+        <b class="disp">Auto checked-in · ${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)}</b>
+        <div class="liveSub">Today's session time has arrived. Confirm once the session is done, or mark it as a no-show.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="confirmLiveSession('${c.id}')" class="btn btn-gold btn-sm">${I.check} Confirm done</button>
+        <button onclick="noShowLiveSession('${c.id}')" class="btn btn-ghost btn-sm">${I.noShow} No-show</button>
+      </div>
+    </div>` : ''}
+    ${live && live.state === 'soon' ? `<div class="liveStrip soon">
+      <span class="pulseDot still"></span>
+      <div class="liveInfo">
+        <b class="disp">Session starts in ~${live.mins} min</b>
+        <div class="liveSub">${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} · ${escapeHtml(c.name)} will be checked in automatically at the start time.</div>
+      </div>
+    </div>` : ''}
 
     <div class="card" style="margin-bottom:16px">
       <div class="card-section heroGrid">
@@ -1001,6 +1243,8 @@ function renderTrackerDetail(c) {
           <div><span class="secIdx">SESSIONS /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Timeline</div></div>
           <div style="display:flex;gap:8px;align-items:center">
             <span class="tag">${c.completed}/${c.total} done</span>
+            <button onclick="showCardModal('${c.id}')" class="btn btn-ghost btn-xs" title="Print or download subscription card">${I.card} Card</button>
+            <button onclick="showRecordModal('${c.id}')" class="btn btn-ghost btn-xs" title="Session record with auto check-ins &amp; confirmations (PDF)">${I.doc} Record</button>
             <button onclick="showShareModal('${c.id}')" class="btn btn-ghost btn-xs">${I.link} Share</button>
           </div>
         </div>
@@ -1037,22 +1281,25 @@ function renderTrackerDetail(c) {
   </div>`;
 }
 function renderTimeline(c, interactive) {
+  const live = getLiveSession(c);
+  const isLive = !!(live && live.state === 'checked_in');
   return `<div class="timeline"><div class="tl-line"></div>
   ${Array.from({ length: c.total }).map((_, i) => {
     const n = i + 1, done = n <= c.completed, next = n === c.completed + 1;
     const log = (c.logs || []).find(l => l.idx === n);
     return `<div class="timeline-item">
-      <div class="timeline-dot ${done ? 'done' : next ? 'next' : ''}">${done ? I.check : n}</div>
+      <div class="timeline-dot ${done ? 'done' : next && isLive ? 'next live' : next ? 'next' : ''}">${done ? I.check : n}</div>
       <div class="timeline-card ${done ? 'done' : next ? 'next' : ''}">
         <div style="min-width:0;flex:1">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <span class="tl-title">Session ${n}</span>
-            <span class="tag ${done ? 'tag-done' : next ? 'tag-next' : 'tag-upcoming'}">${done ? 'done' : next ? 'next' : 'upcoming'}</span>
+            <span class="tag ${done ? 'tag-done' : next ? (isLive ? 'tag-gold' : 'tag-next') : 'tag-upcoming'}">${done ? 'done' : next ? (isLive ? 'checked-in' : 'next') : 'upcoming'}</span>
           </div>
-          <div class="tl-sub">${log ? `${escapeHtml(log.dateStr)} · checked in` : next ? 'Ready to check in' : 'Scheduled'}</div>
+          <div class="tl-sub">${log ? `${escapeHtml(log.dateStr)} · checked in${log.note ? ' · ' + escapeHtml(log.note) : ''}` : next ? (isLive ? `Auto checked-in · ${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} · awaiting confirmation` : 'Ready to check in') : 'Scheduled'}</div>
         </div>
-        ${interactive && next ? `<button onclick="markSessionDone('${c.id}')" class="btn btn-gold btn-sm">Mark done</button>` :
-          interactive && done && n === c.completed ? `<div style="display:flex;gap:8px;align-items:center"><span class="tsTxt">${log ? fmtTime(log.ts) : ''}</span><button onclick="undoLastSession('${c.id}')" class="btn btn-ghost btn-xs">Undo</button></div>` :
+        ${interactive && next && isLive ? `<div style="display:flex;gap:8px;flex-wrap:wrap"><button onclick="confirmLiveSession('${c.id}')" class="btn btn-gold btn-sm">${I.check} Confirm done</button><button onclick="noShowLiveSession('${c.id}')" class="btn btn-ghost btn-sm">No-show</button></div>` :
+          interactive && next ? `<button onclick="markSessionDone('${c.id}')" class="btn btn-gold btn-sm">Mark done</button>` :
+          interactive && done ? `<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tsTxt">${log ? fmtTime(log.ts) : ''}</span><button onclick="showEditLog('${c.id}',${n})" class="btn btn-ghost btn-xs" title="Edit when it happened or add a note">${I.pencil} Edit</button>${n === c.completed ? `<button onclick="undoLastSession('${c.id}')" class="btn btn-ghost btn-xs">Undo</button>` : ''}</div>` :
           done ? `<span class="tsTxt">${log ? fmtTime(log.ts) : '✓'}</span>` : ''}
       </div>
     </div>`;
@@ -1188,8 +1435,26 @@ function renderClientView(c) {
   const pct = c.total ? Math.round((c.completed / c.total) * 100) : 0;
   const isDone = c.completed >= c.total;
   const msgs = c.messages || [];
+  const live = getLiveSession(c);
+  const doneToday = getDoneTodayChip(c);
   return `<div class="wrap">
     <div class="clientBanner"><span class="dot"></span><span><b>Live:</b> your progress updates in real-time, synced with your coach.</span></div>
+
+    ${live && live.state === 'checked_in' ? `<div class="liveStrip">
+      <span class="pulseDot"></span>
+      <div class="liveInfo">
+        <b class="disp">You're checked in — session in progress</b>
+        <div class="liveSub">${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} · you were checked in automatically. Your coach will confirm once today's session is done.</div>
+      </div>
+    </div>` : ''}
+    ${live && live.state === 'soon' ? `<div class="liveStrip soon">
+      <span class="pulseDot still"></span>
+      <div class="liveInfo">
+        <b class="disp">Session starts in ~${live.mins} min</b>
+        <div class="liveSub">${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} · you'll be checked in automatically at the start time.</div>
+      </div>
+    </div>` : ''}
+    ${!live && doneToday ? `<div style="margin-bottom:16px"><span class="tag tag-done">✓ today's session done · ${escapeHtml(doneToday.day)} ${escapeHtml(doneToday.time)}</span></div>` : ''}
 
     <div class="card" style="margin-bottom:16px">
       <div class="card-section heroGrid">
@@ -1222,7 +1487,10 @@ function renderClientView(c) {
     <div class="card" style="margin-bottom:16px"><div class="card-section">
       <div class="tlHead">
         <div><span class="secIdx">SESSIONS /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Your sessions</div></div>
-        <span class="tag">${c.completed}/${c.total} done</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="tag">${c.completed}/${c.total} done</span>
+          <button onclick="downloadRecordPdf('${c.id}')" class="btn btn-ghost btn-xs" title="Download your session record as PDF — every check-in and confirmation">${I.download} Record PDF</button>
+        </div>
       </div>
       ${renderTimeline(c, false)}
     </div></div>
@@ -1264,6 +1532,10 @@ function renderModals() {
   if (state.showRenewModal) h += renewModalHtml();
   if (state.showDeleteConfirm) h += deleteModalHtml();
   if (state.showResetConfirm) h += resetModalHtml();
+  if (state.showCardModal) h += cardModalHtml();
+  if (state.showConfirmModal) h += confirmSessionModalHtml();
+  if (state.showEditLogModal) h += editLogModalHtml();
+  if (state.showRecordModal) h += recordModalHtml();
   if (state.showClientChat && state.clientViewId) h += clientChatModalHtml();
   return h;
 }
@@ -1276,6 +1548,17 @@ function closeAllModals() {
   state.showDeleteConfirm = null;
   state.showResetConfirm = false;
   state.showClientChat = false;
+  state.showCardModal = false;
+  state.cardClientId = null;
+  state.showConfirmModal = false;
+  state.confirmClientId = null;
+  state.confirmDraft = null;
+  state.showEditLogModal = false;
+  state.editLogClientId = null;
+  state.editLogIdx = null;
+  state.editLogDraft = null;
+  state.showRecordModal = false;
+  state.recordClientId = null;
   state.draft = null;
   state.editingClient = null;
   state.sharingClient = null;
@@ -1462,6 +1745,674 @@ function resetModalHtml() {
   </div></div>`;
 }
 
+// ---- subscription card (print / download) ----
+function showCardModal(id) { state.cardClientId = id; state.showCardModal = true; rerender(); }
+function memberCode(c) { return 'STK-' + String(c.id || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6).padEnd(6, 'X'); }
+function subscriptionCardHtml(c) {
+  const chipClass = c.status === 'active' ? '' : (c.status === 'cancelled' ? ' red' : ' gray');
+  const chipLabel = c.status === 'active' ? 'Active member' : c.status;
+  const sched = (c.schedule || []).map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(' · ') || 'No schedule';
+  const pct = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
+  return `<div class="scard">
+    <svg class="ringDeco" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="38" stroke="rgba(247,199,102,.5)" stroke-width="4" stroke-dasharray="60 40" stroke-linecap="round"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg>
+    <div class="scardIn">
+      <div class="scTop">
+        <span class="scBrand"><svg width="27" height="27" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" stroke="#F2F6EF"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg><span><b>Straka</b><small>Client Tracker</small></span></span>
+        <span class="scChip${chipClass}">${escapeHtml(chipLabel)}</span>
+      </div>
+      <div class="scMid">
+        <div class="scKicker">${escapeHtml(c.program)} · membership card</div>
+        <div class="scName">${escapeHtml(c.name)}</div>
+        <div class="scGrid">
+          <span class="scCell"><span class="l">Sessions</span><span class="v mono">${c.completed} / ${c.total}</span></span>
+          <span class="scCell"><span class="l">Schedule</span><span class="v">${sched}</span></span>
+          <span class="scCell"><span class="l">Fee</span><span class="v">${escapeHtml(c.fee || '—')}</span></span>
+          <span class="scCell"><span class="l">Payment</span><span class="v">${escapeHtml(c.paymentStatus || '—')}</span></span>
+          <span class="scCell"><span class="l">Member since</span><span class="v mono">${fmtDate(c.createdAt)}</span></span>
+        </div>
+        <div class="scBar"><i style="width:${pct}%"></i></div>
+        <div class="scBot">
+          <span class="scId"><b>ID</b>${escapeHtml(memberCode(c))}</span>
+          <span class="scFoot">${pct}% complete · verified live</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function cardModalHtml() {
+  const c = getClientById(state.cardClientId);
+  if (!c) return '';
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal" style="max-width:620px">
+    <header><span class="mIco gold">${I.card}</span><h3>Subscription card</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Print a physical card for ${escapeHtml(c.name)} or download it as an image to share.</div>
+    <div class="mBody">
+      <div class="scardStage">${subscriptionCardHtml(c)}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-pine" onclick="printSubscriptionCard('${c.id}')">${I.printer} Print card</button>
+        <button class="btn btn-gold" onclick="downloadCardPng('${c.id}')">${I.download} Download PNG</button>
+        <button class="btn btn-ghost" onclick="openRecordFromCard('${c.id}')" title="Full session record with auto check-ins &amp; confirmations">${I.doc} Subscription record</button>
+      </div>
+    </div>
+    <footer><button class="btn btn-ghost" onclick="closeAllModals()">Close</button></footer>
+  </div></div>`;
+}
+function printSubscriptionCard(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  const area = document.getElementById('printArea');
+  if (!area) { showToast('Print area missing — reload the page', 'warn'); return; }
+  area.innerHTML = subscriptionCardHtml(c);
+  document.body.classList.add('printing');
+  const cleanup = () => { document.body.classList.remove('printing'); area.innerHTML = ''; window.removeEventListener('afterprint', cleanup); };
+  window.addEventListener('afterprint', cleanup);
+  setTimeout(() => {
+    try { window.print(); } catch (e) {}
+    setTimeout(cleanup, 1200);
+  }, 80);
+}
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+function fitCanvasText(ctx, text, maxW, weight, px, family) {
+  ctx.font = `${weight} ${px}px ${family}`;
+  while (ctx.measureText(text).width > maxW && px > 16) { px -= 2; ctx.font = `${weight} ${px}px ${family}`; }
+  return px;
+}
+async function renderCardCanvas(c) {
+  const W = 1200, H = 757, R = 44;
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext('2d');
+  const DISP = '"Bricolage Grotesque","Arial Black",sans-serif';
+  const BODY = '"Instrument Sans","Helvetica Neue",Arial,sans-serif';
+  const MONO = '"IBM Plex Mono","Courier New",monospace';
+  try {
+    await Promise.all([
+      document.fonts.load('800 92px "Bricolage Grotesque"'),
+      document.fonts.load('800 56px "Bricolage Grotesque"'),
+      document.fonts.load('600 34px "Instrument Sans"'),
+      document.fonts.load('600 26px "IBM Plex Mono"'),
+      document.fonts.load('500 19px "IBM Plex Mono"')
+    ]);
+  } catch (e) {}
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#0A2A21'); g.addColorStop(0.55, '#0E3B2E'); g.addColorStop(1, '#155844');
+  roundRectPath(ctx, 0, 0, W, H, R);
+  ctx.fillStyle = g; ctx.fill();
+  ctx.save();
+  roundRectPath(ctx, 0, 0, W, H, R); ctx.clip();
+  ctx.strokeStyle = 'rgba(234,242,236,.045)'; ctx.lineWidth = 2;
+  for (let x = 28; x < W; x += 56) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 28; y < H; y += 56) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  const rg = ctx.createRadialGradient(W * 0.9, -60, 20, W * 0.9, -60, 520);
+  rg.addColorStop(0, 'rgba(239,165,28,.22)'); rg.addColorStop(1, 'rgba(239,165,28,0)');
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+  ctx.setLineDash([30, 24]);
+  ctx.strokeStyle = 'rgba(247,199,102,.55)'; ctx.lineWidth = 13; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.arc(W - 160, 116, 98, -Math.PI * 0.95, Math.PI * 0.6); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#EFA51C'; ctx.beginPath(); ctx.arc(W - 160, 116, 27, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#F2F6EF'; ctx.lineWidth = 11;
+  ctx.beginPath(); ctx.arc(88, 96, 30, -Math.PI / 2, Math.PI * 0.95); ctx.stroke();
+  ctx.fillStyle = '#EFA51C'; ctx.beginPath(); ctx.arc(88, 96, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#FBFCF8';
+  ctx.font = `800 56px ${DISP}`;
+  ctx.fillText('Straka', 136, 96);
+  ctx.font = `500 19px ${MONO}`;
+  try { ctx.letterSpacing = '7px'; } catch (e) {}
+  ctx.fillStyle = '#BFD4C6';
+  ctx.fillText('CLIENT TRACKER', 138, 128);
+  try { ctx.letterSpacing = '0px'; } catch (e) {}
+  const chipLabel = (c.status === 'active' ? 'ACTIVE MEMBER' : String(c.status || 'active').toUpperCase());
+  ctx.font = `700 21px ${MONO}`;
+  const chipW = ctx.measureText(chipLabel).width + 44;
+  const chipX = W - 320 - chipW, chipY = 52;
+  ctx.fillStyle = c.status === 'active' ? 'rgba(239,165,28,.14)' : 'rgba(234,242,236,.08)';
+  roundRectPath(ctx, chipX, chipY, chipW, 46, 23); ctx.fill();
+  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = c.status === 'cancelled' ? 'rgba(229,122,95,.6)' : c.status === 'active' ? 'rgba(247,199,102,.6)' : 'rgba(234,242,236,.35)';
+  roundRectPath(ctx, chipX, chipY, chipW, 46, 23); ctx.stroke();
+  ctx.fillStyle = c.status === 'active' ? '#F7C766' : c.status === 'cancelled' ? '#F1B0A0' : '#DCE7DD';
+  ctx.fillText(chipLabel, chipX + 22, chipY + 31);
+  ctx.font = `600 23px ${MONO}`;
+  try { ctx.letterSpacing = '6px'; } catch (e) {}
+  ctx.fillStyle = '#F7C766';
+  ctx.fillText(`${String(c.program || 'General').toUpperCase()} · MEMBERSHIP CARD`, 88, 306);
+  try { ctx.letterSpacing = '0px'; } catch (e) {}
+  ctx.fillStyle = '#FBFCF8';
+  fitCanvasText(ctx, c.name || 'Client', W - 176, 800, 92, DISP);
+  ctx.fillText(c.name || 'Client', 88, 396);
+  const sched = (c.schedule || []).map(s => `${s.day} ${s.time}`).join(' · ') || 'No schedule';
+  const cellRow = (cells, yL, yV) => {
+    let cx = 88;
+    cells.forEach(cell => {
+      ctx.font = `600 18px ${MONO}`;
+      try { ctx.letterSpacing = '4px'; } catch (e) {}
+      ctx.fillStyle = 'rgba(234,242,236,.55)';
+      ctx.fillText(cell.l, cx, yL);
+      try { ctx.letterSpacing = '0px'; } catch (e) {}
+      fitCanvasText(ctx, cell.v, cell.max, 600, 32, cell.mono ? MONO : BODY);
+      ctx.fillStyle = '#F2F6EC';
+      ctx.fillText(cell.v, cx, yV);
+      cx += Math.max(ctx.measureText(cell.v).width, 110) + 64;
+    });
+  };
+  cellRow([
+    { l: 'SESSIONS', v: `${c.completed} / ${c.total}`, mono: true, max: 220 },
+    { l: 'SCHEDULE', v: sched, max: 430 },
+    { l: 'FEE', v: c.fee || '—', max: 220 }
+  ], 474, 512);
+  cellRow([
+    { l: 'PAYMENT', v: c.paymentStatus || '—', max: 200 },
+    { l: 'MEMBER SINCE', v: fmtDate(c.createdAt), mono: true, max: 240 }
+  ], 578, 616);
+  const pct = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
+  const bx = 88, bw = W - 176, by = 652, bh = 14;
+  ctx.fillStyle = 'rgba(234,242,236,.16)';
+  roundRectPath(ctx, bx, by, bw, bh, bh / 2); ctx.fill();
+  if (pct > 0) {
+    const bg2 = ctx.createLinearGradient(bx, 0, bx + bw, 0);
+    bg2.addColorStop(0, '#EFA51C'); bg2.addColorStop(1, '#F7C766');
+    ctx.fillStyle = bg2;
+    roundRectPath(ctx, bx, by, Math.max(bh, bw * pct / 100), bh, bh / 2); ctx.fill();
+  }
+  ctx.font = `600 26px ${MONO}`;
+  ctx.fillStyle = '#F7C766';
+  ctx.fillText('ID', 88, 716);
+  const idW = ctx.measureText('ID').width;
+  ctx.fillStyle = 'rgba(234,242,236,.85)';
+  ctx.fillText(memberCode(c), 88 + idW + 18, 716);
+  ctx.font = `500 19px ${MONO}`;
+  try { ctx.letterSpacing = '5px'; } catch (e) {}
+  ctx.fillStyle = 'rgba(234,242,236,.5)';
+  const foot = `${pct}% COMPLETE · VERIFIED LIVE · STRAKA`;
+  ctx.fillText(foot, W - 88 - ctx.measureText(foot).width, 716);
+  try { ctx.letterSpacing = '0px'; } catch (e) {}
+  ctx.restore();
+  return cv;
+}
+async function downloadCardPng(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  showToast('Rendering card image…', 'info');
+  try {
+    const cv = await renderCardCanvas(c);
+    const slug = (c.name || 'client').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'client';
+    const a = document.createElement('a');
+    a.download = 'straka-card-' + slug + '.png';
+    if (cv.toBlob) {
+      const blob = await new Promise(res => cv.toBlob(res, 'image/png'));
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } else {
+      a.href = cv.toDataURL('image/png');
+      a.click();
+    }
+    showToast('Subscription card downloaded', 'ok');
+  } catch (err) {
+    showToast('Could not render the card: ' + err.message, 'warn');
+  }
+}
+
+// ============================
+// SESSION EDIT HELPERS
+// ============================
+function normTimeInput(t) { const hm = parseHM(t); return hm ? String(hm.h).padStart(2, '0') + ':' + String(hm.m).padStart(2, '0') : ''; }
+function combineDateTime(dateKey, time) {
+  const dm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateKey || ''));
+  const hm = parseHM(time);
+  if (!dm || !hm) return null;
+  return new Date(+dm[1], +dm[2] - 1, +dm[3], hm.h, hm.m, 0, 0).getTime();
+}
+
+// ============================
+// CONFIRM SESSION (editable details)
+// ============================
+function setConfirmDraft(k, v) { if (state.confirmDraft) state.confirmDraft[k] = v; }
+function saveConfirmSession() {
+  const c = getClientById(state.confirmClientId);
+  const d = state.confirmDraft;
+  if (!c || !d) return;
+  const live = getLiveSession(c);
+  if (!live || live.state !== 'checked_in') { showToast('No active check-in to confirm', 'warn'); closeAllModals(); return; }
+  if (c.completed >= c.total) { showToast('Subscription already completed — renew to continue', 'warn'); closeAllModals(); return; }
+  const when = combineDateTime(d.date, d.time);
+  if (!when) { showToast('Enter a valid session date and time', 'warn'); return; }
+  const note = (d.note || '').trim();
+  const edited = d.date !== dateKeyOf(live.occ) || normTimeInput(d.time) !== normTimeInput(live.s.time);
+  c.completed += 1;
+  c.logs = c.logs || [];
+  c.logs.push({
+    idx: c.completed, ts: when,
+    dateStr: new Date(when).toLocaleDateString(), dateKey: dateKeyOf(when),
+    day: live.s.day, time: live.s.time, source: 'auto-checkin',
+    occDateKey: dateKeyOf(live.occ),   // anchored to the scheduled slot → reschedule-safe
+    confirmedTs: Date.now(),
+    note: note, edited: edited
+  });
+  state.showConfirmModal = false;
+  state.confirmClientId = null;
+  state.confirmDraft = null;
+  if (c.completed === c.total) showToast(`${c.name} completed the subscription — time to renew`, 'ok');
+  else showToast(`Confirmed: session ${c.completed}/${c.total} done for ${c.name}`, 'ok');
+  commit();
+}
+function confirmSessionModalHtml() {
+  const c = getClientById(state.confirmClientId);
+  const d = state.confirmDraft;
+  if (!c || !d) return '';
+  const live = getLiveSession(c);
+  if (!live || live.state !== 'checked_in') return '';
+  const edited = d.date !== dateKeyOf(live.occ) || normTimeInput(d.time) !== normTimeInput(live.s.time);
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco gold">${I.check}</span><h3>Confirm session done</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Auto checked-in <b>${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)}</b>. If the session was rescheduled or held at a different time, adjust the details before confirming.</div>
+    <div class="mBody">
+      <div class="liveStrip" style="margin-bottom:2px;padding:10px 14px">
+        <span class="pulseDot"></span>
+        <div class="liveInfo">
+          <b class="disp" style="font-size:13.5px">Session ${c.completed + 1} of ${c.total}</b>
+          <div class="liveSub">Scheduled slot: ${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} · ${escapeHtml(c.program)}</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <label>Happened on<input class="input" type="date" value="${escapeHtml(d.date)}" onchange="setConfirmDraft('date',this.value);rerender()"></label>
+        <label>At<input class="input" type="time" value="${escapeHtml(d.time)}" onchange="setConfirmDraft('time',this.value);rerender()"></label>
+      </div>
+      <label>Note (optional)<textarea class="input" rows="2" oninput="setConfirmDraft('note',this.value)" placeholder="e.g. rescheduled from ${escapeHtml(live.s.day)} ${escapeHtml(live.s.time)} at client's request…">${escapeHtml(d.note)}</textarea></label>
+      ${edited ? '<div class="reqNote">Details adjusted — the record will show the session as held at the edited date &amp; time. The weekly schedule stays unchanged.</div>' : ''}
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveConfirmSession()">${I.check} Confirm done</button>
+    </footer>
+  </div></div>`;
+}
+
+// ============================
+// EDIT PAST SESSION DETAILS
+// ============================
+function showEditLog(clientId, idx) {
+  const c = getClientById(clientId);
+  if (!c) return;
+  const log = (c.logs || []).find(l => l.idx === idx && l.type !== 'no_show');
+  if (!log) return;
+  state.editLogClientId = clientId;
+  state.editLogIdx = idx;
+  state.editLogDraft = {
+    date: dateKeyOf(log.ts),
+    time: normTimeInput(new Date(log.ts).toTimeString().slice(0, 5)),
+    note: log.note || ''
+  };
+  state.showEditLogModal = true;
+  rerender();
+}
+function setEditLogDraft(k, v) { if (state.editLogDraft) state.editLogDraft[k] = v; }
+function saveEditLog() {
+  const c = getClientById(state.editLogClientId);
+  const d = state.editLogDraft;
+  if (!c || !d) return;
+  const log = (c.logs || []).find(l => l.idx === state.editLogIdx && l.type !== 'no_show');
+  if (!log) { closeAllModals(); return; }
+  const when = combineDateTime(d.date, d.time);
+  if (!when) { showToast('Enter a valid session date and time', 'warn'); return; }
+  // keep the anchor to the slot this log fulfils (reschedule-safe dedup)
+  if (!log.occDateKey && log.day && log.time) log.occDateKey = log.dateKey || dateKeyOf(log.ts);
+  log.ts = when;
+  log.dateStr = new Date(when).toLocaleDateString();
+  log.dateKey = dateKeyOf(when);
+  log.confirmedTs = log.confirmedTs || when;
+  log.note = (d.note || '').trim();
+  log.edited = true;
+  state.showEditLogModal = false;
+  state.editLogClientId = null;
+  state.editLogIdx = null;
+  state.editLogDraft = null;
+  showToast(`Session ${log.idx} updated`, 'ok');
+  commit();
+}
+function editLogModalHtml() {
+  const d = state.editLogDraft;
+  if (!d) return '';
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco">${I.pencil}</span><h3>Edit session ${state.editLogIdx || ''}</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Correct the details of a session that was already confirmed — e.g. it was rescheduled or logged at the wrong time.</div>
+    <div class="mBody">
+      <div class="grid-2">
+        <label>Held on<input class="input" type="date" value="${escapeHtml(d.date)}" onchange="setEditLogDraft('date',this.value);rerender()"></label>
+        <label>At<input class="input" type="time" value="${escapeHtml(d.time)}" onchange="setEditLogDraft('time',this.value);rerender()"></label>
+      </div>
+      <label>Note (optional)<textarea class="input" rows="2" oninput="setEditLogDraft('note',this.value)" placeholder="e.g. moved from the usual slot at client's request">${escapeHtml(d.note)}</textarea></label>
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-pine" onclick="saveEditLog()">${I.check} Save changes</button>
+    </footer>
+  </div></div>`;
+}
+
+// ============================
+// SUBSCRIPTION RECORD (PDF / print)
+// ============================
+const MONTHS_PDF = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function fmtDatePdf(ts) { const d = new Date(ts); return d.getDate() + ' ' + MONTHS_PDF[d.getMonth()] + ' ' + d.getFullYear(); }
+function fmtTimePdf(ts) { const d = new Date(ts); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+
+function showRecordModal(id) { state.recordClientId = id; state.showRecordModal = true; rerender(); }
+function openRecordFromCard(id) { state.showCardModal = false; state.cardClientId = null; showRecordModal(id); }
+
+function recordData(c) {
+  const logs = (c.logs || []).filter(l => l.type !== 'no_show').slice().sort((a, b) => (a.idx || 0) - (b.idx || 0));
+  const noShows = (c.logs || []).filter(l => l.type === 'no_show').slice().sort((a, b) => a.ts - b.ts);
+  const pct = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
+  const checkinLabel = l => {
+    if (l.source !== 'auto-checkin') return 'Manual';
+    const d = l.occDateKey ? combineDateTime(l.occDateKey, l.time || '00:00')
+      : (l.day && l.time ? combineDateTime(dateKeyOf(l.ts), l.time) : null);
+    return 'Auto · ' + (d ? fmtDatePdf(d) + ' ' + fmtTimePdf(d) : (l.day && l.time ? l.day + ' ' + l.time : fmtDatePdf(l.ts)));
+  };
+  return {
+    name: c.name, program: c.program || 'General', status: c.status || 'active',
+    memberCode: memberCode(c), memberSince: fmtDatePdf(c.createdAt),
+    fee: c.fee || '—', payment: c.paymentStatus || '—',
+    total: c.total, completed: c.completed, remaining: Math.max(0, c.total - c.completed), pct: pct,
+    schedule: (c.schedule || []).map(s => `${s.day} ${s.time}`).join(' · ') || 'No schedule',
+    cycleStart: logs.length ? fmtDatePdf(logs[0].ts) : fmtDatePdf(c.createdAt),
+    cycleEnd: (c.completed >= c.total && logs.length) ? fmtDatePdf(logs[logs.length - 1].ts) : 'ongoing',
+    generatedAt: fmtDatePdf(Date.now()) + ' ' + fmtTimePdf(Date.now()),
+    rows: logs.map(l => ({
+      n: l.idx || '',
+      date: fmtDatePdf(l.ts),
+      time: fmtTimePdf(l.ts),
+      slot: (l.day && l.time) ? `${l.day} ${l.time}` : '—',
+      checkin: checkinLabel(l),
+      confirmed: fmtDatePdf(l.confirmedTs || l.ts) + ' ' + fmtTimePdf(l.confirmedTs || l.ts),
+      note: l.note || (l.edited ? 'details edited by instructor' : '')
+    })),
+    noShows: noShows.map(l => ({
+      date: fmtDatePdf(l.ts),
+      slot: (l.day && l.time) ? `${l.day} ${l.time}` : '—'
+    }))
+  };
+}
+
+function recordHtml(c) {
+  const r = recordData(c);
+  const statusChip = String(r.status).toUpperCase();
+  return `<div class="recordSheet"><div class="rsIn">
+    <div class="rsHead">
+      <span class="rsBrand"><svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#0E3B2E" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg><span><b>Straka</b><small>Client Tracker</small></span></span>
+      <span class="rsDoc"><b>Subscription Record</b><small>official session log · ${escapeHtml(r.memberCode)}</small></span>
+    </div>
+    <div class="rsName">${escapeHtml(r.name)}</div>
+    <div class="rsSub">${escapeHtml(r.program)} <span class="rsChip">${escapeHtml(statusChip)}</span> <span>member since ${escapeHtml(r.memberSince)}</span></div>
+    <div class="rsGrid">
+      <span class="rsCell"><span class="l">Sessions</span><span class="v mono">${r.completed} / ${r.total}</span></span>
+      <span class="rsCell"><span class="l">Remaining</span><span class="v mono">${r.remaining}</span></span>
+      <span class="rsCell"><span class="l">Fee</span><span class="v">${escapeHtml(r.fee)}</span></span>
+      <span class="rsCell"><span class="l">Payment</span><span class="v">${escapeHtml(r.payment)}</span></span>
+      <span class="rsCell"><span class="l">Weekly schedule</span><span class="v">${escapeHtml(r.schedule)}</span></span>
+      <span class="rsCell"><span class="l">Cycle</span><span class="v mono">${escapeHtml(r.cycleStart)} → ${escapeHtml(r.cycleEnd)}</span></span>
+    </div>
+    <div class="rsBarRow"><div class="rsBar"><i style="width:${r.pct}%"></i></div><span class="rsPct">${r.pct}%</span></div>
+    <div class="rsSecT">Session ledger</div>
+    <table class="rsTable">
+      <thead><tr><th>#</th><th>Held on</th><th>Time</th><th>Slot</th><th>Auto check-in</th><th>Confirmed</th><th>Note</th></tr></thead>
+      <tbody>
+        ${r.rows.length ? r.rows.map(row => `<tr>
+          <td class="mono">${row.n}</td><td class="mono">${escapeHtml(row.date)}</td><td class="mono">${escapeHtml(row.time)}</td>
+          <td>${escapeHtml(row.slot)}</td><td>${escapeHtml(row.checkin)}</td><td class="mono">${escapeHtml(row.confirmed)}</td>
+          <td class="rsNote">${escapeHtml(row.note) || '—'}</td>
+        </tr>`).join('') : '<tr><td colspan="7" class="rsEmpty">No sessions confirmed yet in this cycle.</td></tr>'}
+      </tbody>
+    </table>
+    ${r.noShows.length ? `<div class="rsSecT">No-shows</div><table class="rsTable"><tbody>
+      ${r.noShows.map(ns => `<tr><td class="mono">${escapeHtml(ns.date)}</td><td>${escapeHtml(ns.slot)}</td><td class="rsNote">Auto check-in recorded — session not confirmed</td></tr>`).join('')}
+    </tbody></table>` : ''}
+    <div class="rsFoot">Generated ${escapeHtml(r.generatedAt)} · auto check-in is logged at the scheduled slot time · confirmation is logged when the coach confirms · Straka Lite · ${escapeHtml(r.memberCode)}</div>
+  </div></div>`;
+}
+
+function recordModalHtml() {
+  const c = getClientById(state.recordClientId);
+  if (!c) return '';
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal" style="max-width:880px">
+    <header><span class="mIco gold">${I.doc}</span><h3>Subscription record</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">Full session record for <b>${escapeHtml(c.name)}</b> — every auto check-in, coach confirmation and subscription detail. Share it whenever a client asks when a session happened.</div>
+    <div class="mBody">
+      <div class="recordStage">${recordHtml(c)}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-pine" onclick="downloadRecordPdf('${c.id}')">${I.download} Download PDF</button>
+        <button class="btn btn-ghost" onclick="printRecord('${c.id}')">${I.printer} Print record</button>
+      </div>
+    </div>
+    <footer><button class="btn btn-ghost" onclick="closeAllModals()">Close</button></footer>
+  </div></div>`;
+}
+
+function printRecord(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  const area = document.getElementById('printArea');
+  if (!area) { showToast('Print area missing — reload the page', 'warn'); return; }
+  area.innerHTML = recordHtml(c);
+  document.body.classList.add('printing', 'print-record');
+  const cleanup = () => { document.body.classList.remove('printing', 'print-record'); area.innerHTML = ''; window.removeEventListener('afterprint', cleanup); };
+  window.addEventListener('afterprint', cleanup);
+  setTimeout(() => {
+    try { window.print(); } catch (e) {}
+    setTimeout(cleanup, 1200);
+  }, 80);
+}
+
+// ---- PDF engine (lazy-loaded jsPDF, print fallback when offline) ----
+const JSPDF_CDNS = [
+  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+  'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js'
+];
+let jsPdfPromise = null;
+function loadJsPdf() {
+  if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+  if (jsPdfPromise) return jsPdfPromise;
+  jsPdfPromise = (async () => {
+    for (const url of JSPDF_CDNS) {
+      try {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = url;
+          s.onload = resolve;
+          s.onerror = () => { s.remove(); reject(new Error('load error')); };
+          document.head.appendChild(s);
+          setTimeout(() => reject(new Error('timeout')), 15000);
+        });
+        if (window.jspdf && window.jspdf.jsPDF) return window.jspdf.jsPDF;
+      } catch (e) {}
+    }
+    throw new Error('PDF engine unavailable');
+  })();
+  return jsPdfPromise;
+}
+function recordFileSlug(c) {
+  const slug = (c.name || 'client').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'client';
+  return 'straka-record-' + slug + '-' + dateKeyOf(Date.now()) + '.pdf';
+}
+async function downloadRecordPdf(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  showToast('Building subscription record…', 'info');
+  try {
+    const jsPDF = await loadJsPdf();
+    buildRecordPdf(jsPDF, c);
+    showToast('Subscription record downloaded', 'ok');
+  } catch (err) {
+    showToast('PDF engine unavailable — opening print dialog (choose "Save as PDF")', 'warn');
+    printRecord(id);
+  }
+}
+
+function buildRecordPdf(jsPDF, c) {
+  const r = recordData(c);
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const PW = 210, PH = 297, ML = 16, MR = 194;
+  const CW = MR - ML;
+  const PINE = [14, 59, 46], GOLD = [239, 165, 28], INK = [31, 42, 36],
+        MUT = [107, 122, 112], LINE = [214, 226, 217], ZEBRA = [245, 248, 244];
+  const setFill = col => doc.setFillColor(col[0], col[1], col[2]);
+  const setText = col => doc.setTextColor(col[0], col[1], col[2]);
+  const setDraw = col => doc.setDrawColor(col[0], col[1], col[2]);
+
+  // header band
+  setFill(PINE); doc.rect(0, 0, PW, 30, 'F');
+  setFill(GOLD); doc.circle(25, 15, 5, 'F');
+  setDraw([242, 246, 239]); doc.setLineWidth(1.4);
+  try { doc.setLineDashPattern([2.6, 2.2], 0); } catch (e) {}
+  doc.circle(25, 15, 9.4, 'S');
+  try { doc.setLineDashPattern([], 0); } catch (e) {}
+  setText([251, 252, 248]); doc.setFont('helvetica', 'bold'); doc.setFontSize(17);
+  doc.text('Straka', 38, 14);
+  setText([191, 212, 198]); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+  doc.text('C L I E N T   T R A C K E R', 38.5, 20);
+  setText(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(13.5);
+  doc.text('SUBSCRIPTION RECORD', MR, 13.5, { align: 'right' });
+  setText([213, 228, 216]); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+  doc.text('OFFICIAL SESSION LOG · ' + r.memberCode, MR, 20, { align: 'right' });
+
+  let y = 44;
+  // client name + status chip
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
+  const chipLabel = String(r.status).toUpperCase();
+  const chipW = doc.getTextWidth(chipLabel) + 9;
+  setFill([250, 233, 197]); doc.roundedRect(MR - chipW, y - 6.2, chipW, 7.4, 3.7, 3.7, 'F');
+  setText([34, 24, 3]); doc.text(chipLabel, MR - chipW / 2, y - 1.3, { align: 'center' });
+  setText(INK); doc.setFontSize(21);
+  doc.text(doc.splitTextToSize(r.name, CW - chipW - 10)[0], ML, y);
+  y += 6.5;
+  setText(MUT); doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5);
+  doc.text(r.program + '  ·  member since ' + r.memberSince, ML, y);
+  y += 4.5;
+  setDraw(LINE); doc.setLineWidth(0.4); doc.line(ML, y, MR, y);
+  y += 8;
+
+  // info grid (2 rows x 3 columns)
+  const gridRows = [
+    [['SESSIONS', r.completed + ' / ' + r.total], ['REMAINING', String(r.remaining)], ['FEE', r.fee]],
+    [['PAYMENT', r.payment], ['WEEKLY SCHEDULE', r.schedule], ['CYCLE', r.cycleStart + '  ->  ' + r.cycleEnd]]
+  ];
+  gridRows.forEach(row => {
+    row.forEach((cellDef, ci) => {
+      const x = ML + ci * 60;
+      setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(7);
+      doc.text(cellDef[0], x, y);
+      setText(INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+      doc.text(doc.splitTextToSize(cellDef[1], 54)[0], x, y + 4.8);
+    });
+    y += 12;
+  });
+
+  // progress bar
+  setFill([231, 238, 232]); doc.roundedRect(ML, y - 2, CW, 4.6, 2.3, 2.3, 'F');
+  if (r.pct > 0) { setFill(GOLD); doc.roundedRect(ML, y - 2, Math.max(4.6, CW * r.pct / 100), 4.6, 2.3, 2.3, 'F'); }
+  setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(8);
+  doc.text(r.pct + '% COMPLETE', MR, y + 6.5, { align: 'right' });
+  y += 14;
+
+  // section title helper
+  const sectionTitle = t => {
+    setText(INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(11.5);
+    doc.text(t, ML, y);
+    setDraw(GOLD); doc.setLineWidth(0.8); doc.line(ML, y + 2.2, ML + 34, y + 2.2);
+    setDraw(LINE); doc.setLineWidth(0.3); doc.line(ML + 34, y + 2.2, MR, y + 2.2);
+    y += 8;
+  };
+  sectionTitle('Session ledger');
+
+  // table geometry
+  const cols = [
+    { x: ML,        w: 9,          k: '#' },
+    { x: ML + 9,    w: 26,         k: 'HELD ON' },
+    { x: ML + 35,   w: 13,         k: 'TIME' },
+    { x: ML + 48,   w: 21,         k: 'SLOT' },
+    { x: ML + 69,   w: 40,         k: 'AUTO CHECK-IN' },
+    { x: ML + 109,  w: 30,         k: 'CONFIRMED' },
+    { x: ML + 139,  w: CW - 139,   k: 'NOTE' }
+  ];
+  const drawTableHead = () => {
+    setFill(PINE); doc.rect(ML, y, CW, 7.5, 'F');
+    setText([242, 246, 239]); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.2);
+    cols.forEach(col => doc.text(col.k, col.x + 1.8, y + 5));
+    y += 7.5;
+  };
+  drawTableHead();
+  const pageBreak = h => { if (y + h > PH - 18) { doc.addPage(); y = 18; drawTableHead(); } };
+
+  if (!r.rows.length) {
+    setText(MUT); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    doc.text('No sessions confirmed yet in this cycle.', ML + 2, y + 5);
+    y += 10;
+  }
+  r.rows.forEach((row, i) => {
+    doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+    const checkLines = doc.splitTextToSize(row.checkin, cols[4].w - 3);
+    const noteLines = doc.splitTextToSize(row.note || '-', cols[6].w - 3.5);
+    const lineCount = Math.max(checkLines.length, noteLines.length, 1);
+    const rowH = Math.max(7.5, lineCount * 3.6 + 3.4);
+    pageBreak(rowH + 2);
+    if (i % 2 === 1) { setFill(ZEBRA); doc.rect(ML, y, CW, rowH, 'F'); }
+    const baseY = y + 5;
+    setText(INK); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+    doc.text(String(row.n), cols[0].x + 1.8, baseY);
+    doc.text(row.date, cols[1].x + 1.8, baseY);
+    doc.text(row.time, cols[2].x + 1.8, baseY);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text(row.slot, cols[3].x + 1.8, baseY);
+    doc.setFontSize(7.5);
+    doc.text(checkLines, cols[4].x + 1.8, baseY);
+    doc.text(row.confirmed, cols[5].x + 1.8, baseY);
+    setText(row.note ? INK : MUT);
+    doc.text(noteLines, cols[6].x + 1.8, baseY);
+    setDraw(LINE); doc.setLineWidth(0.2); doc.line(ML, y + rowH, MR, y + rowH);
+    y += rowH;
+  });
+
+  if (r.noShows.length) {
+    y += 2;
+    setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(6.8);
+    doc.text('AUTO CHECK-IN = SCHEDULED SLOT TIME  ·  CONFIRMED = COACH CONFIRMATION', ML, y + 3);
+    y += 7;
+    if (y + 20 > PH - 18) { doc.addPage(); y = 18; }
+    sectionTitle('No-shows');
+    r.noShows.forEach(ns => {
+      if (y + 8 > PH - 18) { doc.addPage(); y = 18; }
+      setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+      doc.text(ns.date, ML + 1.8, y + 4);
+      setText(INK); doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+      doc.text(ns.slot + '  -  auto check-in recorded, session not confirmed', ML + 30, y + 4);
+      setDraw(LINE); doc.setLineWidth(0.2); doc.line(ML, y + 5.6, MR, y + 5.6);
+      y += 6.6;
+    });
+  }
+
+  // footers on every page
+  const pages = doc.getNumberOfPages();
+  for (let p = 1; p <= pages; p++) {
+    doc.setPage(p);
+    setDraw(LINE); doc.setLineWidth(0.3); doc.line(ML, PH - 12, MR, PH - 12);
+    setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(6.8);
+    doc.text('GENERATED ' + r.generatedAt.toUpperCase() + '  ·  STRAKA LITE  ·  ' + r.memberCode, ML, PH - 8);
+    doc.text('PAGE ' + p + ' / ' + pages, MR, PH - 8, { align: 'right' });
+  }
+  doc.save(recordFileSlug(c));
+}
+
 // ============================
 // ACTIONS
 // ============================
@@ -1580,7 +2531,11 @@ function markSessionDone(id) {
   c.completed += 1;
   const now = Date.now();
   c.logs = c.logs || [];
-  c.logs.push({ idx: c.completed, ts: now, dateStr: new Date(now).toLocaleDateString() });
+  const stamp = matchScheduleNow(c); // tag the log so today's auto check-in doesn't double-fire
+  c.logs.push(Object.assign(
+    { idx: c.completed, ts: now, dateStr: new Date(now).toLocaleDateString(), dateKey: dateKeyOf(now) },
+    stamp ? { day: stamp.day, time: stamp.time, occDateKey: dateKeyOf(now) } : {}
+  ));
   if (c.completed === c.total) showToast(`${c.name} completed the subscription — time to renew`, 'ok');
   else showToast(`Session ${c.completed}/${c.total} done`, 'ok');
   commit();
@@ -1591,6 +2546,37 @@ function undoLastSession(id) {
   c.logs = (c.logs || []).filter(l => l.idx !== c.completed);
   c.completed -= 1;
   showToast('Last session undone', 'warn');
+  commit();
+}
+
+// ---- auto check-in actions (instructor) ----
+// Confirming now opens a dialog so the instructor can correct the session
+// details first — e.g. the session was rescheduled and actually happened at a
+// different time or day than the slot the auto check-in fired on.
+function confirmLiveSession(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  const live = getLiveSession(c);
+  if (!live || live.state !== 'checked_in') { showToast('No active check-in to confirm', 'warn'); return; }
+  if (c.completed >= c.total) { showToast('Subscription already completed — renew to continue', 'warn'); return; }
+  state.confirmClientId = id;
+  state.confirmDraft = { date: dateKeyOf(Date.now()), time: normTimeInput(live.s.time), note: '' };
+  state.showConfirmModal = true;
+  rerender();
+}
+function noShowLiveSession(id) {
+  const c = getClientById(id);
+  if (!c) return;
+  const live = getLiveSession(c);
+  if (!live || live.state !== 'checked_in') return;
+  const now = Date.now();
+  c.logs = c.logs || [];
+  c.logs.push({
+    ts: now, type: 'no_show', dateKey: dateKeyOf(now),
+    day: live.s.day, time: live.s.time, source: 'auto-checkin',
+    occDateKey: dateKeyOf(live.occ)
+  });
+  showToast(`${c.name} marked no-show for ${live.s.day} ${live.s.time}`, 'warn');
   commit();
 }
 
@@ -1739,7 +2725,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     const any = state.showSettings || state.showAddEditModal || state.showShareModal ||
                 state.showRenewModal || state.showDeleteConfirm || state.showResetConfirm ||
-                state.showClientChat;
+                state.showClientChat || state.showCardModal || state.showConfirmModal ||
+                state.showEditLogModal || state.showRecordModal;
     if (any) closeAllModals();
   }
 });
@@ -1748,5 +2735,5 @@ window.addEventListener('offline', () => { state.syncStatus = 'offline'; renderS
 initTheme();
 initData();
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</body>
 </html>
