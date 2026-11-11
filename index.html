@@ -76,6 +76,9 @@
 --sh:0 1px 2px rgba(13,37,29,.05),0 10px 28px -18px rgba(13,37,29,.22);
 --sh2:0 2px 6px rgba(13,37,29,.08),0 26px 52px -26px rgba(13,37,29,.35);
 --ease:cubic-bezier(.2,.7,.2,1);
+--on-pine:#F3F7EF; --on-gold:#221703;
+--card-a:#0A2A21; --card-b:#0E3B2E; --card-c:#155844;
+--brand-ink:#0E3B2E; --accent-solid:#EFA51C; --accent-soft:#F7C766;
 }
 [data-theme="dark"]{
 --bg:#0E1A15; --paper:#14231D; --ink:#EAF2EC; --mut:#9FB8A9;
@@ -156,11 +159,11 @@ color:#F2F6EF;transition:opacity .6s ease,visibility .6s ease;
 .syncBadge .dot.offline{background:var(--red)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,138,91,.5)}70%{box-shadow:0 0 0 8px rgba(31,138,91,0)}100%{box-shadow:0 0 0 0 rgba(31,138,91,0)}}
 .iconBtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;color:var(--pine);transition:.18s;position:relative}
-.iconBtn:hover{background:var(--pine);color:#EAF2EC;transform:translateY(-1px)}
+.iconBtn:hover{background:var(--pine);color:var(--on-pine);transform:translateY(-1px)}
 .iconBtn svg{width:17px;height:17px}
 .iconBtn.xs{width:34px;height:34px;border-radius:8px}
 .iconBtn.xs svg{width:13px;height:13px}
-.chatBadge{position:absolute;top:-5px;right:-5px;background:var(--gold);color:#221703;font:700 9px var(--mono);min-width:17px;height:17px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.chatBadge{position:absolute;top:-5px;right:-5px;background:var(--gold);color:var(--on-gold);font:700 9px var(--mono);min-width:17px;height:17px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 
 /* ============ TABS ============ */
 .tabs{max-width:1180px;margin:0 auto;padding:22px 24px 0;overflow-x:auto}
@@ -173,9 +176,9 @@ color:#F2F6EF;transition:opacity .6s ease,visibility .6s ease;
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 13px var(--body);padding:10px 16px;border-radius:var(--r-sm);border:1px solid transparent;transition:.18s;letter-spacing:.01em;text-decoration:none;white-space:nowrap;cursor:pointer}
 .btn:active{transform:translateY(1px) scale(.99)}
 .btn svg{width:15px;height:15px;flex:none}
-.btn-pine{background:var(--pine);color:#F3F7EF}
+.btn-pine{background:var(--pine);color:var(--on-pine)}
 .btn-pine:hover{background:var(--pine3);box-shadow:0 10px 22px -10px rgba(14,59,46,.55)}
-.btn-gold{background:var(--gold);color:#221703}
+.btn-gold{background:var(--gold);color:var(--on-gold)}
 .btn-gold:hover{background:var(--gold2);box-shadow:0 10px 22px -10px rgba(239,165,28,.6)}
 .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
 .btn-ghost:hover{background:rgba(14,59,46,.07);border-color:var(--pine)}
@@ -230,7 +233,7 @@ main{padding:22px 0 60px}
 
 /* ============ TAGS ============ */
 .tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--paper);color:var(--mut)}
-.tag-solid{background:var(--pine);color:#F3F7EF;border-color:var(--pine)}
+.tag-solid{background:var(--pine);color:var(--on-pine);border-color:var(--pine)}
 .tag-gold{background:var(--gold);color:#221703;border-color:var(--gold)}
 .tag-success{background:var(--ok);color:#fff;border-color:var(--ok)}
 .tag-done{background:var(--ok-bg);color:var(--ok);border-color:transparent}
@@ -256,7 +259,7 @@ main{padding:22px 0 60px}
 .tl-line{position:absolute;left:16px;top:16px;bottom:16px;width:2px;background:var(--line2);z-index:1}
 .timeline-item{display:flex;gap:14px;padding:7px 0;position:relative}
 .timeline-dot{flex:none;width:34px;height:34px;border-radius:50%;background:var(--paper);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;z-index:2;color:var(--mut);font:600 11px var(--mono);transition:.2s}
-.timeline-dot.done{background:var(--pine);border-color:var(--pine);color:#EAF2EC}
+.timeline-dot.done{background:var(--pine);border-color:var(--pine);color:var(--on-pine)}
 .timeline-dot.next{background:var(--gold);border-color:var(--gold);color:#221703;box-shadow:0 0 0 5px var(--amber-bg)}
 .timeline-dot svg{width:14px;height:14px;stroke-width:3;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 .timeline-card{flex:1;min-width:0;border-radius:11px;border:1px solid var(--line);background:var(--paper);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:.18s}
@@ -275,7 +278,7 @@ main{padding:22px 0 60px}
 .chat-body.tall{max-height:380px}
 .chat-msg{max-width:78%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.45}
 .chat-msg.client{align-self:flex-start;background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:4px}
-.chat-msg.instructor{align-self:flex-end;background:var(--pine);color:#F2F6EF;border-bottom-right-radius:4px}
+.chat-msg.instructor{align-self:flex-end;background:var(--pine);color:var(--on-pine);border-bottom-right-radius:4px}
 .chat-msg.system{align-self:center;background:var(--amber-bg);border:1px dashed rgba(217,142,15,.4);color:var(--gold-ink);font-size:12px;border-radius:10px}
 .chat-meta{font-size:10px;opacity:.65;margin-top:4px;font-family:var(--mono)}
 .chat-input{padding:11px;border-top:1px solid var(--line);display:flex;gap:8px;background:var(--paper)}
@@ -296,7 +299,7 @@ main{padding:22px 0 60px}
 .modal.sm .mSub{margin-bottom:14px}
 .modal header{display:flex;align-items:center;gap:12px;padding:20px 24px 0}
 .modal header h3{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;flex:1}
-.mIco{width:38px;height:38px;border-radius:11px;background:var(--pine);color:#EAF2EC;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.mIco{width:38px;height:38px;border-radius:11px;background:var(--pine);color:var(--on-pine);display:inline-flex;align-items:center;justify-content:center;flex:none}
 .mIco svg{width:17px;height:17px}
 .mIco.gold{background:var(--gold);color:#221703}
 .mIco.red{background:var(--red);color:#fff}
@@ -321,7 +324,7 @@ main{padding:22px 0 60px}
 
 /* ============ TOASTS ============ */
 #toasts{position:fixed;bottom:22px;right:22px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:380px}
-.toast{background:var(--pine2);color:#F2F6EF;border-radius:12px;padding:12px 14px;font-size:13.5px;box-shadow:var(--sh2);display:flex;gap:11px;align-items:flex-start;animation:toastIn .35s var(--ease);border-left:4px solid var(--gold);transition:opacity .35s,transform .35s}
+.toast{background:var(--pine2);color:var(--on-pine);border-radius:12px;padding:12px 14px;font-size:13.5px;box-shadow:var(--sh2);display:flex;gap:11px;align-items:flex-start;animation:toastIn .35s var(--ease);border-left:4px solid var(--gold);transition:opacity .35s,transform .35s}
 .toast.ok{border-left-color:#3FBF82}
 .toast.warn{border-left-color:var(--gold)}
 .tIco{width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;flex:none}
@@ -353,8 +356,8 @@ main{padding:22px 0 60px}
 .linkBox .lk{flex:1;font:500 12px var(--mono);background:#F2F5EE;border:1px dashed rgba(14,59,46,.35);border-radius:9px;padding:11px 13px;color:var(--pine);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 [data-theme="dark"] .linkBox .lk{background:rgba(14,59,46,.3);color:var(--gold)}
 .shareHead{display:flex;gap:14px;align-items:center}
-.notifyPreview{background:var(--pine);color:#EAF2EC;border-radius:11px;padding:13px 15px;font-size:13px;position:relative}
-.notifyPreview::before{content:"→ notification to client";display:block;font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#F7C766;margin-bottom:6px}
+.notifyPreview{background:var(--pine);color:var(--on-pine);border-radius:11px;padding:13px 15px;font-size:13px;position:relative}
+.notifyPreview::before{content:"→ notification to client";display:block;font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:6px}
 .footer{text-align:center;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);padding:30px 16px;opacity:.7}
 .hidden{display:none!important}
 .clientBanner{background:var(--ok-bg);border:1px solid rgba(31,138,91,.3);color:var(--ok);border-radius:11px;padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
@@ -421,7 +424,7 @@ main{padding:22px 0 60px}
 
 /* ============ SUBSCRIPTION CARD ============ */
 .scardStage{background:radial-gradient(620px 260px at 50% -70px, rgba(239,165,28,.13), transparent 60%),var(--bg);border:1px solid var(--line);border-radius:14px;padding:26px 18px;display:flex;justify-content:center;overflow-x:auto}
-.scard{position:relative;width:470px;max-width:100%;aspect-ratio:1.586;border-radius:18px;color:#F2F6EF;overflow:hidden;box-shadow:0 26px 52px -22px rgba(13,37,29,.6);background:linear-gradient(135deg,#0A2A21 0%,#0E3B2E 55%,#155844 100%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.scard{position:relative;width:470px;max-width:100%;aspect-ratio:1.586;border-radius:18px;color:var(--on-pine);overflow:hidden;box-shadow:0 26px 52px -22px rgba(13,37,29,.6);background:linear-gradient(135deg,var(--card-a) 0%,var(--card-b) 55%,var(--card-c) 100%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .scard::before{content:"";position:absolute;inset:0;background:radial-gradient(340px 220px at 88% -50px, rgba(239,165,28,.2), transparent 62%),linear-gradient(rgba(234,242,236,.05) 1px, transparent 1px),linear-gradient(90deg, rgba(234,242,236,.05) 1px, transparent 1px);background-size:auto,27px 27px,27px 27px;pointer-events:none}
 .scard .ringDeco{position:absolute;top:-64px;right:-58px;width:190px;height:190px;opacity:.55;pointer-events:none}
 .scardIn{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:19px 22px 17px}
@@ -429,11 +432,11 @@ main{padding:22px 0 60px}
 .scBrand{display:flex;align-items:center;gap:9px}
 .scBrand b{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;color:#FBFCF8;display:block;line-height:1}
 .scBrand small{display:block;font:600 7.5px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:#BFD4C6;margin-top:3px}
-.scChip{font:700 8.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid rgba(247,199,102,.55);color:#F7C766;background:rgba(239,165,28,.12);white-space:nowrap}
+.scChip{font:700 8.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid color-mix(in srgb, var(--accent-soft) 55%, transparent);color:var(--accent-soft);background:color-mix(in srgb, var(--accent-solid) 12%, transparent);white-space:nowrap}
 .scChip.gray{border-color:rgba(234,242,236,.32);color:#DCE7DD;background:rgba(234,242,236,.07)}
 .scChip.red{border-color:rgba(229,122,95,.55);color:#F1B0A0;background:rgba(191,66,41,.16)}
 .scMid{margin-top:auto}
-.scKicker{font:600 9px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#F7C766}
+.scKicker{font:600 9px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-soft)}
 .scName{font-family:var(--disp);font-weight:800;font-size:25px;letter-spacing:-.02em;margin-top:3px;color:#FBFCF8;overflow-wrap:anywhere;line-height:1.1}
 .scGrid{display:flex;gap:8px 24px;flex-wrap:wrap;margin-top:12px}
 .scCell{display:flex;flex-direction:column;min-width:0;max-width:100%}
@@ -441,44 +444,83 @@ main{padding:22px 0 60px}
 .scCell .v{font:600 13px var(--body);color:#F2F6EC;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
 .scCell .v.mono{font-family:var(--mono)}
 .scBar{height:6px;border-radius:99px;background:rgba(234,242,236,.16);margin-top:13px;overflow:hidden}
-.scBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),#F7C766)}
+.scBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--accent-soft))}
 .scBot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px}
 .scId{font:600 10.5px var(--mono);letter-spacing:.1em;color:rgba(234,242,236,.8);white-space:nowrap}
-.scId b{color:#F7C766;margin-right:6px}
+.scId b{color:var(--accent-soft);margin-right:6px}
 .scFoot{font:500 7.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(234,242,236,.45);white-space:nowrap}
 
 /* ============ SUBSCRIPTION RECORD ============ */
 .recordStage{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:14px}
 .recordSheet{width:210mm;min-height:280mm;background:#fff;color:#1F2A24;border-radius:6px;box-shadow:0 16px 44px -18px rgba(13,37,29,.45);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .rsIn{padding:13mm 14mm;display:flex;flex-direction:column;min-height:254mm}
-.rsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:2px solid #0E3B2E}
+.rsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--brand-ink)}
 .rsBrand{display:flex;align-items:center;gap:10px}
-.rsBrand b{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.02em;color:#0E3B2E;display:block;line-height:1}
+.rsBrand b{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--brand-ink);display:block;line-height:1}
 .rsBrand small{display:block;font:600 8px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:#6B7A70;margin-top:3px}
 .rsDoc{text-align:right}
-.rsDoc b{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.02em;text-transform:uppercase;color:#0E3B2E;display:block}
+.rsDoc b{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.02em;text-transform:uppercase;color:var(--brand-ink);display:block}
 .rsDoc small{display:block;font:600 8px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#6B7A70;margin-top:4px}
 .rsName{font-family:var(--disp);font-weight:800;font-size:27px;letter-spacing:-.02em;color:#1F2A24;margin-top:16px;line-height:1.05;overflow-wrap:anywhere}
 .rsSub{font-size:12px;color:#6B7A70;margin-top:5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.rsChip{font:700 8.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#0E3B2E;background:rgba(239,165,28,.25);border:1px solid rgba(217,142,15,.45);padding:3px 9px;border-radius:999px}
+.rsChip{font:700 8.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink);background:color-mix(in srgb, var(--accent-solid) 25%, transparent);border:1px solid color-mix(in srgb, var(--accent-solid) 45%, transparent);padding:3px 9px;border-radius:999px}
 .rsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 18px;margin-top:16px}
 .rsCell .l{display:block;font:600 7.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#6B7A70}
 .rsCell .v{display:block;font:600 13px var(--body);color:#1F2A24;margin-top:3px;overflow-wrap:anywhere}
 .rsCell .v.mono{font-family:var(--mono)}
 .rsBarRow{display:flex;align-items:center;gap:10px;margin-top:16px}
 .rsBar{flex:1;height:7px;border-radius:99px;background:#E7EEE8;overflow:hidden}
-.rsBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#EFA51C,#F7C766)}
-.rsPct{font:600 11px var(--mono);color:#0E3B2E;white-space:nowrap}
-.rsSecT{font:700 12px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:#0E3B2E;margin:22px 0 8px;display:flex;align-items:center;gap:10px}
+.rsBar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent-solid),var(--accent-soft))}
+.rsPct{font:600 11px var(--mono);color:var(--brand-ink);white-space:nowrap}
+.rsSecT{font:700 12px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:var(--brand-ink);margin:22px 0 8px;display:flex;align-items:center;gap:10px}
 .rsSecT::after{content:"";flex:1;height:1px;background:#D6E2D9}
 .rsTable{width:100%;border-collapse:collapse;font-size:11px}
-.rsTable th{font:700 8px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#F2F6EF;background:#0E3B2E;text-align:left;padding:7px 8px;white-space:nowrap}
+.rsTable th{font:700 8px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--on-pine);background:var(--brand-ink);text-align:left;padding:7px 8px;white-space:nowrap}
 .rsTable td{padding:7px 8px;border-bottom:1px solid #E2EAE3;vertical-align:top;overflow-wrap:anywhere}
 .rsTable tbody tr:nth-child(even) td{background:#F5F8F4}
 .rsTable td.mono,.rsTable .mono{font-family:var(--mono);font-size:10px}
 .rsTable .rsNote{color:#6B7A70;font-size:10.5px}
 .rsTable .rsEmpty{text-align:center;color:#6B7A70;padding:16px}
 .rsFoot{margin-top:auto;padding-top:18px;border-top:1px solid #D6E2D9;font:500 8px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#6B7A70;line-height:1.7}
+
+/* ============ ORGANISATIONS ============ */
+.orgSwitch{position:relative;flex:none}
+.orgBtn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:7px 12px 7px 8px;transition:.18s;box-shadow:var(--sh);height:38px}
+.orgBtn:hover{transform:translateY(-1px);border-color:var(--pine)}
+.orgBtn .oName{font-family:var(--disp);font-weight:700;font-size:13.5px;letter-spacing:-.01em;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.orgBtn .oChev{color:var(--mut);display:inline-flex}
+.orgBtn .oChev svg{width:14px;height:14px}
+.orgMenu{position:absolute;top:calc(100% + 8px);left:0;z-index:80;width:300px;max-width:calc(100vw - 32px);background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh2);padding:8px;animation:orgIn .18s var(--ease)}
+@keyframes orgIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.orgMenuTitle{font:600 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);padding:8px 10px 6px}
+.orgItem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:10px;padding:9px 10px;transition:.15s}
+.orgItem:hover{background:var(--bg);border-color:var(--line2)}
+.orgItem.active{border-color:var(--pine);background:color-mix(in srgb, var(--pine) 7%, transparent)}
+.orgItem .oiName{flex:1;min-width:0}
+.orgItem .oiName b{display:block;font-family:var(--disp);font-size:13.5px;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.orgItem .oiName small{display:flex;align-items:center;gap:5px;color:var(--mut);font-size:11px;margin-top:2px}
+.orgItem .oiMark{color:var(--pine);flex:none}
+.orgItem .oiMark svg{width:15px;height:15px}
+.orgItem.orgAdd{border-style:dashed;border-color:var(--line);color:var(--pine);justify-content:center;font-weight:600;margin-top:4px}
+.orgItem.orgAdd:hover{border-color:var(--pine)}
+.orgLogo{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;overflow:hidden;flex:none;background:var(--bg);border:1px solid var(--line2)}
+.orgLogo img{width:100%;height:100%;object-fit:contain}
+.orgLogo svg{width:100%;height:100%;display:block}
+.orgLogo.orgLogoTxt{font:800 12px var(--disp);letter-spacing:.02em}
+.orgRow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.orgRow:last-child{border-bottom:0}
+.orgMeta{flex:1;min-width:160px}
+.orgMeta b{font-family:var(--disp);font-size:14.5px;display:block}
+.orgMeta small{color:var(--mut);font-size:11.5px;display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap}
+.swDot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid var(--line);flex:none}
+.logoPick{display:flex;align-items:center;gap:12px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:var(--bg);flex-wrap:wrap}
+.brandPreview{display:flex;align-items:center;gap:10px;border-radius:12px;padding:13px 14px;color:var(--on-pine);background:linear-gradient(120deg,var(--card-a),var(--card-b) 60%,var(--card-c));margin-top:4px}
+.brandPreview b{font-family:var(--disp);font-size:15px}
+.brandPreview small{font:500 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.75;display:block;margin-top:1px}
+.colorField{display:flex;gap:8px;align-items:center}
+input[type="color"].colorIn{width:44px;height:38px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--paper);cursor:pointer;flex:none}
+.orgCtx{display:flex;gap:9px;align-items:center;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:9px 11px;font-size:12.5px;color:var(--mut);margin-bottom:4px}
+.orgCtx b{color:var(--ink)}
 
 /* ============ PRINT ============ */
 #printArea{display:none}
@@ -507,6 +549,9 @@ main{padding:22px 0 60px}
 .heroGrid{gap:18px}
 .syncBadge.desktop{display:none}
 .schedRow{grid-template-columns:1fr 1fr 34px}
+.brand small{display:none}
+.brand > span{display:none}
+.orgBtn .oName{max-width:110px}
 }
 </style>
 </head>
@@ -539,6 +584,7 @@ main{padding:22px 0 60px}
 // ============================
 const DB_URL = 'https://straka-ef451-default-rtdb.europe-west1.firebasedatabase.app';
 const DB_ENDPOINT = DB_URL + '/straka_clients.json';
+const ORGS_ENDPOINT = DB_URL + '/straka_orgs.json';
 const POLL_INTERVAL = 4000;
 
 // ============================
@@ -577,6 +623,13 @@ const state = {
   editLogDraft: null,
   showRecordModal: false,        // subscription record (PDF / print)
   recordClientId: null,
+  orgs: [],                      // organisations (default Straka + custom)
+  activeOrgId: 'straka',         // current workspace
+  orgMenuOpen: false,            // header org switcher dropdown
+  showOrgModal: false,           // add / edit organisation
+  editingOrgId: null,
+  orgDraft: null,
+  showOrgDeleteConfirm: null,
   liveSeen: [],                  // auto check-in keys already surfaced
   clientViewId: null,            // set ONLY from the ?c= share link at boot
   isLoading: true,
@@ -588,6 +641,126 @@ let pushInFlight = false;   // a PUT is currently running
 const programs = ['Personal Training', 'Yoga', 'Boxing', 'Strength', 'Pilates'];
 function ensureCustomProgram(name){ const n=(name||'').trim(); if(!n) return; if(!programs.includes(n)) programs.push(n); }
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+// ============================
+// ORGANISATIONS
+// ============================
+// Straka is the default organisation — the original app workspace. Every
+// client belongs to the organisation it was created under, and its card,
+// record and PDF carry that organisation's logo and colours.
+const DEFAULT_ORG_ID = 'straka';
+function defaultOrg() {
+  return { id: DEFAULT_ORG_ID, name: 'Straka', tagline: 'Client Tracker', logo: '', primary: '#0E3B2E', secondary: '#EFA51C', createdAt: 0, isDefault: true };
+}
+function isHexColor(h) { return /^#[0-9a-fA-F]{6}$/.test(String(h || '')); }
+function normalizeOrg(o) {
+  if (!o || typeof o !== 'object') return null;
+  const id = String(o.id || generateId());
+  return {
+    id: id,
+    name: String(o.name || '').trim() || 'Untitled Organisation',
+    tagline: String(o.tagline || '').trim() || 'Client Tracker',
+    logo: String(o.logo || ''),
+    primary: isHexColor(o.primary) ? o.primary : '#0E3B2E',
+    secondary: isHexColor(o.secondary) ? o.secondary : '#EFA51C',
+    createdAt: typeof o.createdAt === 'number' ? o.createdAt : Date.now(),
+    isDefault: id === DEFAULT_ORG_ID
+  };
+}
+function mergeOrgs(list) {
+  const out = [defaultOrg()];
+  const seen = new Set([DEFAULT_ORG_ID]);
+  (list || []).forEach(o => { if (o && !seen.has(o.id)) { seen.add(o.id); out.push(o); } });
+  return out;
+}
+function getOrgs() { if (!Array.isArray(state.orgs) || !state.orgs.length) state.orgs = [defaultOrg()]; return state.orgs; }
+function getOrgById(id) {
+  const orgs = getOrgs();
+  if (id) { const hit = orgs.find(o => o.id === id); if (hit) return hit; }
+  return orgs.find(o => o.isDefault) || defaultOrg();
+}
+function activeOrg() { return getOrgById(state.activeOrgId); }
+function clientOrg(c) { return getOrgById(c && c.orgId); }
+function visibleClients() {
+  const oid = activeOrg().id;
+  return getClients().filter(c => (c.orgId || DEFAULT_ORG_ID) === oid);
+}
+function orgClientCount(id) { return getClients().filter(c => (c.orgId || DEFAULT_ORG_ID) === id).length; }
+function orgCode(o) {
+  if (!o || o.isDefault) return 'STK';
+  const clean = String(o.name || '').replace(/[^A-Za-z0-9]/g, '');
+  return (clean.slice(0, 3).toUpperCase() || 'ORG');
+}
+function hexToRgb(hex) {
+  const m = /^#?([0-9a-fA-F]{6})$/.exec(String(hex || '').trim());
+  const n = m ? parseInt(m[1], 16) : 0x0E3B2E;
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+function hexToRgbArr(hex) { const { r, g, b } = hexToRgb(hex); return [r, g, b]; }
+function shadeHex(hex, pct) {
+  const { r, g, b } = hexToRgb(hex);
+  const t = pct < 0 ? 0 : 255, p = Math.min(100, Math.abs(pct)) / 100;
+  const f = c => Math.round((t - c) * p + c);
+  return '#' + [f(r), f(g), f(b)].map(v => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0')).join('');
+}
+function rgbaStr(hex, a) { const { r, g, b } = hexToRgb(hex); return `rgba(${r},${g},${b},${a})`; }
+function mixRgbArr(a, b, t) { return a.map((v, i) => Math.round(v * (1 - t) + b[i] * t)); }
+function readableOn(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum > 0.62 ? '#1D1B10' : '#F7FAF3';
+}
+function loadImageEl(src) {
+  return new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = () => resolve(im);
+    im.onerror = () => reject(new Error('image load failed'));
+    im.src = src;
+  });
+}
+function orgLogoHtml(o, size) {
+  const px = `width:${size}px;height:${size}px`;
+  if (o && o.logo) return `<span class="orgLogo" style="${px}"><img src="${o.logo}" alt="${escapeHtml(o.name)} logo"></span>`;
+  if (o && o.isDefault) return `<span class="orgLogo" style="${px};background:transparent;border-color:transparent"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--gold)"/></svg></span>`;
+  return `<span class="orgLogo orgLogoTxt" style="${px};background:${o ? o.primary : '#0E3B2E'};color:${o ? readableOn(o.primary) : '#F3F7EF'}">${escapeHtml(initials(o ? o.name : '?'))}</span>`;
+}
+const ORG_THEME_VARS = ['--pine', '--pine2', '--pine3', '--gold', '--gold2', '--gold-ink', '--amber-bg', '--on-pine', '--on-gold', '--card-a', '--card-b', '--card-c', '--brand-ink', '--accent-solid', '--accent-soft'];
+function applyOrgTheme() {
+  const org = state.clientViewId ? clientOrg(getClientById(state.clientViewId)) : activeOrg();
+  const s = document.documentElement.style;
+  ORG_THEME_VARS.forEach(v => s.removeProperty(v));
+  if (!org || org.isDefault) return;
+  s.setProperty('--pine', org.primary);
+  s.setProperty('--pine2', shadeHex(org.primary, -30));
+  s.setProperty('--pine3', shadeHex(org.primary, 18));
+  s.setProperty('--gold', org.secondary);
+  s.setProperty('--gold2', shadeHex(org.secondary, -12));
+  s.setProperty('--gold-ink', shadeHex(org.secondary, -62));
+  s.setProperty('--amber-bg', rgbaStr(org.secondary, .14));
+  s.setProperty('--on-pine', readableOn(org.primary));
+  s.setProperty('--on-gold', readableOn(org.secondary));
+  s.setProperty('--card-a', shadeHex(org.primary, -30));
+  s.setProperty('--card-b', org.primary);
+  s.setProperty('--card-c', shadeHex(org.primary, 20));
+  s.setProperty('--brand-ink', shadeHex(org.primary, -14));
+  s.setProperty('--accent-solid', org.secondary);
+  s.setProperty('--accent-soft', shadeHex(org.secondary, 32));
+}
+function orgMenuHtml() {
+  const orgs = getOrgs(), act = activeOrg().id;
+  return `<div class="orgMenu" role="menu" aria-label="Switch organisation">
+    <div class="orgMenuTitle">Switch organisation</div>
+    ${orgs.map(o => {
+      const n = orgClientCount(o.id);
+      return `<button class="orgItem ${o.id === act ? 'active' : ''}" role="menuitem" onclick="switchOrg('${o.id}')">
+        ${orgLogoHtml(o, 26)}
+        <span class="oiName"><b>${escapeHtml(o.name)}</b><small>${n} client${n === 1 ? '' : 's'} · <span class="swDot" style="background:${o.primary}"></span><span class="swDot" style="background:${o.secondary}"></span></small></span>
+        ${o.id === act ? `<span class="oiMark">${I.check}</span>` : ''}
+      </button>`;
+    }).join('')}
+    <button class="orgItem orgAdd" onclick="openAddOrgModal()">${I.plus} Add Organisation</button>
+  </div>`;
+}
 
 // ============================
 // ICONS
@@ -617,7 +790,8 @@ const I = {
   printer: svgIcon('<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>'),
   doc: svgIcon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>'),
   pencil: svgIcon('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
-  noShow: svgIcon('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="23" y2="14"/><line x1="23" y1="8" x2="17" y2="14"/>')
+  noShow: svgIcon('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="23" y2="14"/><line x1="23" y1="8" x2="17" y2="14"/>'),
+  org: svgIcon('<path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M15 9h4a2 2 0 0 1 2 2v10"/><path d="M9 7h2M9 11h2M9 15h2"/>')
 };
 
 // ============================
@@ -680,6 +854,7 @@ function normalizeClient(c) {
       edited: !!(l && l.edited)
     })) : [],
     createdAt: typeof c.createdAt === 'number' ? c.createdAt : Date.now(),
+    orgId: String(c.orgId || DEFAULT_ORG_ID),
     history: Array.isArray(c.history) ? c.history : [],
     fee: c.fee != null ? String(c.fee) : '',
     paymentStatus: c.paymentStatus || 'Unpaid',
@@ -842,6 +1017,59 @@ function loadLocal() {
   } catch (e) {}
   return null;
 }
+
+// ---- organisations storage & sync (mirrors the clients sync) ----
+function saveOrgsLocal() {
+  try {
+    localStorage.setItem('straka_orgs', JSON.stringify(getOrgs().filter(o => !o.isDefault)));
+    localStorage.setItem('straka_active_org', state.activeOrgId || DEFAULT_ORG_ID);
+  } catch (e) {}
+}
+function loadOrgsLocal() {
+  try {
+    const raw = localStorage.getItem('straka_orgs');
+    let custom = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(custom)) custom = [];
+    state.orgs = mergeOrgs(custom.map(normalizeOrg).filter(Boolean));
+    const a = localStorage.getItem('straka_active_org');
+    state.activeOrgId = a || DEFAULT_ORG_ID;
+    if (!getOrgs().some(o => o.id === state.activeOrgId)) state.activeOrgId = DEFAULT_ORG_ID;
+  } catch (e) { state.orgs = [defaultOrg()]; state.activeOrgId = DEFAULT_ORG_ID; }
+}
+let orgsDirty = false, orgsPushInFlight = false;
+function pushOrgsToFirebase() {
+  if (orgsPushInFlight) return;
+  orgsPushInFlight = true;
+  fetchWithTimeout(ORGS_ENDPOINT, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(getOrgs())
+  }).then(() => { orgsDirty = false; }).catch(() => {}).finally(() => { orgsPushInFlight = false; });
+}
+async function pullOrgsFromFirebase() {
+  if (orgsPushInFlight || state.isLoading) return;
+  if (orgsDirty) { pushOrgsToFirebase(); return; }
+  try {
+    const res = await fetchWithTimeout(ORGS_ENDPOINT + '?_t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data) return;
+    const incoming = Array.isArray(data) ? data : Object.values(data);
+    const merged = mergeOrgs(incoming.map(normalizeOrg).filter(Boolean));
+    if (JSON.stringify(merged) !== JSON.stringify(getOrgs())) {
+      state.orgs = merged;
+      if (!getOrgs().some(o => o.id === state.activeOrgId)) state.activeOrgId = DEFAULT_ORG_ID;
+      saveOrgsLocal();
+      rerender();
+    }
+  } catch (e) {}
+}
+function commitOrgs() {
+  saveOrgsLocal();
+  orgsDirty = true;
+  pushOrgsToFirebase();
+  rerender();
+}
 async function pushToFirebase() {
   pushInFlight = true;
   state.syncStatus = 'connecting';
@@ -894,7 +1122,7 @@ async function pullFromFirebase() {
 function startPolling() {
   if (state.pollTimer) clearInterval(state.pollTimer);
   state.pollTimer = setInterval(() => {
-    if (navigator.onLine !== false) pullFromFirebase();
+    if (navigator.onLine !== false) { pullFromFirebase(); pullOrgsFromFirebase(); }
   }, POLL_INTERVAL);
 }
 function commit() {
@@ -905,8 +1133,21 @@ function commit() {
 }
 async function initData() {
   state.isLoading = true;
+  loadOrgsLocal();
   let loaded = false;
   const loaderText = document.getElementById('loaderText');
+  try {
+    const resO = await fetchWithTimeout(ORGS_ENDPOINT + '?_t=' + Date.now(), { cache: 'no-store' });
+    if (resO.ok) {
+      const dO = await resO.json();
+      if (dO) {
+        const incomingO = Array.isArray(dO) ? dO : Object.values(dO);
+        state.orgs = mergeOrgs(incomingO.map(normalizeOrg).filter(Boolean));
+        if (!getOrgs().some(o => o.id === state.activeOrgId)) state.activeOrgId = DEFAULT_ORG_ID;
+        saveOrgsLocal();
+      }
+    }
+  } catch (e) {}
   try {
     const res = await fetchWithTimeout(DB_ENDPOINT + '?_t=' + Date.now(), { cache: 'no-store' });
     if (res.ok) {
@@ -960,13 +1201,14 @@ function getDefaultClients() {
 // RENDER CORE
 // ============================
 function render() {
+  applyOrgTheme();
   const app = document.getElementById('app');
   const isClient = !!state.clientViewId;
   const client = isClient ? getClientById(state.clientViewId) : null;
   let html = renderHeader();
   if (!isClient) html += renderTabs();
   html += `<main>${isClient ? (client ? renderClientView(client) : clientNotFoundHtml()) : renderTabContent()}</main>`;
-  html += `<div class="footer">${isClient ? 'Straka Lite · live view' : 'Straka Lite · synced via Firebase RTDB · every ' + (POLL_INTERVAL / 1000) + 's'}</div>`;
+  html += `<div class="footer">${isClient ? 'Straka | powered by TTOSR · live view' : 'Straka Lite · powered by TTOSR · synced via Firebase RTDB · every ' + (POLL_INTERVAL / 1000) + 's'}</div>`;
   html += renderModals();
   app.innerHTML = html;
   renderSyncBadge();
@@ -1034,12 +1276,19 @@ function renderHeader() {
   const isCV = !!state.clientViewId;
   const client = isCV ? getClientById(state.clientViewId) : null;
   const msgCount = client && client.messages ? client.messages.length : 0;
-  const brandInner = `<svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--gold)"/></svg><span><b>Straka</b><small>Client Tracker</small></span>`;
+  const org = isCV ? clientOrg(client) : activeOrg();
+  const brandInner = `${orgLogoHtml(org, 30)}<span><b>${escapeHtml(org.name)}</b><small>${escapeHtml(org.tagline || 'Client Tracker')}</small></span>`;
   return `
   <div class="topbar"><div class="wrap">
     ${isCV
       ? `<span class="brand" aria-disabled="true">${brandInner}</span>`
-      : `<a class="brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">${brandInner}</a>`}
+      : `<a class="brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">${brandInner}</a>
+    <div class="orgSwitch">
+      <button class="orgBtn" onclick="toggleOrgMenu(event)" aria-haspopup="true" aria-expanded="${state.orgMenuOpen ? 'true' : 'false'}" aria-label="Switch organisation" title="Switch organisation">
+        ${orgLogoHtml(org, 24)}<span class="oName">${escapeHtml(org.name)}</span><span class="oChev">${I.chev}</span>
+      </button>
+      ${state.orgMenuOpen ? orgMenuHtml() : ''}
+    </div>`}
     <div class="tbRight">
       ${isCV
         ? (client ? `<button class="iconBtn" onclick="toggleClientChat()" aria-label="Messages" title="Messages">${I.chat}${msgCount ? `<span class="chatBadge">${msgCount > 9 ? '9+' : msgCount}</span>` : ''}</button>` : '')
@@ -1073,7 +1322,7 @@ function clientNotFoundHtml() {
 
 // ---------- CLIENTS TAB (instructor) ----------
 function renderClientsTab() {
-  const clients = getClients();
+  const clients = visibleClients();
   const q = state.searchQuery.toLowerCase();
   const filtered = clients.filter(c => !q || ((c.name || '') + ' ' + (c.program || '')).toLowerCase().includes(q));
   return `<div class="wrap">
@@ -1140,7 +1389,7 @@ function renderTrackerTab() {
   return renderTrackerList();
 }
 function renderTrackerList() {
-  const clients = getClients();
+  const clients = visibleClients();
   return `<div class="wrap">
     <div class="section-head">
       <span class="secIdx">02 /</span><h2>Tracker</h2>
@@ -1315,7 +1564,7 @@ function chatMsgHtml(m) {
 
 // ---------- MESSAGES TAB (instructor) ----------
 function renderMessagesTab() {
-  const clients = getClients();
+  const clients = visibleClients();
   const q = state.searchQuery.toLowerCase();
   const filtered = clients.filter(c => !q || ((c.name || '') + ' ' + (c.program || '')).toLowerCase().includes(q));
   const sel = state.selectedMessageClientId ? getClientById(state.selectedMessageClientId) : null;
@@ -1384,7 +1633,7 @@ function renderMessageThread(c) {
 
 // ---------- CONSOLE TAB (instructor) ----------
 function renderConsoleTab() {
-  const clients = getClients();
+  const clients = visibleClients();
   const totalDone = clients.reduce((n, c) => n + c.completed, 0);
   const active = clients.filter(c => c.status === 'active').length;
   const msgTotal = clients.reduce((n, c) => n + (c.messages || []).length, 0);
@@ -1393,6 +1642,7 @@ function renderConsoleTab() {
       <span class="secIdx">04 /</span><h2>Console</h2>
       <span class="secCount">${clients.length} managed</span>
       <span class="spacer"></span>
+      <button class="btn btn-ghost" onclick="openAddOrgModal()" title="Create a new organisation with its own logo &amp; colours">${I.org} Add Organisation</button>
       <button class="btn btn-pine" onclick="openAddModal()">${I.plus} Add client</button>
     </div>
     <div class="grid-stats" style="margin-bottom:16px">
@@ -1414,7 +1664,8 @@ function renderConsoleTab() {
           <button onclick="showDeleteConfirm('${c.id}')" class="btn btn-danger btn-xs">${I.trash} Delete</button>
         </div>
       </div>`).join('')}
-    </div>` : emptyState('No clients yet', 'Add your first client to start tracking sessions.')}
+    </div>` : emptyState('No clients yet', 'Add your first client to start tracking sessions — they join the active organisation.')}
+    ${renderOrgsCard()}
     <div class="card" style="margin-top:16px"><div class="card-section">
       <div class="tlHead"><div><span class="secIdx">DATA /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Workspace</div></div></div>
       <div class="mRow"><span class="mLbl">Storage</span><span class="mVal">Firebase RTDB · ${escapeHtml(state.syncStatus)}</span></div>
@@ -1428,6 +1679,182 @@ function renderConsoleTab() {
       </div>
     </div></div>
   </div>`;
+}
+
+// ---------- ORGANISATIONS CARD (console) ----------
+function renderOrgsCard() {
+  const orgs = getOrgs();
+  const act = activeOrg().id;
+  return `<div class="card" style="margin-top:16px"><div class="card-section">
+    <div class="tlHead">
+      <div><span class="secIdx">ORG /</span><div class="disp" style="font-size:18px;font-weight:700;margin-top:2px">Organisations</div></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="tag">${orgs.length} organisation${orgs.length === 1 ? '' : 's'}</span>
+        <button class="btn btn-pine btn-xs" onclick="openAddOrgModal()">${I.plus} Add Organisation</button>
+      </div>
+    </div>
+    <div class="cmeta" style="margin:2px 0 6px">Each organisation has its own logo &amp; colours — clients added under it carry that branding on their card and subscription record. Switch with the button in the header.</div>
+    <div>
+      ${orgs.map(o => {
+        const isActive = o.id === act;
+        const n = orgClientCount(o.id);
+        return `<div class="orgRow">
+          ${orgLogoHtml(o, 38)}
+          <div class="orgMeta">
+            <b>${escapeHtml(o.name)}${o.isDefault ? ' <span class="tag" style="margin-left:6px">default app</span>' : ''}</b>
+            <small><span class="swDot" style="background:${o.primary}"></span><span class="swDot" style="background:${o.secondary}"></span> ${n} client${n === 1 ? '' : 's'} · ${escapeHtml(o.tagline || 'Client Tracker')}</small>
+          </div>
+          ${isActive ? '<span class="tag tag-success">active workspace</span>' : `<button class="btn btn-ghost btn-xs" onclick="switchOrg('${o.id}')">Switch here</button>`}
+          ${!o.isDefault ? `<button class="btn btn-ghost btn-xs" onclick="openEditOrgModal('${o.id}')" title="Edit logo &amp; colours">${I.pencil} Edit</button>
+          <button class="btn btn-danger btn-xs" onclick="showOrgDeleteConfirm('${o.id}')">${I.trash} Delete</button>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
+  </div></div>`;
+}
+
+// ---------- ADD / EDIT / SWITCH ORGANISATION ----------
+function openAddOrgModal() {
+  state.editingOrgId = null;
+  state.orgDraft = { name: '', tagline: 'Client Tracker', logo: '', primary: '#0E3B2E', secondary: '#EFA51C' };
+  state.showOrgModal = true;
+  state.orgMenuOpen = false;
+  rerender();
+  const el = document.getElementById('org_name'); if (el) el.focus();
+}
+function openEditOrgModal(id) {
+  const o = getOrgById(id);
+  if (!o || o.isDefault) return;
+  state.editingOrgId = id;
+  state.orgDraft = { name: o.name, tagline: o.tagline || 'Client Tracker', logo: o.logo, primary: o.primary, secondary: o.secondary };
+  state.showOrgModal = true;
+  rerender();
+  const el = document.getElementById('org_name'); if (el) el.focus();
+}
+function setOrgDraft(k, v) { if (state.orgDraft) state.orgDraft[k] = v; }
+function handleOrgLogo(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  if (!/^image\//.test(file.type)) { showToast('Choose an image file — PNG, JPG, SVG or WebP', 'warn'); return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 320;
+      let w = img.width || MAX, h = img.height || MAX;
+      const scale = Math.min(1, MAX / Math.max(w, h));
+      w = Math.max(1, Math.round(w * scale)); h = Math.max(1, Math.round(h * scale));
+      const cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      cv.getContext('2d').drawImage(img, 0, 0, w, h);
+      if (state.orgDraft) state.orgDraft.logo = cv.toDataURL('image/png');
+      showToast('Logo ready — saved with the organisation', 'ok');
+      rerender();
+    };
+    img.onerror = () => showToast('Could not read that image', 'warn');
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+function clearOrgLogo() { if (state.orgDraft) state.orgDraft.logo = ''; rerender(); }
+function saveOrg() {
+  const d = state.orgDraft;
+  if (!d) return;
+  const name = (d.name || '').trim();
+  if (!name) { showToast('Give the organisation a name', 'warn'); const el = document.getElementById('org_name'); if (el) el.focus(); return; }
+  const tagline = (d.tagline || '').trim() || 'Client Tracker';
+  const primary = isHexColor(d.primary) ? d.primary : '#0E3B2E';
+  const secondary = isHexColor(d.secondary) ? d.secondary : '#EFA51C';
+  let saved;
+  if (state.editingOrgId) {
+    const o = getOrgById(state.editingOrgId);
+    if (!o || o.isDefault) return;
+    Object.assign(o, { name, tagline, logo: d.logo || '', primary, secondary });
+    saved = o;
+    showToast('Organisation updated — branding applied everywhere', 'ok');
+  } else {
+    saved = normalizeOrg({ id: generateId(), name, tagline, logo: d.logo || '', primary, secondary, createdAt: Date.now() });
+    state.orgs = getOrgs().concat([saved]);
+    showToast('Organisation added', 'ok');
+  }
+  state.showOrgModal = false;
+  state.orgDraft = null;
+  const newId = saved.id;
+  state.editingOrgId = null;
+  commitOrgs();
+  if (newId && state.activeOrgId !== newId) switchOrg(newId);
+}
+function switchOrg(id) {
+  const o = getOrgById(id);
+  if (!o || state.activeOrgId === id) { state.orgMenuOpen = false; rerender(); return; }
+  state.activeOrgId = id;
+  state.orgMenuOpen = false;
+  state.selectedClientId = null;
+  state.selectedMessageClientId = null;
+  state.showHistory = false;
+  saveOrgsLocal();
+  showToast('Switched to ' + o.name, 'ok');
+  rerender();
+}
+function toggleOrgMenu(e) { e.stopPropagation(); state.orgMenuOpen = !state.orgMenuOpen; rerender(); }
+function showOrgDeleteConfirm(id) { state.showOrgDeleteConfirm = id; rerender(); }
+function deleteOrg() {
+  const id = state.showOrgDeleteConfirm;
+  state.showOrgDeleteConfirm = null;
+  const o = getOrgById(id);
+  if (!o || o.isDefault) return;
+  state.orgs = getOrgs().filter(x => x.id !== id);
+  if (state.activeOrgId === id) state.activeOrgId = DEFAULT_ORG_ID;
+  commitOrgs();
+  showToast('Organisation deleted — its clients fall back to the Straka branding', 'warn');
+}
+function orgModalHtml() {
+  const d = state.orgDraft;
+  if (!d) return '';
+  const editing = !!state.editingOrgId;
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal">
+    <header><span class="mIco">${I.org}</span><h3>${editing ? 'Edit organisation' : 'New organisation'}</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">${editing ? 'Update the branding — cards, records and the workspace re-skin instantly.' : 'A new workspace with its own logo &amp; colours. Clients you add while it is active are branded with it on their card and subscription record.'}</div>
+    <div class="mBody">
+      <label>Organisation name<input id="org_name" class="input" value="${escapeHtml(d.name)}" oninput="setOrgDraft('name',this.value)" placeholder="e.g. IronPulse Fitness"></label>
+      <label>Tagline (shown under the logo)<input class="input" value="${escapeHtml(d.tagline)}" oninput="setOrgDraft('tagline',this.value)" placeholder="Client Tracker"></label>
+      <label>Logo
+        <div class="logoPick">
+          ${orgLogoHtml(d, 44)}
+          <div style="flex:1;min-width:180px">
+            <input type="file" accept="image/*" onchange="handleOrgLogo(event)" style="font-size:12.5px;color:var(--mut);max-width:100%">
+            <div class="cmeta" style="margin-top:4px">PNG / JPG / SVG — auto-resized &amp; printed on cards and records. ${d.logo ? '' : 'Leave empty to use the organisation initial.'}</div>
+          </div>
+          ${d.logo ? `<button class="btn btn-ghost btn-xs" onclick="clearOrgLogo()">${I.x} Remove</button>` : ''}
+        </div>
+      </label>
+      <div class="grid-2">
+        <label>Primary colour<div class="colorField"><input type="color" class="colorIn" value="${escapeHtml(d.primary)}" onchange="setOrgDraft('primary',this.value)"><input class="input" value="${escapeHtml(d.primary)}" onchange="setOrgDraft('primary',this.value)" spellcheck="false"></div></label>
+        <label>Secondary colour<div class="colorField"><input type="color" class="colorIn" value="${escapeHtml(d.secondary)}" onchange="setOrgDraft('secondary',this.value)"><input class="input" value="${escapeHtml(d.secondary)}" onchange="setOrgDraft('secondary',this.value)" spellcheck="false"></div></label>
+      </div>
+      <label>Preview
+        <div class="brandPreview">${orgLogoHtml(d, 34)}<span><b>${escapeHtml(d.name || 'Organisation name')}</b><small>${escapeHtml(d.tagline || 'Client Tracker')}</small></span></div>
+      </label>
+    </div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-pine" onclick="saveOrg()">${I.check} ${editing ? 'Save changes' : 'Add Organisation'}</button>
+    </footer>
+  </div></div>`;
+}
+function orgDeleteModalHtml() {
+  const o = getOrgById(state.showOrgDeleteConfirm);
+  if (!o) { state.showOrgDeleteConfirm = null; return ''; }
+  const n = orgClientCount(o.id);
+  return `<div class="overlay" onclick="overlayClick(event)"><div class="modal sm">
+    <header><span class="mIco red">${I.trash}</span><h3>Delete organisation?</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
+    <div class="mSub">This removes <b>${escapeHtml(o.name)}</b> as a workspace.${n ? ` Its <b>${n} client${n === 1 ? '' : 's'}</b> keep all their data but revert to the default Straka branding.` : ' It has no clients yet.'} The default Straka organisation cannot be deleted.</div>
+    <footer>
+      <button class="btn btn-ghost" onclick="closeAllModals()">Keep organisation</button>
+      <button class="btn btn-danger-solid" onclick="deleteOrg()">${I.trash} Delete</button>
+    </footer>
+  </div></div>`;
 }
 
 // ---------- CLIENT-FACING VIEW (locked — entered only via ?c= link) ----------
@@ -1536,6 +1963,8 @@ function renderModals() {
   if (state.showConfirmModal) h += confirmSessionModalHtml();
   if (state.showEditLogModal) h += editLogModalHtml();
   if (state.showRecordModal) h += recordModalHtml();
+  if (state.showOrgModal) h += orgModalHtml();
+  if (state.showOrgDeleteConfirm) h += orgDeleteModalHtml();
   if (state.showClientChat && state.clientViewId) h += clientChatModalHtml();
   return h;
 }
@@ -1559,6 +1988,11 @@ function closeAllModals() {
   state.editLogDraft = null;
   state.showRecordModal = false;
   state.recordClientId = null;
+  state.showOrgModal = false;
+  state.editingOrgId = null;
+  state.orgDraft = null;
+  state.showOrgDeleteConfirm = null;
+  state.orgMenuOpen = false;
   state.draft = null;
   state.editingClient = null;
   state.sharingClient = null;
@@ -1630,10 +2064,12 @@ function settingsModalHtml() {
 function addEditModalHtml() {
   const d = state.draft || {};
   const editing = !!state.editingClient;
+  const orgCtx = editing ? clientOrg(getClientById(state.editingClient)) : activeOrg();
   return `<div class="overlay" onclick="overlayClick(event)"><div class="modal wide">
     <header><span class="mIco">${editing ? I.gear : I.plus}</span><h3>${editing ? 'Edit client' : 'New client'}</h3><button class="mClose" onclick="closeAllModals()" aria-label="Close">${I.x}</button></header>
     <div class="mSub">${editing ? 'Progress, history and messages are preserved.' : 'Set up the subscription and weekly schedule.'}</div>
     <div class="mBody">
+      <div class="orgCtx">${orgLogoHtml(orgCtx, 22)}<span>Organisation · <b>${escapeHtml(orgCtx.name)}</b> — this client's card &amp; subscription record carry ${escapeHtml(orgCtx.name)}'s logo &amp; colours.${editing ? '' : ' Switch organisation from the header first to add the client elsewhere.'}</span></div>
       <label>Name<input id="d_name" class="input" value="${escapeHtml(d.name)}" oninput="setDraft('name',this.value)" placeholder="e.g. John Doe"></label>
       <div class="grid-2">
         <label>Gender<select class="select" onchange="setDraft('gender',this.value)">
@@ -1687,7 +2123,7 @@ function shareModalHtml() {
         <span class="lk">${escapeHtml(getShareLink(c.id))}</span>
         <button class="btn btn-pine btn-sm" onclick="copyShareLink()">${I.copy} Copy</button>
       </div>
-      <div class="notifyPreview"><b>Straka</b> · ${escapeHtml(c.name)} — session ${c.completed} of ${c.total} complete. ${c.completed >= c.total ? 'Subscription finished — renew to continue.' : 'Keep going!'}</div>
+      <div class="notifyPreview"><b>${escapeHtml(clientOrg(c).name)}</b> · ${escapeHtml(c.name)} — session ${c.completed} of ${c.total} complete. ${c.completed >= c.total ? 'Subscription finished — renew to continue.' : 'Keep going!'}</div>
     </div>
     <footer>
       <button class="btn btn-ghost" onclick="openClientLink('${c.id}')">${I.eye} Open preview</button>
@@ -1747,17 +2183,21 @@ function resetModalHtml() {
 
 // ---- subscription card (print / download) ----
 function showCardModal(id) { state.cardClientId = id; state.showCardModal = true; rerender(); }
-function memberCode(c) { return 'STK-' + String(c.id || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6).padEnd(6, 'X'); }
+function memberCode(c) { return orgCode(clientOrg(c)) + '-' + String(c.id || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6).padEnd(6, 'X'); }
 function subscriptionCardHtml(c) {
+  const org = clientOrg(c);
   const chipClass = c.status === 'active' ? '' : (c.status === 'cancelled' ? ' red' : ' gray');
   const chipLabel = c.status === 'active' ? 'Active member' : c.status;
   const sched = (c.schedule || []).map(s => `${escapeHtml(s.day)} ${escapeHtml(s.time)}`).join(' · ') || 'No schedule';
   const pct = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
+  const brandMark = org.logo
+    ? `<span class="orgLogo" style="width:27px;height:27px;background:transparent;border-color:transparent"><img src="${org.logo}" alt="${escapeHtml(org.name)} logo"></span>`
+    : `<svg width="27" height="27" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" style="stroke:var(--on-pine)"/><circle cx="50" cy="50" r="12" style="fill:var(--accent-solid)"/></svg>`;
   return `<div class="scard">
-    <svg class="ringDeco" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="38" stroke="rgba(247,199,102,.5)" stroke-width="4" stroke-dasharray="60 40" stroke-linecap="round"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg>
+    <svg class="ringDeco" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="38" style="stroke:color-mix(in srgb, var(--accent-soft) 50%, transparent)" stroke-width="4" stroke-dasharray="60 40" stroke-linecap="round"/><circle cx="50" cy="50" r="12" style="fill:var(--accent-solid)"/></svg>
     <div class="scardIn">
       <div class="scTop">
-        <span class="scBrand"><svg width="27" height="27" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round" stroke="#F2F6EF"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg><span><b>Straka</b><small>Client Tracker</small></span></span>
+        <span class="scBrand">${brandMark}<span><b>${escapeHtml(org.name)}</b><small>${escapeHtml(org.tagline || 'Client Tracker')}</small></span></span>
         <span class="scChip${chipClass}">${escapeHtml(chipLabel)}</span>
       </div>
       <div class="scMid">
@@ -1773,7 +2213,7 @@ function subscriptionCardHtml(c) {
         <div class="scBar"><i style="width:${pct}%"></i></div>
         <div class="scBot">
           <span class="scId"><b>ID</b>${escapeHtml(memberCode(c))}</span>
-          <span class="scFoot">${pct}% complete · verified live</span>
+          <span class="scFoot">${pct}% complete · Straka | powered by TTOSR</span>
         </div>
       </div>
     </div>
@@ -1829,9 +2269,15 @@ async function renderCardCanvas(c) {
   const cv = document.createElement('canvas');
   cv.width = W; cv.height = H;
   const ctx = cv.getContext('2d');
+  const org = clientOrg(c);
+  const ONP = readableOn(org.primary);                       // readable text on the org primary
+  const onpA = a => rgbaStr(readableOn(org.primary), a);     // …with alpha
+  const ACC = shadeHex(org.secondary, 30);                   // soft accent (light variant of secondary)
   const DISP = '"Bricolage Grotesque","Arial Black",sans-serif';
   const BODY = '"Instrument Sans","Helvetica Neue",Arial,sans-serif';
   const MONO = '"IBM Plex Mono","Courier New",monospace';
+  let logoImg = null;
+  if (org.logo) { try { logoImg = await loadImageEl(org.logo); } catch (e) {} }
   try {
     await Promise.all([
       document.fonts.load('800 92px "Bricolage Grotesque"'),
@@ -1842,51 +2288,68 @@ async function renderCardCanvas(c) {
     ]);
   } catch (e) {}
   const g = ctx.createLinearGradient(0, 0, W, H);
-  g.addColorStop(0, '#0A2A21'); g.addColorStop(0.55, '#0E3B2E'); g.addColorStop(1, '#155844');
+  g.addColorStop(0, shadeHex(org.primary, -30)); g.addColorStop(0.55, org.primary); g.addColorStop(1, shadeHex(org.primary, 20));
   roundRectPath(ctx, 0, 0, W, H, R);
   ctx.fillStyle = g; ctx.fill();
   ctx.save();
   roundRectPath(ctx, 0, 0, W, H, R); ctx.clip();
-  ctx.strokeStyle = 'rgba(234,242,236,.045)'; ctx.lineWidth = 2;
+  ctx.strokeStyle = onpA(.06); ctx.lineWidth = 2;
   for (let x = 28; x < W; x += 56) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
   for (let y = 28; y < H; y += 56) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
   const rg = ctx.createRadialGradient(W * 0.9, -60, 20, W * 0.9, -60, 520);
-  rg.addColorStop(0, 'rgba(239,165,28,.22)'); rg.addColorStop(1, 'rgba(239,165,28,0)');
+  rg.addColorStop(0, rgbaStr(org.secondary, .22)); rg.addColorStop(1, rgbaStr(org.secondary, 0));
   ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
-  ctx.setLineDash([30, 24]);
-  ctx.strokeStyle = 'rgba(247,199,102,.55)'; ctx.lineWidth = 13; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.arc(W - 160, 116, 98, -Math.PI * 0.95, Math.PI * 0.6); ctx.stroke();
-  ctx.setLineDash([]);
-  ctx.fillStyle = '#EFA51C'; ctx.beginPath(); ctx.arc(W - 160, 116, 27, 0, Math.PI * 2); ctx.fill();
-  ctx.strokeStyle = '#F2F6EF'; ctx.lineWidth = 11;
-  ctx.beginPath(); ctx.arc(88, 96, 30, -Math.PI / 2, Math.PI * 0.95); ctx.stroke();
-  ctx.fillStyle = '#EFA51C'; ctx.beginPath(); ctx.arc(88, 96, 11, 0, Math.PI * 2); ctx.fill();
+  // brand mark (top-left): uploaded logo, initial badge, or the Straka rings
+  let tx = 136;
+  if (logoImg) {
+    const box = 56, bx0 = 84, by0 = 96;
+    const sc = Math.min(box / logoImg.width, box / logoImg.height);
+    const dw = Math.max(1, logoImg.width * sc), dh = Math.max(1, logoImg.height * sc);
+    ctx.drawImage(logoImg, bx0 + (box - dw) / 2, by0 - dh / 2, dw, dh);
+    tx = 160;
+  } else if (!org.isDefault) {
+    ctx.fillStyle = org.secondary; ctx.beginPath(); ctx.arc(88, 96, 30, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = readableOn(org.secondary);
+    ctx.font = `800 28px ${DISP}`; ctx.textAlign = 'center';
+    ctx.fillText(initials(org.name), 88, 106);
+    ctx.textAlign = 'left';
+  } else {
+    ctx.strokeStyle = ONP; ctx.lineWidth = 11; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(88, 96, 30, -Math.PI / 2, Math.PI * 0.95); ctx.stroke();
+    ctx.fillStyle = org.secondary; ctx.beginPath(); ctx.arc(88, 96, 11, 0, Math.PI * 2); ctx.fill();
+  }
   ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = '#FBFCF8';
+  ctx.fillStyle = ONP;
   ctx.font = `800 56px ${DISP}`;
-  ctx.fillText('Straka', 136, 96);
+  fitCanvasText(ctx, org.name || 'Organisation', 500, 800, 56, DISP);
+  ctx.fillText(org.name || 'Organisation', tx, 96);
   ctx.font = `500 19px ${MONO}`;
   try { ctx.letterSpacing = '7px'; } catch (e) {}
-  ctx.fillStyle = '#BFD4C6';
-  ctx.fillText('CLIENT TRACKER', 138, 128);
+  ctx.fillStyle = onpA(.72);
+  ctx.fillText(String(org.tagline || 'CLIENT TRACKER').toUpperCase(), tx + 2, 128);
   try { ctx.letterSpacing = '0px'; } catch (e) {}
+  ctx.setLineDash([30, 24]);
+  ctx.strokeStyle = rgbaStr(ACC, .55); ctx.lineWidth = 13; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.arc(W - 160, 116, 98, -Math.PI * 0.95, Math.PI * 0.6); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = org.secondary; ctx.beginPath(); ctx.arc(W - 160, 116, 27, 0, Math.PI * 2); ctx.fill();
   const chipLabel = (c.status === 'active' ? 'ACTIVE MEMBER' : String(c.status || 'active').toUpperCase());
   ctx.font = `700 21px ${MONO}`;
   const chipW = ctx.measureText(chipLabel).width + 44;
   const chipX = W - 320 - chipW, chipY = 52;
-  ctx.fillStyle = c.status === 'active' ? 'rgba(239,165,28,.14)' : 'rgba(234,242,236,.08)';
+  ctx.fillStyle = c.status === 'active' ? rgbaStr(org.secondary, .14) : onpA(.08);
   roundRectPath(ctx, chipX, chipY, chipW, 46, 23); ctx.fill();
   ctx.lineWidth = 2.5;
-  ctx.strokeStyle = c.status === 'cancelled' ? 'rgba(229,122,95,.6)' : c.status === 'active' ? 'rgba(247,199,102,.6)' : 'rgba(234,242,236,.35)';
+  ctx.strokeStyle = c.status === 'cancelled' ? 'rgba(229,122,95,.6)' : c.status === 'active' ? rgbaStr(ACC, .6) : onpA(.35);
   roundRectPath(ctx, chipX, chipY, chipW, 46, 23); ctx.stroke();
-  ctx.fillStyle = c.status === 'active' ? '#F7C766' : c.status === 'cancelled' ? '#F1B0A0' : '#DCE7DD';
+  ctx.fillStyle = c.status === 'active' ? ACC : c.status === 'cancelled' ? '#F1B0A0' : onpA(.85);
   ctx.fillText(chipLabel, chipX + 22, chipY + 31);
   ctx.font = `600 23px ${MONO}`;
   try { ctx.letterSpacing = '6px'; } catch (e) {}
-  ctx.fillStyle = '#F7C766';
+  ctx.fillStyle = ACC;
   ctx.fillText(`${String(c.program || 'General').toUpperCase()} · MEMBERSHIP CARD`, 88, 306);
   try { ctx.letterSpacing = '0px'; } catch (e) {}
-  ctx.fillStyle = '#FBFCF8';
+  ctx.fillStyle = ONP;
   fitCanvasText(ctx, c.name || 'Client', W - 176, 800, 92, DISP);
   ctx.fillText(c.name || 'Client', 88, 396);
   const sched = (c.schedule || []).map(s => `${s.day} ${s.time}`).join(' · ') || 'No schedule';
@@ -1895,11 +2358,11 @@ async function renderCardCanvas(c) {
     cells.forEach(cell => {
       ctx.font = `600 18px ${MONO}`;
       try { ctx.letterSpacing = '4px'; } catch (e) {}
-      ctx.fillStyle = 'rgba(234,242,236,.55)';
+      ctx.fillStyle = onpA(.55);
       ctx.fillText(cell.l, cx, yL);
       try { ctx.letterSpacing = '0px'; } catch (e) {}
       fitCanvasText(ctx, cell.v, cell.max, 600, 32, cell.mono ? MONO : BODY);
-      ctx.fillStyle = '#F2F6EC';
+      ctx.fillStyle = ONP;
       ctx.fillText(cell.v, cx, yV);
       cx += Math.max(ctx.measureText(cell.v).width, 110) + 64;
     });
@@ -1915,24 +2378,24 @@ async function renderCardCanvas(c) {
   ], 578, 616);
   const pct = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
   const bx = 88, bw = W - 176, by = 652, bh = 14;
-  ctx.fillStyle = 'rgba(234,242,236,.16)';
+  ctx.fillStyle = onpA(.16);
   roundRectPath(ctx, bx, by, bw, bh, bh / 2); ctx.fill();
   if (pct > 0) {
     const bg2 = ctx.createLinearGradient(bx, 0, bx + bw, 0);
-    bg2.addColorStop(0, '#EFA51C'); bg2.addColorStop(1, '#F7C766');
+    bg2.addColorStop(0, org.secondary); bg2.addColorStop(1, ACC);
     ctx.fillStyle = bg2;
     roundRectPath(ctx, bx, by, Math.max(bh, bw * pct / 100), bh, bh / 2); ctx.fill();
   }
   ctx.font = `600 26px ${MONO}`;
-  ctx.fillStyle = '#F7C766';
+  ctx.fillStyle = ACC;
   ctx.fillText('ID', 88, 716);
   const idW = ctx.measureText('ID').width;
-  ctx.fillStyle = 'rgba(234,242,236,.85)';
+  ctx.fillStyle = onpA(.85);
   ctx.fillText(memberCode(c), 88 + idW + 18, 716);
   ctx.font = `500 19px ${MONO}`;
   try { ctx.letterSpacing = '5px'; } catch (e) {}
-  ctx.fillStyle = 'rgba(234,242,236,.5)';
-  const foot = `${pct}% COMPLETE · VERIFIED LIVE · STRAKA`;
+  ctx.fillStyle = onpA(.5);
+  const foot = `${pct}% COMPLETE · STRAKA | POWERED BY TTOSR`;
   ctx.fillText(foot, W - 88 - ctx.measureText(foot).width, 716);
   try { ctx.letterSpacing = '0px'; } catch (e) {}
   ctx.restore();
@@ -2147,10 +2610,16 @@ function recordData(c) {
 
 function recordHtml(c) {
   const r = recordData(c);
+  const org = clientOrg(c);
   const statusChip = String(r.status).toUpperCase();
+  const brandMark = org.logo
+    ? `<span class="orgLogo" style="width:34px;height:34px"><img src="${org.logo}" alt="${escapeHtml(org.name)} logo"></span>`
+    : org.isDefault
+      ? `<svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" style="stroke:var(--brand-ink)" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round"/><circle cx="50" cy="50" r="12" style="fill:var(--accent-solid)"/></svg>`
+      : `<span class="orgLogo orgLogoTxt" style="width:30px;height:30px;background:${org.primary};color:${readableOn(org.primary)}">${escapeHtml(initials(org.name))}</span>`;
   return `<div class="recordSheet"><div class="rsIn">
     <div class="rsHead">
-      <span class="rsBrand"><svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#0E3B2E" stroke-width="13" stroke-dasharray="180 60" stroke-linecap="round"/><circle cx="50" cy="50" r="12" fill="#EFA51C"/></svg><span><b>Straka</b><small>Client Tracker</small></span></span>
+      <span class="rsBrand">${brandMark}<span><b>${escapeHtml(org.name)}</b><small>${escapeHtml(org.tagline || 'Client Tracker')}</small></span></span>
       <span class="rsDoc"><b>Subscription Record</b><small>official session log · ${escapeHtml(r.memberCode)}</small></span>
     </div>
     <div class="rsName">${escapeHtml(r.name)}</div>
@@ -2178,7 +2647,7 @@ function recordHtml(c) {
     ${r.noShows.length ? `<div class="rsSecT">No-shows</div><table class="rsTable"><tbody>
       ${r.noShows.map(ns => `<tr><td class="mono">${escapeHtml(ns.date)}</td><td>${escapeHtml(ns.slot)}</td><td class="rsNote">Auto check-in recorded — session not confirmed</td></tr>`).join('')}
     </tbody></table>` : ''}
-    <div class="rsFoot">Generated ${escapeHtml(r.generatedAt)} · auto check-in is logged at the scheduled slot time · confirmation is logged when the coach confirms · Straka Lite · ${escapeHtml(r.memberCode)}</div>
+    <div class="rsFoot">Generated ${escapeHtml(r.generatedAt)} · auto check-in is logged at the scheduled slot time · confirmation is logged when the coach confirms · Straka | powered by TTOSR · ${escapeHtml(r.memberCode)}</div>
   </div></div>`;
 }
 
@@ -2261,29 +2730,58 @@ async function downloadRecordPdf(id) {
 
 function buildRecordPdf(jsPDF, c) {
   const r = recordData(c);
+  const org = clientOrg(c);
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const PW = 210, PH = 297, ML = 16, MR = 194;
   const CW = MR - ML;
-  const PINE = [14, 59, 46], GOLD = [239, 165, 28], INK = [31, 42, 36],
-        MUT = [107, 122, 112], LINE = [214, 226, 217], ZEBRA = [245, 248, 244];
+  const PINE = hexToRgbArr(org.primary), GOLD = hexToRgbArr(org.secondary),
+        BRAND = hexToRgbArr(shadeHex(org.primary, -14)),
+        ONP = hexToRgbArr(readableOn(org.primary)), ONP_MUT = mixRgbArr(ONP, PINE, .38),
+        CHIP_BG = hexToRgbArr(shadeHex(org.secondary, 62)), CHIP_INK = hexToRgbArr(shadeHex(org.secondary, -64)),
+        INK = [31, 42, 36], MUT = [107, 122, 112], LINE = [214, 226, 217], ZEBRA = [245, 248, 244];
   const setFill = col => doc.setFillColor(col[0], col[1], col[2]);
   const setText = col => doc.setTextColor(col[0], col[1], col[2]);
   const setDraw = col => doc.setDrawColor(col[0], col[1], col[2]);
 
-  // header band
+  // header band — organisation colours + logo
   setFill(PINE); doc.rect(0, 0, PW, 30, 'F');
-  setFill(GOLD); doc.circle(25, 15, 5, 'F');
-  setDraw([242, 246, 239]); doc.setLineWidth(1.4);
-  try { doc.setLineDashPattern([2.6, 2.2], 0); } catch (e) {}
-  doc.circle(25, 15, 9.4, 'S');
-  try { doc.setLineDashPattern([], 0); } catch (e) {}
-  setText([251, 252, 248]); doc.setFont('helvetica', 'bold'); doc.setFontSize(17);
-  doc.text('Straka', 38, 14);
-  setText([191, 212, 198]); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
-  doc.text('C L I E N T   T R A C K E R', 38.5, 20);
+  let drewLogo = false;
+  if (org.logo) {
+    try {
+      const fmt = /^data:image\/jpe?g/i.test(org.logo) ? 'JPEG' : 'PNG';
+      let w = 14, h = 14;
+      try {
+        const props = doc.getImageProperties(org.logo);
+        if (props && props.width && props.height) {
+          const sc = Math.min(14 / props.width, 14 / props.height);
+          w = Math.max(3, props.width * sc); h = Math.max(3, props.height * sc);
+        }
+      } catch (e) {}
+      doc.addImage(org.logo, fmt, 25 - w / 2, 15 - h / 2, w, h);
+      drewLogo = true;
+    } catch (e) { drewLogo = false; }
+  }
+  if (!drewLogo && org.isDefault) {
+    setFill(GOLD); doc.circle(25, 15, 5, 'F');
+    setDraw([242, 246, 239]); doc.setLineWidth(1.4);
+    try { doc.setLineDashPattern([2.6, 2.2], 0); } catch (e) {}
+    doc.circle(25, 15, 9.4, 'S');
+    try { doc.setLineDashPattern([], 0); } catch (e) {}
+    drewLogo = true;
+  }
+  if (!drewLogo) {
+    setFill(GOLD); doc.circle(25, 15, 5.6, 'F');
+    setText(hexToRgbArr(readableOn(org.secondary)));
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(7);
+    doc.text(initials(org.name).slice(0, 2), 25, 16.4, { align: 'center' });
+  }
+  setText(ONP); doc.setFont('helvetica', 'bold'); doc.setFontSize(17);
+  doc.text(doc.splitTextToSize(org.name || 'Organisation', 82)[0], 38, 14);
+  setText(ONP_MUT); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+  doc.text(String(org.tagline || 'Client Tracker').toUpperCase(), 38.5, 20);
   setText(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(13.5);
   doc.text('SUBSCRIPTION RECORD', MR, 13.5, { align: 'right' });
-  setText([213, 228, 216]); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
+  setText(ONP_MUT); doc.setFont('courier', 'normal'); doc.setFontSize(7.5);
   doc.text('OFFICIAL SESSION LOG · ' + r.memberCode, MR, 20, { align: 'right' });
 
   let y = 44;
@@ -2291,8 +2789,8 @@ function buildRecordPdf(jsPDF, c) {
   doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
   const chipLabel = String(r.status).toUpperCase();
   const chipW = doc.getTextWidth(chipLabel) + 9;
-  setFill([250, 233, 197]); doc.roundedRect(MR - chipW, y - 6.2, chipW, 7.4, 3.7, 3.7, 'F');
-  setText([34, 24, 3]); doc.text(chipLabel, MR - chipW / 2, y - 1.3, { align: 'center' });
+  setFill(CHIP_BG); doc.roundedRect(MR - chipW, y - 6.2, chipW, 7.4, 3.7, 3.7, 'F');
+  setText(CHIP_INK); doc.text(chipLabel, MR - chipW / 2, y - 1.3, { align: 'center' });
   setText(INK); doc.setFontSize(21);
   doc.text(doc.splitTextToSize(r.name, CW - chipW - 10)[0], ML, y);
   y += 6.5;
@@ -2312,7 +2810,7 @@ function buildRecordPdf(jsPDF, c) {
       const x = ML + ci * 60;
       setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(7);
       doc.text(cellDef[0], x, y);
-      setText(INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+      setText(BRAND); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
       doc.text(doc.splitTextToSize(cellDef[1], 54)[0], x, y + 4.8);
     });
     y += 12;
@@ -2327,7 +2825,7 @@ function buildRecordPdf(jsPDF, c) {
 
   // section title helper
   const sectionTitle = t => {
-    setText(INK); doc.setFont('helvetica', 'bold'); doc.setFontSize(11.5);
+    setText(BRAND); doc.setFont('helvetica', 'bold'); doc.setFontSize(11.5);
     doc.text(t, ML, y);
     setDraw(GOLD); doc.setLineWidth(0.8); doc.line(ML, y + 2.2, ML + 34, y + 2.2);
     setDraw(LINE); doc.setLineWidth(0.3); doc.line(ML + 34, y + 2.2, MR, y + 2.2);
@@ -2347,7 +2845,7 @@ function buildRecordPdf(jsPDF, c) {
   ];
   const drawTableHead = () => {
     setFill(PINE); doc.rect(ML, y, CW, 7.5, 'F');
-    setText([242, 246, 239]); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.2);
+    setText(ONP); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.2);
     cols.forEach(col => doc.text(col.k, col.x + 1.8, y + 5));
     y += 7.5;
   };
@@ -2407,7 +2905,7 @@ function buildRecordPdf(jsPDF, c) {
     doc.setPage(p);
     setDraw(LINE); doc.setLineWidth(0.3); doc.line(ML, PH - 12, MR, PH - 12);
     setText(MUT); doc.setFont('courier', 'normal'); doc.setFontSize(6.8);
-    doc.text('GENERATED ' + r.generatedAt.toUpperCase() + '  ·  STRAKA LITE  ·  ' + r.memberCode, ML, PH - 8);
+    doc.text('GENERATED ' + r.generatedAt.toUpperCase() + '  ·  STRAKA | POWERED BY TTOSR  ·  ' + r.memberCode, ML, PH - 8);
     doc.text('PAGE ' + p + ' / ' + pages, MR, PH - 8, { align: 'right' });
   }
   doc.save(recordFileSlug(c));
@@ -2472,7 +2970,7 @@ function toggleSettings() { state.showSettings = !state.showSettings; rerender()
 // ---- add / edit ----
 function openAddModal() {
   state.editingClient = null;
-  state.draft = { name: '', gender: 'Female', program: programs[0], total: 12, completed: 0, fee: '', paymentStatus: 'Unpaid', note: '', schedule: [{ day: 'Mon', time: '08:00' }] };
+  state.draft = { name: '', gender: 'Female', program: programs[0], total: 12, completed: 0, fee: '', paymentStatus: 'Unpaid', note: '', schedule: [{ day: 'Mon', time: '08:00' }], orgId: activeOrg().id };
   state.showAddEditModal = true;
   rerender();
   const el = document.getElementById('d_name'); if (el) el.focus();
@@ -2514,9 +3012,9 @@ function saveClient() {
   } else {
     state.clients.push(normalizeClient({
       id: generateId(), name, gender: d.gender, program: d.program, total, completed,
-      schedule, createdAt: Date.now(), fee: d.fee, paymentStatus: d.paymentStatus, note: d.note
+      schedule, createdAt: Date.now(), orgId: d.orgId || activeOrg().id, fee: d.fee, paymentStatus: d.paymentStatus, note: d.note
     }));
-    showToast('Client added', 'ok');
+    showToast('Client added to ' + activeOrg().name, 'ok');
   }
   state.showAddEditModal = false;
   state.draft = null;
@@ -2655,18 +3153,23 @@ function deleteClient() {
 function showResetConfirm() { state.showSettings = false; state.showResetConfirm = true; rerender(); }
 function resetData() {
   state.clients = []; // factory reset - clean slate
+  state.orgs = [defaultOrg()];
+  state.activeOrgId = DEFAULT_ORG_ID;
+  saveOrgsLocal();
+  orgsDirty = true;
+  pushOrgsToFirebase();
   closeAllModals();
   commit();
   showToast('Workspace reset - all data cleared', 'warn');
 }
 function exportData() {
-  const blob = new Blob([JSON.stringify(getClients(), null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify({ format: 'straka-backup-2', exportedAt: new Date().toISOString(), orgs: getOrgs(), clients: getClients() }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'traka-clients-' + new Date().toISOString().slice(0,10) + '.json';
   a.click();
   URL.revokeObjectURL(a.href);
-  showToast('Backup exported', 'ok');
+  showToast('Backup exported — clients & organisations', 'ok');
 }
 function triggerImport() {
   const inp = document.getElementById('importFileInput');
@@ -2683,13 +3186,20 @@ function importData(event) {
       if (Array.isArray(parsed)) incoming = parsed;
       else if (parsed && typeof parsed === 'object') {
         if (Array.isArray(parsed.clients)) incoming = parsed.clients;
-        else incoming = Object.values(parsed);
+        else incoming = Object.values(parsed).filter(v => v && typeof v === 'object' && !Array.isArray(v) && (v.name !== undefined || v.id !== undefined));
       }
       incoming = incoming.map(normalizeClient).filter(Boolean);
       if (incoming.length === 0 && getClients().length > 0) {
         if (!confirm('Backup appears empty or invalid. This would clear all clients. Continue?')) { event.target.value=''; return; }
       }
       state.clients = incoming;
+      if (parsed && typeof parsed === 'object' && Array.isArray(parsed.orgs)) {
+        state.orgs = mergeOrgs(parsed.orgs.map(normalizeOrg).filter(Boolean));
+        if (!getOrgs().some(o => o.id === state.activeOrgId)) state.activeOrgId = DEFAULT_ORG_ID;
+        saveOrgsLocal();
+        orgsDirty = true;
+        pushOrgsToFirebase();
+      }
       commit();
       showToast('Backup restored - ' + incoming.length + ' clients loaded', 'ok');
     } catch (err) {
@@ -2726,14 +3236,19 @@ document.addEventListener('keydown', e => {
     const any = state.showSettings || state.showAddEditModal || state.showShareModal ||
                 state.showRenewModal || state.showDeleteConfirm || state.showResetConfirm ||
                 state.showClientChat || state.showCardModal || state.showConfirmModal ||
-                state.showEditLogModal || state.showRecordModal;
+                state.showEditLogModal || state.showRecordModal || state.orgMenuOpen ||
+                state.showOrgModal || state.showOrgDeleteConfirm;
     if (any) closeAllModals();
   }
 });
 window.addEventListener('online', () => { if (dirty) pushToFirebase(); else pullFromFirebase(); });
 window.addEventListener('offline', () => { state.syncStatus = 'offline'; renderSyncBadge(); });
 initTheme();
+loadOrgsLocal();
 initData();
+document.addEventListener('click', e => {
+  if (state.orgMenuOpen && !(e.target.closest && e.target.closest('.orgSwitch'))) { state.orgMenuOpen = false; rerender(); }
+});
 </script>
 </body>
 </html>
